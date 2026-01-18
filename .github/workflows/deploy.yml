@@ -1,6 +1,11 @@
 name: Deploy to GitHub Pages
 
 on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for deployment"
+        required: true
   push:
     branches:
       - main
@@ -22,7 +27,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Build Admin Panel
         run: npx nx build admin-panel --configuration=production
