@@ -31,6 +31,8 @@ const booking_module_1 = __webpack_require__(20);
 const telegram_module_1 = __webpack_require__(25);
 const users_module_1 = __webpack_require__(16);
 const treatments_module_1 = __webpack_require__(29);
+const queue_module_1 = __webpack_require__(33);
+const gemini_module_1 = __webpack_require__(39);
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -54,6 +56,8 @@ exports.AppModule = AppModule = tslib_1.__decorate([
             telegram_module_1.TelegramModule,
             users_module_1.UsersModule,
             treatments_module_1.TreatmentsModule,
+            queue_module_1.QueueModule,
+            gemini_module_1.GeminiModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
@@ -672,11 +676,6 @@ const nestjs_telegraf_1 = __webpack_require__(26);
 let TelegramService = class TelegramService {
     constructor(bot) {
         this.bot = bot;
-        this.tg = window.Telegram?.WebApp;
-        if (this.tg) {
-            this.tg.ready();
-            this.tg.expand(); // Разворачиваем на весь экран
-        }
     }
     async start(ctx) {
         await ctx.reply('Welcome');
@@ -871,6 +870,410 @@ exports.Treatment = Treatment = tslib_1.__decorate([
 ], Treatment);
 exports.TreatmentSchema = mongoose_1.SchemaFactory.createForClass(Treatment);
 
+
+/***/ }),
+/* 33 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QueueModule = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const mongoose_1 = __webpack_require__(8);
+const queue_controller_1 = __webpack_require__(34);
+const queue_service_1 = __webpack_require__(35);
+const queue_schema_1 = __webpack_require__(36);
+const config_1 = __webpack_require__(5);
+let QueueModule = class QueueModule {
+};
+exports.QueueModule = QueueModule;
+exports.QueueModule = QueueModule = tslib_1.__decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: queue_schema_1.Queue.name, schema: queue_schema_1.QueueSchema }]),
+            config_1.ConfigModule
+        ],
+        controllers: [queue_controller_1.QueueController],
+        providers: [queue_service_1.QueueService],
+    })
+], QueueModule);
+
+
+/***/ }),
+/* 34 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QueueController = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const queue_service_1 = __webpack_require__(35);
+const telegram_auth_guard_1 = __webpack_require__(37);
+let QueueController = class QueueController {
+    constructor(queueService) {
+        this.queueService = queueService;
+    }
+    async joinQueue(req, body) {
+        const user = req.user;
+        return this.queueService.addToQueue(user.id, user.first_name, user.username, body.serviceCategory);
+    }
+    async getQueue() {
+        return this.queueService.getQueue();
+    }
+    async updateStatus(req, id, body) {
+        // In a real app, check if req.user.role === 'admin'
+        return this.queueService.updateStatus(id, body.status);
+    }
+};
+exports.QueueController = QueueController;
+tslib_1.__decorate([
+    (0, common_1.Post)(),
+    (0, common_1.UseGuards)(telegram_auth_guard_1.TelegramAuthGuard),
+    tslib_1.__param(0, (0, common_1.Req)()),
+    tslib_1.__param(1, (0, common_1.Body)()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], QueueController.prototype, "joinQueue", null);
+tslib_1.__decorate([
+    (0, common_1.Get)(),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:returntype", Promise)
+], QueueController.prototype, "getQueue", null);
+tslib_1.__decorate([
+    (0, common_1.Patch)(':id/status'),
+    (0, common_1.UseGuards)(telegram_auth_guard_1.TelegramAuthGuard),
+    tslib_1.__param(0, (0, common_1.Req)()),
+    tslib_1.__param(1, (0, common_1.Param)('id')),
+    tslib_1.__param(2, (0, common_1.Body)()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, String, Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], QueueController.prototype, "updateStatus", null);
+exports.QueueController = QueueController = tslib_1.__decorate([
+    (0, common_1.Controller)('queue'),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof queue_service_1.QueueService !== "undefined" && queue_service_1.QueueService) === "function" ? _a : Object])
+], QueueController);
+
+
+/***/ }),
+/* 35 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QueueService = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const mongoose_1 = __webpack_require__(8);
+const mongoose_2 = __webpack_require__(12);
+const queue_schema_1 = __webpack_require__(36);
+let QueueService = class QueueService {
+    constructor(queueModel) {
+        this.queueModel = queueModel;
+    }
+    async addToQueue(userId, firstName, username, serviceCategory) {
+        // Find today's max sequence number
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+        const lastEntry = await this.queueModel
+            .findOne({ createdAt: { $gte: startOfDay } })
+            .sort({ sequenceNumber: -1 })
+            .exec();
+        const sequenceNumber = lastEntry ? lastEntry.sequenceNumber + 1 : 1;
+        const newEntry = new this.queueModel({
+            userId,
+            firstName,
+            username,
+            serviceCategory,
+            sequenceNumber,
+            status: 'waiting',
+        });
+        return newEntry.save();
+    }
+    async getQueue() {
+        return this.queueModel.find({ status: { $in: ['waiting', 'in-progress'] } }).sort({ sequenceNumber: 1 }).exec();
+    }
+    async updateStatus(id, status) {
+        return this.queueModel.findByIdAndUpdate(id, { status }, { new: true }).exec();
+    }
+};
+exports.QueueService = QueueService;
+exports.QueueService = QueueService = tslib_1.__decorate([
+    (0, common_1.Injectable)(),
+    tslib_1.__param(0, (0, mongoose_1.InjectModel)(queue_schema_1.Queue.name)),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
+], QueueService);
+
+
+/***/ }),
+/* 36 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QueueSchema = exports.Queue = void 0;
+const tslib_1 = __webpack_require__(4);
+const mongoose_1 = __webpack_require__(8);
+let Queue = class Queue {
+};
+exports.Queue = Queue;
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    tslib_1.__metadata("design:type", Number)
+], Queue.prototype, "userId", void 0);
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    tslib_1.__metadata("design:type", String)
+], Queue.prototype, "firstName", void 0);
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)(),
+    tslib_1.__metadata("design:type", String)
+], Queue.prototype, "username", void 0);
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    tslib_1.__metadata("design:type", String)
+], Queue.prototype, "serviceCategory", void 0);
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    tslib_1.__metadata("design:type", Number)
+], Queue.prototype, "sequenceNumber", void 0);
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ default: 'waiting' }),
+    tslib_1.__metadata("design:type", String)
+], Queue.prototype, "status", void 0);
+exports.Queue = Queue = tslib_1.__decorate([
+    (0, mongoose_1.Schema)({ timestamps: true })
+], Queue);
+exports.QueueSchema = mongoose_1.SchemaFactory.createForClass(Queue);
+
+
+/***/ }),
+/* 37 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TelegramAuthGuard = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const config_1 = __webpack_require__(5);
+const crypto = tslib_1.__importStar(__webpack_require__(38));
+let TelegramAuthGuard = class TelegramAuthGuard {
+    constructor(configService) {
+        this.configService = configService;
+    }
+    canActivate(context) {
+        const request = context.switchToHttp().getRequest();
+        const initData = request.headers['x-telegram-init-data'];
+        if (!initData) {
+            throw new common_1.UnauthorizedException('Missing Telegram initData');
+        }
+        if (this.validateInitData(initData)) {
+            // Parse user data from initData
+            const urlParams = new URLSearchParams(initData);
+            const userString = urlParams.get('user');
+            if (userString) {
+                request.user = JSON.parse(userString);
+                // Add role logic here (simple check for now)
+                request.user.role = request.user.id === 6016120046 ? 'admin' : 'client'; // Example ID
+            }
+            return true;
+        }
+        throw new common_1.UnauthorizedException('Invalid Telegram initData');
+    }
+    validateInitData(initData) {
+        const urlParams = new URLSearchParams(initData);
+        const hash = urlParams.get('hash');
+        urlParams.delete('hash');
+        const dataCheckString = Array.from(urlParams.entries())
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .map(([key, value]) => `${key}=${value}`)
+            .join('\n');
+        const secretKey = crypto
+            .createHmac('sha256', 'WebAppData')
+            .update(this.configService.get('TELEGRAM_TOKEN'))
+            .digest();
+        const calculatedHash = crypto
+            .createHmac('sha256', secretKey)
+            .update(dataCheckString)
+            .digest('hex');
+        return calculatedHash === hash;
+    }
+};
+exports.TelegramAuthGuard = TelegramAuthGuard;
+exports.TelegramAuthGuard = TelegramAuthGuard = tslib_1.__decorate([
+    (0, common_1.Injectable)(),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _a : Object])
+], TelegramAuthGuard);
+
+
+/***/ }),
+/* 38 */
+/***/ ((module) => {
+
+module.exports = require("crypto");
+
+/***/ }),
+/* 39 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GeminiModule = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const gemini_controller_1 = __webpack_require__(40);
+const gemini_service_1 = __webpack_require__(41);
+const config_1 = __webpack_require__(5);
+let GeminiModule = class GeminiModule {
+};
+exports.GeminiModule = GeminiModule;
+exports.GeminiModule = GeminiModule = tslib_1.__decorate([
+    (0, common_1.Module)({
+        imports: [config_1.ConfigModule],
+        controllers: [gemini_controller_1.GeminiController],
+        providers: [gemini_service_1.GeminiService],
+    })
+], GeminiModule);
+
+
+/***/ }),
+/* 40 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GeminiController = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const gemini_service_1 = __webpack_require__(41);
+let GeminiController = class GeminiController {
+    constructor(geminiService) {
+        this.geminiService = geminiService;
+    }
+    // @UseGuards(TelegramAuthGuard) // Optional: Enable if you want to restrict to TWA users
+    async chat(body) {
+        const response = await this.geminiService.chat(body.message);
+        return { response };
+    }
+};
+exports.GeminiController = GeminiController;
+tslib_1.__decorate([
+    (0, common_1.Post)()
+    // @UseGuards(TelegramAuthGuard) // Optional: Enable if you want to restrict to TWA users
+    ,
+    tslib_1.__param(0, (0, common_1.Body)()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], GeminiController.prototype, "chat", null);
+exports.GeminiController = GeminiController = tslib_1.__decorate([
+    (0, common_1.Controller)('chat'),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof gemini_service_1.GeminiService !== "undefined" && gemini_service_1.GeminiService) === "function" ? _a : Object])
+], GeminiController);
+
+
+/***/ }),
+/* 41 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GeminiService = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const config_1 = __webpack_require__(5);
+const generative_ai_1 = __webpack_require__(42);
+const mammoth = tslib_1.__importStar(__webpack_require__(43));
+const path = tslib_1.__importStar(__webpack_require__(44));
+const fs = tslib_1.__importStar(__webpack_require__(45));
+let GeminiService = class GeminiService {
+    constructor(configService) {
+        this.configService = configService;
+        this.context = '';
+        const apiKey = this.configService.get('GEMINI_API_KEY') || 'YOUR_API_KEY_HERE';
+        this.genAI = new generative_ai_1.GoogleGenerativeAI(apiKey);
+        this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
+    }
+    async onModuleInit() {
+        await this.loadContext();
+    }
+    async loadContext() {
+        try {
+            // Look for chatbot.docx in the root or project specific paths
+            const docPath = path.join(process.cwd(), 'chatbot.docx');
+            if (fs.existsSync(docPath)) {
+                const result = await mammoth.extractRawText({ path: docPath });
+                this.context = result.value;
+                console.log('Loaded chatbot context from docx');
+            }
+            else {
+                console.warn('chatbot.docx not found at', docPath);
+                this.context = 'You are a helpful assistant for AAA Cosmetics clinic.';
+            }
+        }
+        catch (error) {
+            console.error('Error loading chatbot context:', error);
+        }
+    }
+    async chat(message) {
+        const prompt = `
+      Context: ${this.context}
+      
+      User Question: ${message}
+      
+      Answer as a helpful assistant for the clinic. Keep answers concise and professional.
+    `;
+        try {
+            const result = await this.model.generateContent(prompt);
+            const response = await result.response;
+            return response.text();
+        }
+        catch (error) {
+            console.error('Gemini API Error:', error);
+            return 'Sorry, I am having trouble answering that right now.';
+        }
+    }
+};
+exports.GeminiService = GeminiService;
+exports.GeminiService = GeminiService = tslib_1.__decorate([
+    (0, common_1.Injectable)(),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _a : Object])
+], GeminiService);
+
+
+/***/ }),
+/* 42 */
+/***/ ((module) => {
+
+module.exports = require("@google/generative-ai");
+
+/***/ }),
+/* 43 */
+/***/ ((module) => {
+
+module.exports = require("mammoth");
+
+/***/ }),
+/* 44 */
+/***/ ((module) => {
+
+module.exports = require("path");
+
+/***/ }),
+/* 45 */
+/***/ ((module) => {
+
+module.exports = require("fs");
 
 /***/ })
 /******/ 	]);
