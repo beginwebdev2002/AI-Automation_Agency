@@ -14,6 +14,9 @@ import { TreatmentsModule } from './treatments/treatments.module';
     MongooseModule.forRootAsync({
       useFactory: () => ({
         uri: process.env.MONGODB_URI_ONLINE,
+        connectTimeoutMS: 10000,
+        socketTimeoutMS: 45000,
+        family: 4,
       }),
     }),
     ConfigModule.forRoot({
