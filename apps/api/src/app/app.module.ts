@@ -13,7 +13,7 @@ import { TreatmentsModule } from './treatments/treatments.module';
   imports: [
     MongooseModule.forRootAsync({
       useFactory: () => ({
-        uri: process.env.MONGODB_URI,
+        uri: process.env.MONGODB_URI_ONLINE,
       }),
     }),
     ConfigModule.forRoot({
