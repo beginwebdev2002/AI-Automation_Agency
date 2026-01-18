@@ -86,12 +86,12 @@ let AppController = class AppController {
         this.appService = appService;
     }
     getData() {
-        return this.appService.getData();
+        return 'Hello World!';
     }
 };
 exports.AppController = AppController;
 tslib_1.__decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)(''),
     tslib_1.__metadata("design:type", Function),
     tslib_1.__metadata("design:paramtypes", []),
     tslib_1.__metadata("design:returntype", void 0)
@@ -907,11 +907,18 @@ const core_1 = __webpack_require__(2);
 const app_module_1 = __webpack_require__(3);
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    const globalPrefix = 'api';
-    app.setGlobalPrefix(globalPrefix);
     const port = process.env.PORT || 3000;
+    app.enableCors({
+        // Разрешаем запросы только с твоего фронтенда на GitHub Pages
+        origin: [
+            'https://beginwebdev2002.github.io/',
+            'http://localhost:4200' // Твой купленный домен
+        ],
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        credentials: true,
+    });
     await app.listen(port);
-    common_1.Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+    common_1.Logger.log(`🚀 Application is running on: http://localhost:${port}`);
 }
 bootstrap();
 
