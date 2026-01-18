@@ -924,7 +924,9 @@ let QueueController = class QueueController {
         return this.queueService.getQueue();
     }
     async updateStatus(req, id, body) {
-        // In a real app, check if req.user.role === 'admin'
+        if (req.user.role !== 'admin') {
+            throw new common_1.UnauthorizedException('Only admins can update status');
+        }
         return this.queueService.updateStatus(id, body.status);
     }
 };
@@ -1209,15 +1211,15 @@ let GeminiService = class GeminiService {
     }
     async loadContext() {
         try {
-            // Look for chatbot.docx in the root or project specific paths
-            const docPath = path.join(process.cwd(), 'chatbot.docx');
+            // Look for chat-bot.docx in the root or project specific paths
+            const docPath = path.join(process.cwd(), 'chat-bot.docx');
             if (fs.existsSync(docPath)) {
                 const result = await mammoth.extractRawText({ path: docPath });
                 this.context = result.value;
                 console.log('Loaded chatbot context from docx');
             }
             else {
-                console.warn('chatbot.docx not found at', docPath);
+                console.warn('chat-bot.docx not found at', docPath);
                 this.context = 'You are a helpful assistant for AAA Cosmetics clinic.';
             }
         }
