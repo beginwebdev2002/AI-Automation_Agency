@@ -5,7 +5,12 @@ import { InjectBot, Start, Update } from 'nestjs-telegraf';
 @Update()
 @Injectable()
 export class TelegramService {
-    constructor(@InjectBot() private bot: Telegraf<Context>) { }
+    private tg = (window as any).Telegram?.WebApp;
+
+    constructor(@InjectBot() private bot: Telegraf<Context>) {
+        this.tg.ready();
+        this.tg.expand();
+    }
 
     @Start()
     async start(ctx: Context) {

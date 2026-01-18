@@ -1,0 +1,38 @@
+name: Build NestJS API
+
+on:
+  push:
+    branches:
+      - main # Запускать при пуше в основную ветку
+    paths:
+      - 'apps/api/**' # Только если изменился бэкенд
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        # Используем флаг, чтобы не упасть из-за конфликтов версий
+        run: npm install --legacy-peer-deps
+
+      - name: Build NestJS
+        # Укажи правильный путь к твоему приложению в Nx
+        run: npx nx build api --prod
+
+      - name: Deploy Build to gh-backend branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/apps/api # Папка с результатом сборки
+          branch: gh-backend # Ветка, куда пушим билд
+          token: ${{ secrets.GITHUB_TOKEN }}
+          clean: true
