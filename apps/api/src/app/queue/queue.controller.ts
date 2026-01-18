@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Req, Patch, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req, Patch, Param, UnauthorizedException } from '@nestjs/common';
 import { QueueService } from './queue.service';
 import { TelegramAuthGuard } from '../auth/telegram-auth.guard';
 
@@ -21,7 +21,9 @@ export class QueueController {
     @Patch(':id/status')
     @UseGuards(TelegramAuthGuard)
     async updateStatus(@Req() req, @Param('id') id: string, @Body() body: { status: 'in-progress' | 'completed' | 'cancelled' }) {
-        // In a real app, check if req.user.role === 'admin'
+        if (req.user.role !== 'admin') {
+            throw new UnauthorizedException('Only admins can update status');
+        }
         return this.queueService.updateStatus(id, body.status);
     }
 }

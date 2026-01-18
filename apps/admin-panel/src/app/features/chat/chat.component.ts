@@ -78,7 +78,7 @@ export class ChatComponent {
     this.newMessage = '';
     this.isLoading.set(true);
 
-    const apiUrl = this.configService.get('BACKEND_URL') + '/chat';
+    const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/chat';
     this.http.post<{ response: string }>(apiUrl, { message: userMsg }).subscribe({
       next: (res) => {
         this.messages.update(msgs => [...msgs, { role: 'bot', text: res.response, time: new Date() }]);
