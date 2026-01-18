@@ -40,6 +40,9 @@ exports.AppModule = AppModule = tslib_1.__decorate([
             mongoose_1.MongooseModule.forRootAsync({
                 useFactory: () => ({
                     uri: process.env.MONGODB_URI_ONLINE,
+                    connectTimeoutMS: 10000,
+                    socketTimeoutMS: 45000,
+                    family: 4,
                 }),
             }),
             config_1.ConfigModule.forRoot({
