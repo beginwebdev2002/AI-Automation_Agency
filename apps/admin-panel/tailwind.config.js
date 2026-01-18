@@ -20,6 +20,10 @@ module.exports = {
                     500: '#f59e0b',
                     900: '#78350f',
                 }
+            },
+            fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                playfair: ['"Playfair Display"', 'serif'],
             }
         },
     },

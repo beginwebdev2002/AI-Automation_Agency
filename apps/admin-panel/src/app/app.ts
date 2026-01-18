@@ -3,8 +3,10 @@ import { RouterModule } from '@angular/router';
 
 declare const Telegram: any;
 
+import { HeaderComponent } from './core/components/header/header.component';
+
 @Component({
-  imports: [RouterModule],
+  imports: [RouterModule, HeaderComponent],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
