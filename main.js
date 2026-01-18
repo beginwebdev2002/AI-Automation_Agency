@@ -150,6 +150,7 @@ const users_module_1 = __webpack_require__(16);
 const passport_1 = __webpack_require__(17);
 const jwt_1 = __webpack_require__(11);
 const jwt_strategy_1 = __webpack_require__(18);
+const config_1 = __webpack_require__(5);
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -158,9 +159,19 @@ exports.AuthModule = AuthModule = tslib_1.__decorate([
         imports: [
             users_module_1.UsersModule,
             passport_1.PassportModule,
-            jwt_1.JwtModule.register({
-                secret: 'SECRET_KEY', // Use env var
-                signOptions: { expiresIn: '60m' },
+            jwt_1.JwtModule.registerAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: async (configService) => {
+                    const secret = configService.get('JWT_SECRET');
+                    if (!secret) {
+                        throw new Error('JWT_SECRET is not defined');
+                    }
+                    return {
+                        secret: secret,
+                        signOptions: { expiresIn: '60m' },
+                    };
+                },
+                inject: [config_1.ConfigService],
             }),
         ],
         controllers: [auth_controller_1.AuthController],
@@ -361,18 +372,24 @@ module.exports = require("@nestjs/passport");
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
+var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.JwtStrategy = void 0;
 const tslib_1 = __webpack_require__(4);
 const passport_jwt_1 = __webpack_require__(19);
 const passport_1 = __webpack_require__(17);
 const common_1 = __webpack_require__(1);
+const config_1 = __webpack_require__(5);
 let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
-    constructor() {
+    constructor(configService) {
+        const secret = configService.get('JWT_SECRET');
+        if (!secret) {
+            throw new Error('JWT_SECRET is not defined');
+        }
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: 'SECRET_KEY', // Use env var in production
+            secretOrKey: secret,
         });
     }
     async validate(payload) {
@@ -382,7 +399,7 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
 exports.JwtStrategy = JwtStrategy;
 exports.JwtStrategy = JwtStrategy = tslib_1.__decorate([
     (0, common_1.Injectable)(),
-    tslib_1.__metadata("design:paramtypes", [])
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _a : Object])
 ], JwtStrategy);
 
 
