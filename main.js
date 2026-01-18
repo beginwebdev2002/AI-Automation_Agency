@@ -39,7 +39,7 @@ exports.AppModule = AppModule = tslib_1.__decorate([
         imports: [
             mongoose_1.MongooseModule.forRootAsync({
                 useFactory: () => ({
-                    uri: process.env.MONGODB_URI,
+                    uri: process.env.MONGODB_URI_ONLINE,
                 }),
             }),
             config_1.ConfigModule.forRoot({
