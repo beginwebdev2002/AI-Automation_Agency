@@ -30,7 +30,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Build Admin Panel
-        run: npx nx build admin-panel --configuration=production
+        run: npx nx build admin-panel --prod --base-href /AI-Automation_Agency/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
