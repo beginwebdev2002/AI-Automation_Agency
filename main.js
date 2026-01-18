@@ -672,6 +672,11 @@ const nestjs_telegraf_1 = __webpack_require__(26);
 let TelegramService = class TelegramService {
     constructor(bot) {
         this.bot = bot;
+        this.tg = window.Telegram?.WebApp;
+        if (this.tg) {
+            this.tg.ready();
+            this.tg.expand(); // Разворачиваем на весь экран
+        }
     }
     async start(ctx) {
         await ctx.reply('Welcome');
