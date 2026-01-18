@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Query, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -13,8 +13,11 @@ export class BookingController {
     }
 
     @Get('venues')
-    findAllVenues() {
-        return this.bookingService.findAllVenues();
+    findAllVenues(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number
+    ) {
+        return this.bookingService.findAllVenues(page, limit);
     }
 
     @Post('appointments')
