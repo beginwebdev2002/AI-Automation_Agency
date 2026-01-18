@@ -3,22 +3,26 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../core/config/config.service';
+import { LanguageSwitcherComponent } from '../../core/components/language-switcher/language-switcher.component';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LanguageSwitcherComponent],
   template: `
     <div class="flex flex-col h-screen bg-medical-rose-50">
       <!-- Header -->
-      <div class="bg-white p-4 shadow-sm flex items-center">
-        <div class="w-10 h-10 rounded-full bg-medical-rose-100 flex items-center justify-center mr-3">
-          <span class="text-2xl">🤖</span>
+      <div class="bg-white p-4 shadow-sm flex items-center justify-between">
+        <div class="flex items-center">
+          <div class="w-10 h-10 rounded-full bg-medical-rose-100 flex items-center justify-center mr-3">
+            <span class="text-2xl">🤖</span>
+          </div>
+          <div>
+            <h1 class="font-serif text-lg text-gray-900" i18n="@@chatBotName">Dr. Beauty AI</h1>
+            <p class="text-xs text-green-500" i18n="@@chatBotStatus">Online</p>
+          </div>
         </div>
-        <div>
-          <h1 class="font-serif text-lg text-gray-900">Dr. Beauty AI</h1>
-          <p class="text-xs text-green-500">Online</p>
-        </div>
+        <app-language-switcher></app-language-switcher>
       </div>
 
       <!-- Messages -->
@@ -50,6 +54,7 @@ import { ConfigService } from '../../core/config/config.service';
           <input [(ngModel)]="newMessage" 
                  (keyup.enter)="sendMessage()"
                  placeholder="Ask about treatments..." 
+                 i18n-placeholder="@@chatInputPlaceholder"
                  class="flex-1 bg-gray-50 border-0 rounded-xl px-4 py-3 focus:ring-2 focus:ring-medical-rose-500 transition-all">
           <button (click)="sendMessage()" 
                   [disabled]="!newMessage.trim() || isLoading()"
@@ -63,7 +68,7 @@ import { ConfigService } from '../../core/config/config.service';
 })
 export class ChatComponent {
   messages = signal<{ role: 'user' | 'bot', text: string, time: Date }[]>([
-    { role: 'bot', text: 'Hello! I am your AI assistant. Ask me anything about our treatments.', time: new Date() }
+    { role: 'bot', text: $localize`:@@chatWelcomeMessage:Hello! I am your AI assistant. Ask me anything about our treatments.`, time: new Date() }
   ]);
   newMessage = '';
   isLoading = signal(false);
@@ -85,7 +90,7 @@ export class ChatComponent {
         this.isLoading.set(false);
       },
       error: () => {
-        this.messages.update(msgs => [...msgs, { role: 'bot', text: 'Sorry, I encountered an error.', time: new Date() }]);
+        this.messages.update(msgs => [...msgs, { role: 'bot', text: $localize`:@@chatErrorMessage:Sorry, I encountered an error.`, time: new Date() }]);
         this.isLoading.set(false);
       }
     });

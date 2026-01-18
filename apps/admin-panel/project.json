@@ -83,6 +83,12 @@
       "executor": "@angular/build:unit-test",
       "options": {}
     },
+    "extract-i18n": {
+      "executor": "@angular/build:extract-i18n",
+      "options": {
+        "buildTarget": "admin-panel:build"
+      }
+    },
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",

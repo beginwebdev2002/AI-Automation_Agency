@@ -2,13 +2,177 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="ru" target-language="en" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="adminDashboardTitle" datatype="html">
+        <source>Admin Dashboard</source>
+        <target>Admin Dashboard</target>
+      </trans-unit>
+      <trans-unit id="totalClientsLabel" datatype="html">
+        <source>Total Clients</source>
+        <target>Total Clients</target>
+      </trans-unit>
+      <trans-unit id="telegramRevenueLabel" datatype="html">
+        <source>Telegram Revenue</source>
+        <target>Telegram Revenue</target>
+      </trans-unit>
+      <trans-unit id="currencyTJS" datatype="html">
+        <source>TJS</source>
+        <target>TJS</target>
+      </trans-unit>
+      <trans-unit id="activeQueueLabel" datatype="html">
+        <source>Active Queue</source>
+        <target>Active Queue</target>
+      </trans-unit>
+      <trans-unit id="queueManagementTitle" datatype="html">
+        <source>Queue Management</source>
+        <target>Queue Management</target>
+      </trans-unit>
+      <trans-unit id="columnHash" datatype="html">
+        <source>#</source>
+        <target>#</target>
+      </trans-unit>
+      <trans-unit id="columnName" datatype="html">
+        <source>Name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="columnService" datatype="html">
+        <source>Service</source>
+        <target>Service</target>
+      </trans-unit>
+      <trans-unit id="columnStatus" datatype="html">
+        <source>Status</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="columnActions" datatype="html">
+        <source>Actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="actionCall" datatype="html">
+        <source> Call </source>
+        <target>Call</target>
+      </trans-unit>
+      <trans-unit id="actionComplete" datatype="html">
+        <source> Complete </source>
+        <target>Complete</target>
+      </trans-unit>
+      <trans-unit id="actionCancel" datatype="html">
+        <source> Cancel </source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="chatBotName" datatype="html">
+        <source>Dr. Beauty AI</source>
+        <target>Dr. Beauty AI</target>
+      </trans-unit>
+      <trans-unit id="chatBotStatus" datatype="html">
+        <source>Online</source>
+        <target>Online</target>
+      </trans-unit>
+      <trans-unit id="chatInputPlaceholder" datatype="html">
+        <source>Ask about treatments...</source>
+        <target>Ask about treatments...</target>
+      </trans-unit>
+      <trans-unit id="chatWelcomeMessage" datatype="html">
+        <source>Hello! I am your AI assistant. Ask me anything about our treatments.</source>
+        <target>Hello! I am your AI assistant. Ask me anything about our treatments.</target>
+      </trans-unit>
+      <trans-unit id="chatErrorMessage" datatype="html">
+        <source>Sorry, I encountered an error.</source>
+        <target>Sorry, I encountered an error.</target>
+      </trans-unit>
       <trans-unit id="calculatorTitle" datatype="html">
-        <source>Калькулятор услуг</source>
+        <source>Treatment Calculator</source>
         <target>Treatment Calculator</target>
       </trans-unit>
-      <trans-unit id="bookButton" datatype="html">
-        <source>Записаться</source>
+      <trans-unit id="totalEstimateLabel" datatype="html">
+        <source>Total Estimate</source>
+        <target>Total Estimate</target>
+      </trans-unit>
+      <trans-unit id="bookAppointmentButton" datatype="html">
+        <source>Book Appointment</source>
         <target>Book Appointment</target>
+      </trans-unit>
+      <trans-unit id="categoryAll" datatype="html">
+        <source>All</source>
+        <target>All</target>
+      </trans-unit>
+      <trans-unit id="categoryLaser" datatype="html">
+        <source>Laser</source>
+        <target>Laser</target>
+      </trans-unit>
+      <trans-unit id="categoryBotox" datatype="html">
+        <source>Botox</source>
+        <target>Botox</target>
+      </trans-unit>
+      <trans-unit id="categoryFacials" datatype="html">
+        <source>Facials</source>
+        <target>Facials</target>
+      </trans-unit>
+      <trans-unit id="categoryConsultation" datatype="html">
+        <source>Consultation</source>
+        <target>Consultation</target>
+      </trans-unit>
+      <trans-unit id="serviceFullFaceLaser" datatype="html">
+        <source>Full Face Laser</source>
+        <target>Full Face Laser</target>
+      </trans-unit>
+      <trans-unit id="serviceUnderarmsLaser" datatype="html">
+        <source>Underarms Laser</source>
+        <target>Underarms Laser</target>
+      </trans-unit>
+      <trans-unit id="serviceBotoxForehead" datatype="html">
+        <source>Botox Forehead</source>
+        <target>Botox Forehead</target>
+      </trans-unit>
+      <trans-unit id="serviceHydraFacial" datatype="html">
+        <source>HydraFacial</source>
+        <target>HydraFacial</target>
+      </trans-unit>
+      <trans-unit id="serviceLipFiller" datatype="html">
+        <source>Lip Filler</source>
+        <target>Lip Filler</target>
+      </trans-unit>
+      <trans-unit id="liveQueueTitle" datatype="html">
+        <source>Live Queue</source>
+        <target>Live Queue</target>
+      </trans-unit>
+      <trans-unit id="nowServingLabel" datatype="html">
+        <source>Now Serving</source>
+        <target>Now Serving</target>
+      </trans-unit>
+      <trans-unit id="waitingForNextPatient" datatype="html">
+        <source>Waiting for next patient...</source>
+        <target>Waiting for next patient...</target>
+      </trans-unit>
+      <trans-unit id="upNextLabel" datatype="html">
+        <source>Up Next</source>
+        <target>Up Next</target>
+      </trans-unit>
+      <trans-unit id="queueEmpty" datatype="html">
+        <source>Queue is empty</source>
+        <target>Queue is empty</target>
+      </trans-unit>
+      <trans-unit id="welcomeTitle" datatype="html">
+        <source>Welcome to AAA Cosmetics</source>
+        <target>Welcome to AAA Cosmetics</target>
+      </trans-unit>
+      <trans-unit id="selectServicePrompt" datatype="html">
+        <source>Please select a service to join the queue</source>
+        <target>Please select a service to join the queue</target>
+      </trans-unit>
+      <trans-unit id="takeNumberButton" datatype="html">
+        <source>TAKE A NUMBER</source>
+        <target>TAKE A NUMBER</target>
+      </trans-unit>
+      <trans-unit id="processingButton" datatype="html">
+        <source>Processing...</source>
+        <target>Processing...</target>
+      </trans-unit>
+      <trans-unit id="inQueueMessage" datatype="html">
+        <source>You are in queue!</source>
+        <target>You are in queue!</target>
+      </trans-unit>
+      <trans-unit id="joinQueueError" datatype="html">
+        <source>Failed to join queue. Please try again.</source>
+        <target>Failed to join queue. Please try again.</target>
       </trans-unit>
     </body>
   </file>

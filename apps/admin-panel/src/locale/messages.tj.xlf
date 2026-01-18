@@ -2,13 +2,177 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="ru" target-language="tj" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="calculatorTitle" datatype="html">
-        <source>Калькулятор услуг</source>
-        <target>Калкулятори хизматрасониҳо</target>
+      <trans-unit id="adminDashboardTitle" datatype="html">
+        <source>Admin Dashboard</source>
+        <target>Панели администратор</target>
       </trans-unit>
-      <trans-unit id="bookButton" datatype="html">
-        <source>Записаться</source>
-        <target>Номнавис шудан</target>
+      <trans-unit id="totalClientsLabel" datatype="html">
+        <source>Total Clients</source>
+        <target>Ҳамагӣ мизоҷон</target>
+      </trans-unit>
+      <trans-unit id="telegramRevenueLabel" datatype="html">
+        <source>Telegram Revenue</source>
+        <target>Даромад аз Telegram</target>
+      </trans-unit>
+      <trans-unit id="currencyTJS" datatype="html">
+        <source>TJS</source>
+        <target>сомонӣ</target>
+      </trans-unit>
+      <trans-unit id="activeQueueLabel" datatype="html">
+        <source>Active Queue</source>
+        <target>Навбати фаъол</target>
+      </trans-unit>
+      <trans-unit id="queueManagementTitle" datatype="html">
+        <source>Queue Management</source>
+        <target>Идоракунии навбат</target>
+      </trans-unit>
+      <trans-unit id="columnHash" datatype="html">
+        <source>#</source>
+        <target>#</target>
+      </trans-unit>
+      <trans-unit id="columnName" datatype="html">
+        <source>Name</source>
+        <target>Ном</target>
+      </trans-unit>
+      <trans-unit id="columnService" datatype="html">
+        <source>Service</source>
+        <target>Хизматрасонӣ</target>
+      </trans-unit>
+      <trans-unit id="columnStatus" datatype="html">
+        <source>Status</source>
+        <target>Ҳолат</target>
+      </trans-unit>
+      <trans-unit id="columnActions" datatype="html">
+        <source>Actions</source>
+        <target>Амалҳо</target>
+      </trans-unit>
+      <trans-unit id="actionCall" datatype="html">
+        <source> Call </source>
+        <target>Даъват</target>
+      </trans-unit>
+      <trans-unit id="actionComplete" datatype="html">
+        <source> Complete </source>
+        <target>Анҷом</target>
+      </trans-unit>
+      <trans-unit id="actionCancel" datatype="html">
+        <source> Cancel </source>
+        <target>Бекор кардан</target>
+      </trans-unit>
+      <trans-unit id="chatBotName" datatype="html">
+        <source>Dr. Beauty AI</source>
+        <target>Dr. Beauty AI</target>
+      </trans-unit>
+      <trans-unit id="chatBotStatus" datatype="html">
+        <source>Online</source>
+        <target>Онлайн</target>
+      </trans-unit>
+      <trans-unit id="chatInputPlaceholder" datatype="html">
+        <source>Ask about treatments...</source>
+        <target>Дар бораи табобат пурсед...</target>
+      </trans-unit>
+      <trans-unit id="chatWelcomeMessage" datatype="html">
+        <source>Hello! I am your AI assistant. Ask me anything about our treatments.</source>
+        <target>Салом! Ман ёрдамчии AI-и шумо ҳастам. Дар бораи табобатҳои мо ҳар чизе пурсед.</target>
+      </trans-unit>
+      <trans-unit id="chatErrorMessage" datatype="html">
+        <source>Sorry, I encountered an error.</source>
+        <target>Бубахшед, хатогӣ рух дод.</target>
+      </trans-unit>
+      <trans-unit id="calculatorTitle" datatype="html">
+        <source>Treatment Calculator</source>
+        <target>Калкулятори табобат</target>
+      </trans-unit>
+      <trans-unit id="totalEstimateLabel" datatype="html">
+        <source>Total Estimate</source>
+        <target>Ҳисоби умумӣ</target>
+      </trans-unit>
+      <trans-unit id="bookAppointmentButton" datatype="html">
+        <source>Book Appointment</source>
+        <target>Бақайдгирӣ</target>
+      </trans-unit>
+      <trans-unit id="categoryAll" datatype="html">
+        <source>All</source>
+        <target>Ҳама</target>
+      </trans-unit>
+      <trans-unit id="categoryLaser" datatype="html">
+        <source>Laser</source>
+        <target>Лазер</target>
+      </trans-unit>
+      <trans-unit id="categoryBotox" datatype="html">
+        <source>Botox</source>
+        <target>Ботокс</target>
+      </trans-unit>
+      <trans-unit id="categoryFacials" datatype="html">
+        <source>Facials</source>
+        <target>Нигоҳубини рӯй</target>
+      </trans-unit>
+      <trans-unit id="categoryConsultation" datatype="html">
+        <source>Consultation</source>
+        <target>Машварат</target>
+      </trans-unit>
+      <trans-unit id="serviceFullFaceLaser" datatype="html">
+        <source>Full Face Laser</source>
+        <target>Лазери рӯй (пурра)</target>
+      </trans-unit>
+      <trans-unit id="serviceUnderarmsLaser" datatype="html">
+        <source>Underarms Laser</source>
+        <target>Лазери зери бағал</target>
+      </trans-unit>
+      <trans-unit id="serviceBotoxForehead" datatype="html">
+        <source>Botox Forehead</source>
+        <target>Ботокси пешонӣ</target>
+      </trans-unit>
+      <trans-unit id="serviceHydraFacial" datatype="html">
+        <source>HydraFacial</source>
+        <target>HydraFacial</target>
+      </trans-unit>
+      <trans-unit id="serviceLipFiller" datatype="html">
+        <source>Lip Filler</source>
+        <target>Пуркунандаи лаб</target>
+      </trans-unit>
+      <trans-unit id="liveQueueTitle" datatype="html">
+        <source>Live Queue</source>
+        <target>Навбати зинда</target>
+      </trans-unit>
+      <trans-unit id="nowServingLabel" datatype="html">
+        <source>Now Serving</source>
+        <target>Ҳоло қабул карда мешавад</target>
+      </trans-unit>
+      <trans-unit id="waitingForNextPatient" datatype="html">
+        <source>Waiting for next patient...</source>
+        <target>Интизори бемори навбатӣ...</target>
+      </trans-unit>
+      <trans-unit id="upNextLabel" datatype="html">
+        <source>Up Next</source>
+        <target>Дар навбат</target>
+      </trans-unit>
+      <trans-unit id="queueEmpty" datatype="html">
+        <source>Queue is empty</source>
+        <target>Навбат холӣ аст</target>
+      </trans-unit>
+      <trans-unit id="welcomeTitle" datatype="html">
+        <source>Welcome to AAA Cosmetics</source>
+        <target>Хуш омадед ба AAA Cosmetics</target>
+      </trans-unit>
+      <trans-unit id="selectServicePrompt" datatype="html">
+        <source>Please select a service to join the queue</source>
+        <target>Лутфан хизматрасониро интихоб кунед</target>
+      </trans-unit>
+      <trans-unit id="takeNumberButton" datatype="html">
+        <source>TAKE A NUMBER</source>
+        <target>ГИРИФТАНИ РАҚАМ</target>
+      </trans-unit>
+      <trans-unit id="processingButton" datatype="html">
+        <source>Processing...</source>
+        <target>Коркард...</target>
+      </trans-unit>
+      <trans-unit id="inQueueMessage" datatype="html">
+        <source>You are in queue!</source>
+        <target>Шумо дар навбат ҳастед!</target>
+      </trans-unit>
+      <trans-unit id="joinQueueError" datatype="html">
+        <source>Failed to join queue. Please try again.</source>
+        <target>Хатогӣ ҳангоми гирифтани навбат. Лутфан дубора кӯшиш кунед.</target>
       </trans-unit>
     </body>
   </file>
