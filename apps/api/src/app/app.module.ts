@@ -30,3 +30,4 @@ import { TreatmentsModule } from './treatments/treatments.module';
   providers: [AppService],
 })
 export class AppModule { }
+
