@@ -5,10 +5,19 @@
   "prefix": "app",
   "sourceRoot": "apps/admin-panel/src",
   "tags": [],
+  "i18n": {
+    "sourceLocale": "ru",
+    "locales": {
+      "tj": "apps/admin-panel/src/locale/messages.tj.xlf",
+      "en": "apps/admin-panel/src/locale/messages.en.xlf"
+    }
+  },
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/admin-panel",
         "browser": "apps/admin-panel/src/main.ts",
@@ -19,7 +28,10 @@
             "input": "apps/admin-panel/public"
           }
         ],
-        "styles": ["apps/admin-panel/src/styles.css"]
+        "styles": [
+          "apps/admin-panel/src/styles.css"
+        ],
+        "localize": true
       },
       "configurations": {
         "production": {

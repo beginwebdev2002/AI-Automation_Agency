@@ -8,6 +8,8 @@ import { BookingModule } from './booking/booking.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { UsersModule } from './users/users.module';
 import { TreatmentsModule } from './treatments/treatments.module';
+import { QueueModule } from './queue/queue.module';
+import { GeminiModule } from './gemini/gemini.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { TreatmentsModule } from './treatments/treatments.module';
     TelegramModule,
     UsersModule,
     TreatmentsModule,
+    QueueModule,
+    GeminiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
