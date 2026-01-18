@@ -26,6 +26,6 @@ export class BookingService {
     }
 
     async findAllAppointments(): Promise<Appointment[]> {
-        return this.appointmentModel.find().populate('user').populate('venue').exec();
+        return this.appointmentModel.find().populate('user', 'email role').populate('venue', 'name address').exec();
     }
 }
