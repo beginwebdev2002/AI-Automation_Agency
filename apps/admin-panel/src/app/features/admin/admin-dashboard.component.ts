@@ -1,12 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../core/config/config.service';
 
 @Component({
-    selector: 'app-admin-dashboard',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
+  selector: 'app-admin-dashboard',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
     <div class="min-h-screen bg-gray-100 p-6">
       <h1 class="text-3xl font-bold text-gray-800 mb-8">Admin Dashboard</h1>
 
@@ -83,22 +84,24 @@ import { HttpClient } from '@angular/common/http';
   `
 })
 export class AdminDashboardComponent implements OnInit {
-    stats = signal({ totalClients: 124, revenue: 15400 }); // Mock stats
-    queue = signal<any[]>([]);
+  stats = signal({ totalClients: 124, revenue: 15400 }); // Mock stats
+  queue = signal<any[]>([]);
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private configService: ConfigService) { }
 
-    ngOnInit() {
-        this.fetchQueue();
-    }
+  ngOnInit() {
+    this.fetchQueue();
+  }
 
-    fetchQueue() {
-        this.http.get<any[]>('/api/queue').subscribe(data => this.queue.set(data));
-    }
+  fetchQueue() {
+    const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/queue';
+    this.http.get<any[]>(apiUrl).subscribe(data => this.queue.set(data));
+  }
 
-    updateStatus(id: string, status: string) {
-        this.http.patch(`/api/queue/${id}/status`, { status }).subscribe(() => {
-            this.fetchQueue();
-        });
-    }
+  updateStatus(id: string, status: string) {
+    const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + `/queue/${id}/status`;
+    this.http.patch(apiUrl, { status }).subscribe(() => {
+      this.fetchQueue();
+    });
+  }
 }

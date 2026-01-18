@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../core/config/config.service';
 
 @Component({
-    selector: 'app-take-queue',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
+  selector: 'app-take-queue',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
     <div class="min-h-screen bg-medical-rose-50 flex flex-col items-center justify-center p-6">
       <div class="bg-white p-8 rounded-3xl shadow-xl max-w-sm w-full text-center">
         <h2 class="text-2xl font-serif text-medical-rose-900 mb-2">Welcome to AAA Cosmetics</h2>
@@ -43,26 +44,27 @@ import { HttpClient } from '@angular/common/http';
   `
 })
 export class TakeQueueComponent {
-    categories = ['Laser', 'Botox', 'Facials', 'Consultation'];
-    selectedCategory = signal<string>('');
-    isLoading = signal(false);
-    ticket = signal<any>(null);
+  categories = ['Laser', 'Botox', 'Facials', 'Consultation'];
+  selectedCategory = signal<string>('');
+  isLoading = signal(false);
+  ticket = signal<any>(null);
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private configService: ConfigService) { }
 
-    joinQueue() {
-        if (!this.selectedCategory()) return;
+  joinQueue() {
+    if (!this.selectedCategory()) return;
 
-        this.isLoading.set(true);
-        this.http.post('/api/queue', { serviceCategory: this.selectedCategory() }).subscribe({
-            next: (res) => {
-                this.ticket.set(res);
-                this.isLoading.set(false);
-            },
-            error: () => {
-                alert('Failed to join queue. Please try again.');
-                this.isLoading.set(false);
-            }
-        });
-    }
+    this.isLoading.set(true);
+    const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/queue';
+    this.http.post(apiUrl, { serviceCategory: this.selectedCategory() }).subscribe({
+      next: (res) => {
+        this.ticket.set(res);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        alert('Failed to join queue. Please try again.');
+        this.isLoading.set(false);
+      }
+    });
+  }
 }

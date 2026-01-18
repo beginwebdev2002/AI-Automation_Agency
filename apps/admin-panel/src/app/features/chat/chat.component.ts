@@ -2,12 +2,13 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../core/config/config.service';
 
 @Component({
-    selector: 'app-chat',
-    standalone: true,
-    imports: [CommonModule, FormsModule],
-    template: `
+  selector: 'app-chat',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
     <div class="flex flex-col h-screen bg-medical-rose-50">
       <!-- Header -->
       <div class="bg-white p-4 shadow-sm flex items-center">
@@ -61,31 +62,32 @@ import { HttpClient } from '@angular/common/http';
   `
 })
 export class ChatComponent {
-    messages = signal<{ role: 'user' | 'bot', text: string, time: Date }[]>([
-        { role: 'bot', text: 'Hello! I am your AI assistant. Ask me anything about our treatments.', time: new Date() }
-    ]);
-    newMessage = '';
-    isLoading = signal(false);
+  messages = signal<{ role: 'user' | 'bot', text: string, time: Date }[]>([
+    { role: 'bot', text: 'Hello! I am your AI assistant. Ask me anything about our treatments.', time: new Date() }
+  ]);
+  newMessage = '';
+  isLoading = signal(false);
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private configService: ConfigService) { }
 
-    sendMessage() {
-        if (!this.newMessage.trim()) return;
+  sendMessage() {
+    if (!this.newMessage.trim()) return;
 
-        const userMsg = this.newMessage;
-        this.messages.update(msgs => [...msgs, { role: 'user', text: userMsg, time: new Date() }]);
-        this.newMessage = '';
-        this.isLoading.set(true);
+    const userMsg = this.newMessage;
+    this.messages.update(msgs => [...msgs, { role: 'user', text: userMsg, time: new Date() }]);
+    this.newMessage = '';
+    this.isLoading.set(true);
 
-        this.http.post<{ response: string }>('/api/chat', { message: userMsg }).subscribe({
-            next: (res) => {
-                this.messages.update(msgs => [...msgs, { role: 'bot', text: res.response, time: new Date() }]);
-                this.isLoading.set(false);
-            },
-            error: () => {
-                this.messages.update(msgs => [...msgs, { role: 'bot', text: 'Sorry, I encountered an error.', time: new Date() }]);
-                this.isLoading.set(false);
-            }
-        });
-    }
+    const apiUrl = this.configService.get('BACKEND_URL') + '/chat';
+    this.http.post<{ response: string }>(apiUrl, { message: userMsg }).subscribe({
+      next: (res) => {
+        this.messages.update(msgs => [...msgs, { role: 'bot', text: res.response, time: new Date() }]);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.messages.update(msgs => [...msgs, { role: 'bot', text: 'Sorry, I encountered an error.', time: new Date() }]);
+        this.isLoading.set(false);
+      }
+    });
+  }
 }

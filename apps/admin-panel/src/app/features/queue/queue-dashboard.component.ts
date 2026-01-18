@@ -1,20 +1,21 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../core/config/config.service';
 
 interface QueueItem {
-    _id: string;
-    firstName: string;
-    serviceCategory: string;
-    sequenceNumber: number;
-    status: 'waiting' | 'in-progress' | 'completed';
+  _id: string;
+  firstName: string;
+  serviceCategory: string;
+  sequenceNumber: number;
+  status: 'waiting' | 'in-progress' | 'completed';
 }
 
 @Component({
-    selector: 'app-queue-dashboard',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
+  selector: 'app-queue-dashboard',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
     <div class="min-h-screen bg-gray-50 p-6">
       <h1 class="text-4xl font-serif text-center text-medical-rose-900 mb-10">Live Queue</h1>
 
@@ -55,24 +56,24 @@ interface QueueItem {
   `
 })
 export class QueueDashboardComponent implements OnInit {
-    queue = signal<QueueItem[]>([]);
+  queue = signal<QueueItem[]>([]);
 
-    current = computed(() => this.queue().find(i => i.status === 'in-progress'));
-    waiting = computed(() => this.queue().filter(i => i.status === 'waiting'));
+  current = computed(() => this.queue().find(i => i.status === 'in-progress'));
+  waiting = computed(() => this.queue().filter(i => i.status === 'waiting'));
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private configService: ConfigService) { }
 
-    ngOnInit() {
-        this.fetchQueue();
-        setInterval(() => this.fetchQueue(), 5000); // Poll every 5s
-    }
+  ngOnInit() {
+    this.fetchQueue();
+    setInterval(() => this.fetchQueue(), 5000); // Poll every 5s
+  }
 
-    fetchQueue() {
-        this.http.get<QueueItem[]>('/api/queue').subscribe(data => {
-            this.queue.set(data);
-        });
-    }
+  fetchQueue() {
+    const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/queue';
+    this.http.get<QueueItem[]>(apiUrl).subscribe(data => {
+      this.queue.set(data);
+    });
+  }
 }
 
-// Helper for computed
-import { computed } from '@angular/core';
+
