@@ -12,7 +12,6 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
     <div class="min-h-screen bg-gray-100 p-6">
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800" i18n="@@adminDashboardTitle">Панель администратора</h1>
-        <app-language-switcher></app-language-switcher>
       </div>
 
       <!-- Analytics Cards -->

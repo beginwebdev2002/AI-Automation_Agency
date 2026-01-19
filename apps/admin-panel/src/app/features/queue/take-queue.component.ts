@@ -2,16 +2,14 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../core/config/config.service';
-import { LanguageSwitcherComponent } from '../../core/components/language-switcher/language-switcher.component';
 
 @Component({
   selector: 'app-take-queue',
   standalone: true,
-  imports: [CommonModule, LanguageSwitcherComponent],
+  imports: [CommonModule],
   template: `
     <div class="min-h-screen bg-medical-rose-50 flex flex-col items-center justify-center p-6">
       <div class="absolute top-4 right-4">
-        <app-language-switcher></app-language-switcher>
       </div>
       <div class="bg-white p-8 rounded-3xl shadow-xl max-w-sm w-full text-center">
         <h2 class="text-2xl font-serif text-medical-rose-900 mb-2" i18n="@@welcomeTitle">Добро пожаловать в AAA Cosmetics</h2>

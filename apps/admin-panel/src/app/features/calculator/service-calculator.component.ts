@@ -16,10 +16,6 @@ interface Service {
   imports: [CommonModule, FormsModule, LanguageSwitcherComponent],
   template: `
     <div class="p-6 bg-medical-rose-50 min-h-screen">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-3xl font-serif text-medical-rose-900" i18n="@@calculatorTitle">Калькулятор услуг</h2>
-        <app-language-switcher></app-language-switcher>
-      </div>
 
       <!-- Category Filter -->
       <div class="flex gap-3 mb-8 overflow-x-auto pb-2">

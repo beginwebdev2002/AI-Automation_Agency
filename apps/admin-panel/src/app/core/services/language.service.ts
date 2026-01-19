@@ -7,9 +7,9 @@ import { DOCUMENT } from '@angular/common';
 export class LanguageService {
     currentLang = signal<string>('ru');
     supportedLanguages = [
-        { code: 'ru', label: 'Русский', flag: '🇷🇺', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/ru/#/' },
-        { code: 'tj', label: 'Тоҷикӣ', flag: '🇹🇯', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/tj/#/' },
-        { code: 'en', label: 'English', flag: '🇺🇸', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/en/#/' }
+        { code: 'ru', label: 'Русский', flag: '🇷🇺', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/tj/#/calculator' },
+        { code: 'tj', label: 'Тоҷикӣ', flag: '🇹🇯', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/tj/#/calculator' },
+        { code: 'en', label: 'English', flag: '🇺🇸', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/en/#/calculator' }
     ];
 
     constructor(

@@ -1,8 +1,7 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { ConfigService } from '../../core/config/config.service';
-import { LanguageSwitcherComponent } from '../../core/components/language-switcher/language-switcher.component';
 
 interface QueueItem {
   _id: string;
@@ -15,12 +14,11 @@ interface QueueItem {
 @Component({
   selector: 'app-queue-dashboard',
   standalone: true,
-  imports: [CommonModule, LanguageSwitcherComponent],
+  imports: [CommonModule],
   template: `
     <div class="min-h-screen bg-gray-50 p-6">
       <div class="flex justify-between items-center mb-10 max-w-6xl mx-auto">
         <h1 class="text-4xl font-serif text-medical-rose-900" i18n="@@liveQueueTitle">Живая очередь</h1>
-        <app-language-switcher></app-language-switcher>
       </div>
 
       <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">

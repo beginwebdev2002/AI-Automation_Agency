@@ -1,9 +1,8 @@
-import { Component, signal, ViewChild, ElementRef, AfterViewChecked, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AfterViewChecked, Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ChatService, Message } from './chat.service';
-import { LanguageSwitcherComponent } from '../../core/components/language-switcher/language-switcher.component';
 import { LanguageService } from '../../core/services/language.service';
+import { ChatService, Message } from './chat.service';
 
 declare const Telegram: any;
 
@@ -11,7 +10,7 @@ declare const Telegram: any;
   selector: 'app-chat',
   standalone: true,
   styleUrl: './chat.component.scss',
-  imports: [CommonModule, FormsModule, LanguageSwitcherComponent],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="flex flex-1 flex-col bg-gradient-to-b from-rose-50 to-white mb-20">
       <!-- Header -->
@@ -28,7 +27,6 @@ declare const Telegram: any;
             <p class="text-xs text-rose-400 font-medium" i18n="@@chatBotStatus">Онлайн 24/7</p>
           </div>
         </div>
-        <app-language-switcher></app-language-switcher>
       </div>
 
       <!-- Messages -->
