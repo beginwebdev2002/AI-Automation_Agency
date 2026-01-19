@@ -16,7 +16,6 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
       <div class="bg-white p-8 rounded-3xl shadow-xl max-w-sm w-full text-center">
         <h2 class="text-2xl font-serif text-medical-rose-900 mb-2" i18n="@@welcomeTitle">Добро пожаловать в AAA Cosmetics</h2>
         <p class="text-gray-500 mb-8" i18n="@@selectServicePrompt">Пожалуйста, выберите услугу, чтобы встать в очередь</p>
-
         <div class="space-y-3 mb-8">
           @for (cat of categories; track cat.value) {
             <button 
@@ -33,7 +32,11 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
                    }
               </div>
             </button>
-          }
+          
+        </div>
+
+        <div *ngIf="errorMessage()" class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200" role="alert">
+          {{ errorMessage() }}
         </div>
 
         <button (click)="joinQueue()"
@@ -46,7 +49,6 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
             <span i18n="@@processingButton">Обработка...</span>
           }
         </button>
-
         @if (ticket()) {
           <div class="mt-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 animate-fade-in">
             <p class="text-sm" i18n="@@inQueueMessage">Вы в очереди!</p>
@@ -67,6 +69,7 @@ export class TakeQueueComponent {
   selectedCategory = signal<string>('');
   isLoading = signal(false);
   ticket = signal<any>(null);
+  errorMessage = signal<string>('');
 
   constructor(private http: HttpClient, private configService: ConfigService) { }
 
@@ -74,6 +77,7 @@ export class TakeQueueComponent {
     if (!this.selectedCategory()) return;
 
     this.isLoading.set(true);
+    this.errorMessage.set('');
     const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/queue';
     this.http.post(apiUrl, { serviceCategory: this.selectedCategory() }).subscribe({
       next: (res) => {
@@ -81,7 +85,7 @@ export class TakeQueueComponent {
         this.isLoading.set(false);
       },
       error: () => {
-        alert($localize`:@@joinQueueError:Не удалось встать в очередь. Попробуйте снова.`);
+        this.errorMessage.set($localize`:@@joinQueueError:Не удалось встать в очередь. Попробуйте снова.`);
         this.isLoading.set(false);
       }
     });

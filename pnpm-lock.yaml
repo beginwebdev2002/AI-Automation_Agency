@@ -32,6 +32,7 @@ importers:
       '@google/genai':
         specifier: ^1.37.0
         version: 1.37.0(@modelcontextprotocol/sdk@1.25.2(hono@4.11.4)(zod@4.1.13))
+      '@angular/platform-browser-dynamic':
       '@google/generative-ai':
         specifier: ^0.24.1
         version: 0.24.1
@@ -189,6 +190,7 @@ importers:
       '@types/bcrypt':
         specifier: ^6.0.0
         version: 6.0.0
+      '@types/jasmine':
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
@@ -520,6 +522,7 @@ packages:
       '@angular/compiler': 21.1.0
       '@angular/compiler-cli': 21.1.0
 
+  '@angular/platform-browser-dynamic@21.0.9':
   '@angular/platform-browser@21.0.9':
     resolution: {integrity: sha512-NXOiDAlGXex8O1D6ZsHinZsloA/ngvSqcg/g2IzVUtxM/PRKYIyk6DeRnWXx1QCQmUVh96WbcAnFoF2PUj2Z8A==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
@@ -2364,6 +2367,7 @@ packages:
 
   '@mongodb-js/saslprep@1.4.5':
     resolution: {integrity: sha512-k64Lbyb7ycCSXHSLzxVdb2xsKGPMvYZfCICXvDsI8Z65CeWQzTEKS4YmGbnqw+U9RBvLPTsB6UCmwkgsDTGWIw==}
+  '@mongodb-js/saslprep@1.4.4':
 
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     resolution: {integrity: sha512-QZHtlVgbAdy2zAqNA9Gu1UpIuI8Xvsd1v8ic6B2pZmeFnFcMWiPLfWXh7TVw4eGEZ/C9TH281KwhVoeQUKbyjw==}
@@ -3188,6 +3192,31 @@ packages:
 
   '@rollup/rollup-win32-x64-msvc@4.55.2':
     resolution: {integrity: sha512-xNO+fksQhsAckRtDSPWaMeT1uIM+JrDRXlerpnWNXhn1TdB3YZ6uKBMBTKP0eX9XtYEP978hHk1f8332i2AW8Q==}
+  '@rollup/rollup-android-arm-eabi@4.55.1':
+  '@rollup/rollup-android-arm64@4.55.1':
+  '@rollup/rollup-darwin-arm64@4.55.1':
+  '@rollup/rollup-darwin-x64@4.55.1':
+  '@rollup/rollup-freebsd-arm64@4.55.1':
+  '@rollup/rollup-freebsd-x64@4.55.1':
+  '@rollup/rollup-linux-arm-gnueabihf@4.55.1':
+  '@rollup/rollup-linux-arm-musleabihf@4.55.1':
+  '@rollup/rollup-linux-arm64-gnu@4.55.1':
+  '@rollup/rollup-linux-arm64-musl@4.55.1':
+  '@rollup/rollup-linux-loong64-gnu@4.55.1':
+  '@rollup/rollup-linux-loong64-musl@4.55.1':
+  '@rollup/rollup-linux-ppc64-gnu@4.55.1':
+  '@rollup/rollup-linux-ppc64-musl@4.55.1':
+  '@rollup/rollup-linux-riscv64-gnu@4.55.1':
+  '@rollup/rollup-linux-riscv64-musl@4.55.1':
+  '@rollup/rollup-linux-s390x-gnu@4.55.1':
+  '@rollup/rollup-linux-x64-gnu@4.55.1':
+  '@rollup/rollup-linux-x64-musl@4.55.1':
+  '@rollup/rollup-openbsd-x64@4.55.1':
+  '@rollup/rollup-openharmony-arm64@4.55.1':
+  '@rollup/rollup-win32-arm64-msvc@4.55.1':
+  '@rollup/rollup-win32-ia32-msvc@4.55.1':
+  '@rollup/rollup-win32-x64-gnu@4.55.1':
+  '@rollup/rollup-win32-x64-msvc@4.55.1':
     cpu: [x64]
     os: [win32]
 
@@ -3604,6 +3633,7 @@ packages:
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
 
+  '@types/jasmine@5.1.15':
   '@types/jest@30.0.0':
     resolution: {integrity: sha512-XTYugzhuwqWjws0CVz8QpM36+T+Dz5mTEBKhNs/esGLnCIlGdRy+Dq78NRjd7ls7r8BC8ZRMOrKlkO1hU0JOwA==}
 
@@ -5209,6 +5239,7 @@ packages:
 
   eventemitter3@5.0.3:
     resolution: {integrity: sha512-PtkOSo5xZ4pjMIIUmYh5ewu/6CFDsyGTUkfz6tJ5wyHQtcgoStS0HwCLxvCaN3shgYHaCDkKxb3ykbhcP2jTTw==}
+  eventemitter3@5.0.1:
 
   events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
@@ -6543,6 +6574,7 @@ packages:
     resolution: {integrity: sha512-sayAf6AyB4fLSOsZzaXBV8cztWY8/pKhVDbUDwFuC9aI6lGa6R8ilKZe/TYsKebH0MZWrbMhCTYsctXrCT4NBA==}
     peerDependencies:
       tslib: '2'
+  memfs@4.54.0:
 
   memory-pager@1.5.0:
     resolution: {integrity: sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==}
@@ -7687,6 +7719,7 @@ packages:
 
   rollup@4.55.2:
     resolution: {integrity: sha512-PggGy4dhwx5qaW+CKBilA/98Ql9keyfnb7lh4SR6shQ91QQQi1ORJ1v4UinkdP2i87OBs9AQFooQylcrrRfIcg==}
+  rollup@4.55.1:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
@@ -9427,6 +9460,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@angular/platform-browser-dynamic@21.0.9(@angular/common@21.0.9(@angular/core@21.0.9(@angular/compiler@21.0.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/compiler@21.0.9)(@angular/core@21.0.9(@angular/compiler@21.0.9)(rxjs@7.8.2))(@angular/platform-browser@21.0.9(@angular/common@21.0.9(@angular/core@21.0.9(@angular/compiler@21.0.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.9(@angular/compiler@21.0.9)(rxjs@7.8.2)))':
   '@angular/platform-browser@21.0.9(@angular/common@21.0.9(@angular/core@21.0.9(@angular/compiler@21.0.9)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.0.9(@angular/compiler@21.0.9)(rxjs@7.8.2))':
     dependencies:
       '@angular/common': 21.0.9(@angular/core@21.0.9(@angular/compiler@21.0.9)(rxjs@7.8.2))(rxjs@7.8.2)
@@ -12519,6 +12553,7 @@ snapshots:
   '@rollup/plugin-node-resolve@15.3.1(rollup@4.55.2)':
     dependencies:
       '@rollup/pluginutils': 5.3.0(rollup@4.55.2)
+  '@rollup/plugin-node-resolve@15.3.1(rollup@4.55.1)':
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-module: 1.0.0
@@ -12527,6 +12562,7 @@ snapshots:
       rollup: 4.55.2
 
   '@rollup/pluginutils@5.3.0(rollup@4.55.2)':
+  '@rollup/pluginutils@5.3.0(rollup@4.55.1)':
     dependencies:
       '@types/estree': 1.0.8
       estree-walker: 2.0.2
@@ -12663,6 +12699,7 @@ snapshots:
       '@swc/helpers': 0.5.18
 
   '@rspack/dev-server@1.1.5(@rspack/core@1.7.2(@swc/helpers@0.5.18))(@types/express@4.17.25)(tslib@2.8.1)(webpack-cli@5.1.4)(webpack@5.104.1)':
+  '@rspack/dev-server@1.1.5(@rspack/core@1.7.2(@swc/helpers@0.5.18))(@types/express@4.17.25)(webpack-cli@5.1.4)(webpack@5.104.1)':
     dependencies:
       '@rspack/core': 1.7.2(@swc/helpers@0.5.18)
       chokidar: 3.6.0
@@ -14988,6 +15025,7 @@ snapshots:
   flowbite-datepicker@2.0.0(rollup@4.55.2):
     dependencies:
       '@rollup/plugin-node-resolve': 15.3.1(rollup@4.55.2)
+  flowbite-datepicker@2.0.0(rollup@4.55.1):
       '@tailwindcss/postcss': 4.1.18
     transitivePeerDependencies:
       - rollup
@@ -14996,6 +15034,7 @@ snapshots:
     dependencies:
       '@popperjs/core': 2.11.8
       flowbite-datepicker: 2.0.0(rollup@4.55.2)
+  flowbite@4.0.1(rollup@4.55.1):
       mini-svg-data-uri: 1.4.4
       postcss: 8.5.6
       tailwindcss: 4.1.18
@@ -18353,6 +18392,7 @@ snapshots:
       typescript: 5.9.3
 
   ts-checker-rspack-plugin@1.2.4(@rspack/core@1.7.2(@swc/helpers@0.5.18))(tslib@2.8.1)(typescript@5.9.3):
+  ts-checker-rspack-plugin@1.2.4(@rspack/core@1.7.2(@swc/helpers@0.5.18))(typescript@5.9.3):
     dependencies:
       '@babel/code-frame': 7.28.6
       '@rspack/lite-tapable': 1.1.0
@@ -18733,6 +18773,7 @@ snapshots:
     dependencies:
       colorette: 2.0.20
       memfs: 4.55.0(tslib@2.8.1)
+  webpack-dev-middleware@7.4.5(webpack@5.104.1):
       mime-types: 3.0.2
       on-finished: 2.4.1
       range-parser: 1.2.1
@@ -18743,6 +18784,7 @@ snapshots:
       - tslib
 
   webpack-dev-server@5.2.2(tslib@2.8.1)(webpack-cli@5.1.4)(webpack@5.104.1):
+  webpack-dev-server@5.2.2(webpack-cli@5.1.4)(webpack@5.104.1):
     dependencies:
       '@types/bonjour': 3.5.13
       '@types/connect-history-api-fallback': 1.5.4
@@ -18783,6 +18825,7 @@ snapshots:
       - utf-8-validate
 
   webpack-dev-server@5.2.3(tslib@2.8.1)(webpack-cli@5.1.4)(webpack@5.104.1):
+  webpack-dev-server@5.2.3(webpack-cli@5.1.4)(webpack@5.104.1):
     dependencies:
       '@types/bonjour': 3.5.13
       '@types/connect-history-api-fallback': 1.5.4
