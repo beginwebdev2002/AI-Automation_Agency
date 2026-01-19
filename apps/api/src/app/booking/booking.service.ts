@@ -30,7 +30,12 @@ export class BookingService {
         return createdAppointment.save();
     }
 
-    async findAllAppointments(): Promise<Appointment[]> {
-        return this.appointmentModel.find().populate('user', 'email role').populate('venue', 'name address').exec();
+    async findAllAppointments(page = 1, limit = 10): Promise<Appointment[]> {
+        const MAX_LIMIT = 100;
+        if (limit > MAX_LIMIT) {
+            limit = MAX_LIMIT;
+        }
+        const skip = (page - 1) * limit;
+        return this.appointmentModel.find().populate('user', 'email role').populate('venue', 'name address').skip(skip).limit(limit).exec();
     }
 }
