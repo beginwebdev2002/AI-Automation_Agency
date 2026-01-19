@@ -7,6 +7,7 @@ import { Appointment } from './schemas/appointment.schema';
 describe('BookingService', () => {
     let service: BookingService;
     let venueModel: any;
+    let appointmentModel: any;
 
     const mockVenueModel = {
         find: jest.fn().mockReturnThis(),
@@ -16,7 +17,11 @@ describe('BookingService', () => {
     };
 
     const mockAppointmentModel = {
-        find: jest.fn(),
+        find: jest.fn().mockReturnThis(),
+        populate: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        limit: jest.fn().mockReturnThis(),
+        exec: jest.fn(),
     };
 
     beforeEach(async () => {
@@ -36,6 +41,7 @@ describe('BookingService', () => {
 
         service = module.get<BookingService>(BookingService);
         venueModel = module.get(getModelToken(Venue.name));
+        appointmentModel = module.get(getModelToken(Appointment.name));
     });
 
     afterEach(() => {
@@ -82,6 +88,47 @@ describe('BookingService', () => {
             expect(venueModel.limit).toHaveBeenCalledWith(100);
             expect(venueModel.skip).toHaveBeenCalledWith(0);
             expect(result).toEqual(['venue4']);
+        });
+    });
+
+    describe('findAllAppointments', () => {
+        it('should return paginated appointments with default values', async () => {
+            mockAppointmentModel.exec.mockResolvedValue(['appt1', 'appt2']);
+
+            const result = await service.findAllAppointments();
+
+            expect(appointmentModel.find).toHaveBeenCalled();
+            expect(appointmentModel.populate).toHaveBeenCalledWith('user', 'email role');
+            expect(appointmentModel.populate).toHaveBeenCalledWith('venue', 'name address');
+            expect(appointmentModel.skip).toHaveBeenCalledWith(0);
+            expect(appointmentModel.limit).toHaveBeenCalledWith(10);
+            expect(result).toEqual(['appt1', 'appt2']);
+        });
+
+        it('should return paginated appointments with provided values', async () => {
+            mockAppointmentModel.exec.mockResolvedValue(['appt3']);
+            const page = 2;
+            const limit = 5;
+
+            const result = await service.findAllAppointments(page, limit);
+
+            expect(appointmentModel.find).toHaveBeenCalled();
+            expect(appointmentModel.skip).toHaveBeenCalledWith(5);
+            expect(appointmentModel.limit).toHaveBeenCalledWith(5);
+            expect(result).toEqual(['appt3']);
+        });
+
+        it('should cap limit to 100', async () => {
+            mockAppointmentModel.exec.mockResolvedValue(['appt4']);
+            const page = 1;
+            const limit = 200;
+
+            const result = await service.findAllAppointments(page, limit);
+
+            expect(appointmentModel.find).toHaveBeenCalled();
+            expect(appointmentModel.limit).toHaveBeenCalledWith(100);
+            expect(appointmentModel.skip).toHaveBeenCalledWith(0);
+            expect(result).toEqual(['appt4']);
         });
     });
 });
