@@ -1,2 +1,0 @@
-import{I as n}from"./chunk-MXMKHO7C.js";var o={production:!0,BACKEND_URL:"https://aaa-api-2y6m.onrender.com",BACKEND_URL_ONLINE:"https://aaa-api-2y6m.onrender.com"};var e=class t{get(r){return o[r]||""}static \u0275fac=function(a){return new(a||t)};static \u0275prov=n({token:t,factory:t.\u0275fac,providedIn:"root"})};export{e as a};
-/**i18n:019b463f0eded3266b87e66c13ed070ae77feb59761ca3051e0f3fc2e0fe79aa*/
