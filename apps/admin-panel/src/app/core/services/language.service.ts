@@ -16,45 +16,22 @@ export class LanguageService {
         @Inject(LOCALE_ID) public locale: string,
         @Inject(DOCUMENT) private document: Document
     ) {
-        // Angular's LOCALE_ID might be 'ru-RU' or just 'ru' depending on setup.
-        // We normalize it to our supported codes if possible, or just use it.
-        // Given project.json sourceLocale is 'ru', it should be 'ru'.
         this.currentLang.set(locale);
     }
 
     switchLanguage(targetLang: string) {
-        if (this.locale === targetLang) return;
+        if (this.currentLang() === targetLang) return;
 
-        const currentPath = this.document.location.pathname;
-        const origin = this.document.location.origin;
+        const { pathname, search, hash, origin } = this.document.location;
+        const localeRegex = new RegExp(`/${this.locale}(/|$)`);
 
-        // We assume the deployment structure is domain.com/lang/ or domain.com/base/lang/
-        // We need to replace the current language segment in the URL with the new one.
-
-        // A safe way is to split by the current locale if it exists in the path.
-        // If we are currently in 'ru', the path likely contains '/ru/'.
-
-        let newPath = currentPath;
-
-        // Check if current locale is in the path
-        const localeSegment = `/${this.locale}/`;
-        const targetSegment = `/${targetLang}/`;
-
-        if (currentPath.includes(localeSegment)) {
-            newPath = currentPath.replace(localeSegment, targetSegment);
+        let newPath = pathname;
+        if (localeRegex.test(pathname)) {
+            newPath = pathname.replace(localeRegex, `/${targetLang}$1`);
         } else {
-            // If current locale is not in path (e.g. default served at root), 
-            // we need to prepend the new locale.
-            // Be careful with double slashes.
-            if (currentPath === '/' || currentPath === '') {
-                newPath = `/${targetLang}/`;
-            } else {
-                newPath = `/${targetLang}${currentPath}`;
-            }
+            newPath = pathname.endsWith('/') ? `${pathname}${targetLang}/` : `${pathname}/${targetLang}/`;
         }
 
-        // Construct full URL
-        // We use window.location.href to ensure we reload with the new app
-        this.document.location.href = `${origin}${newPath}${this.document.location.search}`;
+        this.document.location.href = `${origin}${newPath}${search}${hash}`;
     }
 }

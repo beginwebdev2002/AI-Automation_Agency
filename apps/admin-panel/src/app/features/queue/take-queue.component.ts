@@ -14,8 +14,8 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
         <app-language-switcher></app-language-switcher>
       </div>
       <div class="bg-white p-8 rounded-3xl shadow-xl max-w-sm w-full text-center">
-        <h2 class="text-2xl font-serif text-medical-rose-900 mb-2" i18n="@@welcomeTitle">Welcome to AAA Cosmetics</h2>
-        <p class="text-gray-500 mb-8" i18n="@@selectServicePrompt">Please select a service to join the queue</p>
+        <h2 class="text-2xl font-serif text-medical-rose-900 mb-2" i18n="@@welcomeTitle">Добро пожаловать в AAA Cosmetics</h2>
+        <p class="text-gray-500 mb-8" i18n="@@selectServicePrompt">Пожалуйста, выберите услугу, чтобы встать в очередь</p>
 
         <div class="space-y-3 mb-8">
           <button *ngFor="let cat of categories"
@@ -35,12 +35,12 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
         <button (click)="joinQueue()"
                 [disabled]="!selectedCategory() || isLoading()"
                 class="w-full bg-medical-rose-600 text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all">
-          <span *ngIf="!isLoading()" i18n="@@takeNumberButton">TAKE A NUMBER</span>
-          <span *ngIf="isLoading()" i18n="@@processingButton">Processing...</span>
+          <span *ngIf="!isLoading()" i18n="@@takeNumberButton">ВЗЯТЬ ТАЛОН</span>
+          <span *ngIf="isLoading()" i18n="@@processingButton">Обработка...</span>
         </button>
 
         <div *ngIf="ticket()" class="mt-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 animate-fade-in">
-          <p class="text-sm" i18n="@@inQueueMessage">You are in queue!</p>
+          <p class="text-sm" i18n="@@inQueueMessage">Вы в очереди!</p>
           <p class="text-3xl font-bold mt-1">#{{ ticket()?.sequenceNumber }}</p>
         </div>
       </div>
@@ -49,10 +49,10 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
 })
 export class TakeQueueComponent {
   categories = [
-    { value: 'Laser', label: $localize`:@@categoryLaser:Laser` },
-    { value: 'Botox', label: $localize`:@@categoryBotox:Botox` },
-    { value: 'Facials', label: $localize`:@@categoryFacials:Facials` },
-    { value: 'Consultation', label: $localize`:@@categoryConsultation:Consultation` }
+    { value: 'Laser', label: $localize`:@@categoryLaser:Лазер` },
+    { value: 'Botox', label: $localize`:@@categoryBotox:Ботокс` },
+    { value: 'Facials', label: $localize`:@@categoryFacials:Уход за лицом` },
+    { value: 'Consultation', label: $localize`:@@categoryConsultation:Консультация` }
   ];
   selectedCategory = signal<string>('');
   isLoading = signal(false);
@@ -71,7 +71,7 @@ export class TakeQueueComponent {
         this.isLoading.set(false);
       },
       error: () => {
-        alert($localize`:@@joinQueueError:Failed to join queue. Please try again.`);
+        alert($localize`:@@joinQueueError:Не удалось встать в очередь. Попробуйте снова.`);
         this.isLoading.set(false);
       }
     });

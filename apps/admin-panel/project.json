@@ -19,7 +19,7 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/apps/admin-panel",
+        "outputPath": "dist/apps/admin-panel-ru",
         "browser": "apps/admin-panel/src/main.ts",
         "tsConfig": "apps/admin-panel/tsconfig.app.json",
         "assets": [

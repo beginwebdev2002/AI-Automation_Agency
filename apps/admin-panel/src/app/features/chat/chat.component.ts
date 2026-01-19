@@ -18,8 +18,8 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
             <span class="text-2xl">🤖</span>
           </div>
           <div>
-            <h1 class="font-serif text-lg text-gray-900" i18n="@@chatBotName">Dr. Beauty AI</h1>
-            <p class="text-xs text-green-500" i18n="@@chatBotStatus">Online</p>
+            <h1 class="font-serif text-lg text-gray-900" i18n="@@chatBotName">AI Консультант</h1>
+            <p class="text-xs text-green-500" i18n="@@chatBotStatus">В сети</p>
           </div>
         </div>
         <app-language-switcher></app-language-switcher>
@@ -53,7 +53,7 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
         <div class="flex gap-2">
           <input [(ngModel)]="newMessage" 
                  (keyup.enter)="sendMessage()"
-                 placeholder="Ask about treatments..." 
+                 placeholder="Спросите об услугах..." 
                  i18n-placeholder="@@chatInputPlaceholder"
                  class="flex-1 bg-gray-50 border-0 rounded-xl px-4 py-3 focus:ring-2 focus:ring-medical-rose-500 transition-all">
           <button (click)="sendMessage()" 
@@ -68,7 +68,7 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
 })
 export class ChatComponent {
   messages = signal<{ role: 'user' | 'bot', text: string, time: Date }[]>([
-    { role: 'bot', text: $localize`:@@chatWelcomeMessage:Hello! I am your AI assistant. Ask me anything about our treatments.`, time: new Date() }
+    { role: 'bot', text: $localize`:@@chatWelcomeMessage:Здравствуйте! Я ваш AI-ассистент. Спросите меня о наших услугах.`, time: new Date() }
   ]);
   newMessage = '';
   isLoading = signal(false);
@@ -90,7 +90,7 @@ export class ChatComponent {
         this.isLoading.set(false);
       },
       error: () => {
-        this.messages.update(msgs => [...msgs, { role: 'bot', text: $localize`:@@chatErrorMessage:Sorry, I encountered an error.`, time: new Date() }]);
+        this.messages.update(msgs => [...msgs, { role: 'bot', text: $localize`:@@chatErrorMessage:Извините, произошла ошибка.`, time: new Date() }]);
         this.isLoading.set(false);
       }
     });

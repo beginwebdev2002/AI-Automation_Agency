@@ -17,7 +17,7 @@ interface Service {
   template: `
     <div class="p-6 bg-medical-rose-50 min-h-screen">
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-3xl font-serif text-medical-rose-900" i18n="@@calculatorTitle">Treatment Calculator</h2>
+        <h2 class="text-3xl font-serif text-medical-rose-900" i18n="@@calculatorTitle">Калькулятор услуг</h2>
         <app-language-switcher></app-language-switcher>
       </div>
 
@@ -56,11 +56,11 @@ interface Service {
       <!-- Total Widget -->
       <div class="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] rounded-t-3xl">
         <div class="flex justify-between items-center mb-4">
-          <span class="text-gray-500" i18n="@@totalEstimateLabel">Total Estimate</span>
+          <span class="text-gray-500" i18n="@@totalEstimateLabel">Итого</span>
           <span class="text-2xl font-bold text-medical-rose-900">{{ totalPrice() }} <span i18n="@@currencyTJS">TJS</span></span>
         </div>
         <button class="w-full bg-medical-rose-900 text-white py-4 rounded-xl font-medium shadow-lg active:scale-95 transition-transform" i18n="@@bookAppointmentButton">
-          Book Appointment
+          Записаться
         </button>
       </div>
     </div>
@@ -68,19 +68,19 @@ interface Service {
 })
 export class ServiceCalculatorComponent {
   categories = [
-    { value: 'All', label: $localize`:@@categoryAll:All` },
-    { value: 'Laser', label: $localize`:@@categoryLaser:Laser` },
-    { value: 'Botox', label: $localize`:@@categoryBotox:Botox` },
-    { value: 'Facials', label: $localize`:@@categoryFacials:Facials` }
+    { value: 'All', label: $localize`:@@categoryAll:Все` },
+    { value: 'Laser', label: $localize`:@@categoryLaser:Лазер` },
+    { value: 'Botox', label: $localize`:@@categoryBotox:Ботокс` },
+    { value: 'Facials', label: $localize`:@@categoryFacials:Уход за лицом` }
   ];
   selectedCategory = signal<string>('All');
 
   services = signal<Service[]>([
-    { id: '1', name: $localize`:@@serviceFullFaceLaser:Full Face Laser`, category: 'Laser', price: 250 },
-    { id: '2', name: $localize`:@@serviceUnderarmsLaser:Underarms Laser`, category: 'Laser', price: 100 },
-    { id: '3', name: $localize`:@@serviceBotoxForehead:Botox Forehead`, category: 'Botox', price: 1200 },
-    { id: '4', name: $localize`:@@serviceHydraFacial:HydraFacial`, category: 'Facials', price: 400 },
-    { id: '5', name: $localize`:@@serviceLipFiller:Lip Filler`, category: 'Facials', price: 1500 },
+    { id: '1', name: $localize`:@@serviceFullFaceLaser:Лазер всего лица`, category: 'Laser', price: 250 },
+    { id: '2', name: $localize`:@@serviceUnderarmsLaser:Лазер подмышек`, category: 'Laser', price: 100 },
+    { id: '3', name: $localize`:@@serviceBotoxForehead:Ботокс лба`, category: 'Botox', price: 1200 },
+    { id: '4', name: $localize`:@@serviceHydraFacial:Чистка HydraFacial`, category: 'Facials', price: 400 },
+    { id: '5', name: $localize`:@@serviceLipFiller:Увеличение губ`, category: 'Facials', price: 1500 },
   ]);
 
   selectedServices = signal<Set<string>>(new Set());
