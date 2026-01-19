@@ -32,7 +32,7 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
                    }
               </div>
             </button>
-          
+                  }
         </div>
 
         <div *ngIf="errorMessage()" class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200" role="alert">
