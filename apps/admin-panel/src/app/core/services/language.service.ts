@@ -7,9 +7,9 @@ import { DOCUMENT } from '@angular/common';
 export class LanguageService {
     currentLang = signal<string>('ru');
     supportedLanguages = [
-        { code: 'ru', label: 'Русский', flag: '🇷🇺' },
-        { code: 'tj', label: 'Тоҷикӣ', flag: '🇹🇯' },
-        { code: 'en', label: 'English', flag: '🇺🇸' }
+        { code: 'ru', label: 'Русский', flag: '🇷🇺', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/ru/#/' },
+        { code: 'tj', label: 'Тоҷикӣ', flag: '🇹🇯', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/tj/#/' },
+        { code: 'en', label: 'English', flag: '🇺🇸', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/en/#/' }
     ];
 
     constructor(
@@ -22,16 +22,6 @@ export class LanguageService {
     switchLanguage(targetLang: string) {
         if (this.currentLang() === targetLang) return;
 
-        const { pathname, search, hash, origin } = this.document.location;
-        const localeRegex = new RegExp(`/${this.locale}(/|$)`);
-
-        let newPath = pathname;
-        if (localeRegex.test(pathname)) {
-            newPath = pathname.replace(localeRegex, `/${targetLang}$1`);
-        } else {
-            newPath = pathname.endsWith('/') ? `${pathname}${targetLang}/` : `${pathname}/${targetLang}/`;
-        }
-
-        this.document.location.href = `${origin}${newPath}${search}${hash}`;
+        this.document.location.href = `${this.supportedLanguages.find(l => l.code === targetLang)?.href}`;
     }
 }
