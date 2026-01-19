@@ -26,4 +26,7 @@ export class LanguageService {
 
         this.document.location.href = href!;
     }
+    getLanguage() {
+        return this.supportedLanguages.find((lang) => lang.code === this.currentLang());
+    }
 }

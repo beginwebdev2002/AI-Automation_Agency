@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService, Message } from './chat.service';
 import { LanguageSwitcherComponent } from '../../core/components/language-switcher/language-switcher.component';
+import { LanguageService } from '../../core/services/language.service';
 
 declare const Telegram: any;
 
@@ -112,6 +113,8 @@ declare const Telegram: any;
 export class ChatComponent implements AfterViewChecked, OnInit {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
+  private langugaeService = inject(LanguageService);
+
   messages = signal<Message[]>([
     { role: 'bot', text: $localize`:@@chatWelcomeMessage:Здравствуйте! Я ваш персональный консультант клиники AAA Cosmetics. Чем я могу вам помочь сегодня?`, time: new Date() }
   ]);
@@ -147,6 +150,7 @@ export class ChatComponent implements AfterViewChecked, OnInit {
   sendMessage() {
     if (!this.newMessage.trim() || this.isLoading()) return;
     const userData = this.userData();
+    const language = this.langugaeService.getLanguage();
 
     let userMsg = this.newMessage.trim();
 
@@ -166,7 +170,7 @@ export class ChatComponent implements AfterViewChecked, OnInit {
     }
     userMsg = `
       user prompt: ${this.newMessage.trim()}
-
+      language of response must be ${language?.code}
       user Info:${userData ? JSON.stringify(userData) : 'Doesnt have user data'}
     `;
 
