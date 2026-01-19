@@ -20,8 +20,10 @@ export class LanguageService {
     }
 
     switchLanguage(targetLang: string) {
-        if (this.currentLang() === targetLang) return;
+        const href = this.supportedLanguages.find(l => l.code === targetLang)?.href;
+        let documentHref = this.document.location.href;
+        if (href === documentHref) return;
 
-        this.document.location.href = `${this.supportedLanguages.find(l => l.code === targetLang)?.href}`;
+        this.document.location.href = href!;
     }
 }

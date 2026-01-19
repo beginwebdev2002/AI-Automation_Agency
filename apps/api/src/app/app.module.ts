@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { TreatmentsModule } from './treatments/treatments.module';
 import { QueueModule } from './queue/queue.module';
 import { GeminiModule } from './gemini/gemini.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { GeminiModule } from './gemini/gemini.module';
     TreatmentsModule,
     QueueModule,
     GeminiModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

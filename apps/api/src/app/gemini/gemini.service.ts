@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI, Content, GenerativeModel } from '@google/generative-ai';
 import * as mammoth from 'mammoth';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -8,17 +8,35 @@ import * as fs from 'fs';
 @Injectable()
 export class GeminiService implements OnModuleInit {
     private genAI: GoogleGenerativeAI;
-    private model: any;
+    private model: GenerativeModel;
     private context: string = '';
 
     constructor(private configService: ConfigService) {
         const apiKey = this.configService.get<string>('GEMINI_API_KEY') || 'YOUR_API_KEY_HERE';
         this.genAI = new GoogleGenerativeAI(apiKey);
-        this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
     }
 
     async onModuleInit() {
         await this.loadContext();
+        this.model = this.genAI.getGenerativeModel({
+            model: 'gemini-pro',
+            systemInstruction: this.buildSystemPrompt()
+        });
+    }
+
+    private buildSystemPrompt(): string {
+        return `
+        You are a professional consultant for the AAA Cosmetics Clinic in Dushanbe.
+        
+        KNOWLEDGE BASE:
+        ${this.context}
+        
+        INSTRUCTIONS:
+        1. Answer in the user's language (Russian, Tajik, or English).
+        2. ALWAYS provide prices in TJS (Somoni).
+        3. Be polite, professional, and concise.
+        4. If you don't know the answer based on the knowledge base, ask the user to contact the clinic directly.
+        `;
     }
 
     private async loadContext() {
@@ -31,7 +49,7 @@ export class GeminiService implements OnModuleInit {
                 console.log('Loaded chatbot context from docx');
             } else {
                 console.warn('chat-bot.docx not found at', docPath);
-                this.context = 'You are a helpful assistant for AAA Cosmetics clinic.';
+                this.context = 'AAA Cosmetics Clinic services and information.';
             }
         } catch (error) {
             console.error('Error loading chatbot context:', error);
@@ -39,21 +57,26 @@ export class GeminiService implements OnModuleInit {
     }
 
     async chat(message: string): Promise<string> {
-        const prompt = `
-      Context: ${this.context}
-      
-      User Question: ${message}
-      
-      Answer as a helpful assistant for the clinic. Keep answers concise and professional.
-    `;
+        // Legacy method, keeping for backward compatibility if needed, but using new logic
+        return this.chatWithHistory([{ role: 'user', parts: [{ text: message }] }]);
+    }
 
+    async chatWithHistory(history: Content[]): Promise<string> {
         try {
-            const result = await this.model.generateContent(prompt);
+            // The last message is the new user message, the rest is history
+            const lastMsg = history[history.length - 1];
+            const previousHistory = history.slice(0, -1);
+
+            const chat = this.model.startChat({
+                history: previousHistory,
+            });
+
+            const result = await chat.sendMessage(lastMsg.parts[0].text);
             const response = await result.response;
             return response.text();
         } catch (error) {
             console.error('Gemini API Error:', error);
-            return 'Sorry, I am having trouble answering that right now.';
+            return 'Извините, в данный момент я не могу ответить. Пожалуйста, попробуйте позже.';
         }
     }
 }
