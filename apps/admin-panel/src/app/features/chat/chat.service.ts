@@ -19,6 +19,8 @@ export class ChatService {
 
     sendMessage(message: string, chatId: string = 'guest'): Observable<{ response: string }> {
         const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/chat/message';
+        console.log('api_url', apiUrl);
+
 
         let headers = new HttpHeaders();
         if (typeof Telegram !== 'undefined' && Telegram.WebApp && Telegram.WebApp.initData) {

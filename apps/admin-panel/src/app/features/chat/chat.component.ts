@@ -53,8 +53,7 @@ declare const Telegram: any;
             
             <div *ngIf="msg.role === 'bot'" class="absolute -left-2 top-0 w-2 h-2 bg-white border-t border-l border-rose-100 [clip-path:polygon(100%_0,0_0,100%_100%)]"></div>
             <div *ngIf="msg.role === 'user'" class="absolute -right-2 top-0 w-2 h-2 bg-rose-500 [clip-path:polygon(0_0,100%_0,0_100%)]"></div>
-
-            {{ msg.text }}
+            <p [innerHTML]="msg.text"></p>
           </div>
           <span class="text-[10px] text-gray-400 mt-1.5 px-1 font-medium select-none">
             {{ msg.time | date:'HH:mm' }}
