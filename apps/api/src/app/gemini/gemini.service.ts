@@ -19,7 +19,9 @@ export class GeminiService implements OnModuleInit {
 
     async onModuleInit() {
         await this.loadContext();
-        this.model = this.genAI.getGenerativeModel({
+        console.log('✅ База знаний успешно загружена из OneDrive');
+        
+        this.model = await this.genAI.getGenerativeModel({
             model: 'gemini-2.5-flash',
             systemInstruction: this.buildSystemPrompt()
         });
@@ -58,7 +60,6 @@ private async loadContext() {
   try {
     const docPath = path.join(__dirname, 'assets', 'chat-bot.docx');
     const result = await mammoth.extractRawText({ path: docPath });
-    console.log('result: ', result);
     
     this.context = result.value;
     console.log('✅ База знаний успешно загружена из OneDrive');
@@ -70,7 +71,7 @@ private async loadContext() {
 }
 
     async chat(message: string): Promise<string> {
-        return this.chatWithHistory([{ role: 'user', parts: [{ text: message }] }]);
+        return await this.chatWithHistory([{ role: 'user', parts: [{ text: message }] }]);
     }
 
     async chatWithHistory(history: Content[]): Promise<string> {
