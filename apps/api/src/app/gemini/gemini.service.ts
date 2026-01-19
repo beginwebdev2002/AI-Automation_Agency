@@ -55,39 +55,26 @@ export class GeminiService implements OnModuleInit {
 
 
 private async loadContext() {
-  // Замените на вашу прямую ссылку из Шага 1
-  const oneDriveUrl = 'https://onedrive.live.com/personal/4c7b7a7050a7b69c/_layouts/15/download.aspx?UniqueId=708fffd2%2Db8be%2D4b09%2Dbea5%2D66b2284a4211';
-
   try {
-    // 1. Скачиваем файл как массив байтов (arraybuffer)
-    // const response = await axios.get(oneDriveUrl, { responseType: 'arraybuffer' });
-    // const buffer = Buffer.from(response.data);
-    const docPath = path.join(process.cwd(), 'chat-bot.docx');
+    const docPath = path.join(__dirname, 'assets', 'chat-bot.docx');
     const result = await mammoth.extractRawText({ path: docPath });
     console.log('result: ', result);
-    
-
-    // 2. mammoth умеет работать с буфером вместо пути к файлу
-    // const result = await mammoth.extractRawText({ buffer: buffer });
     
     this.context = result.value;
     console.log('✅ База знаний успешно загружена из OneDrive');
 
   } catch (error) {
     console.error('❌ Ошибка загрузки контекста из OneDrive:', error.message);
-    // Фолбэк (запасной вариант) на случай проблем с сетью
     this.context = 'AAA Cosmetics Clinic services and information.';
   }
 }
 
     async chat(message: string): Promise<string> {
-        // Legacy method, keeping for backward compatibility if needed, but using new logic
         return this.chatWithHistory([{ role: 'user', parts: [{ text: message }] }]);
     }
 
     async chatWithHistory(history: Content[]): Promise<string> {
         try {
-            // Prepend system instruction to history for gemini-pro compatibility
             const systemPrompt = this.buildSystemPrompt();
             const historyWithSystem = [
                 { role: 'user', parts: [{ text: systemPrompt }] },
