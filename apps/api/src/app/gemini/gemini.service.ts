@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GoogleGenerativeAI, Content, GenerativeModel } from '@google/generative-ai';
+import axios from 'axios';
 import * as mammoth from 'mammoth';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -36,7 +37,8 @@ export class GeminiService implements OnModuleInit {
         2. ALWAYS provide prices in TJS (Somoni).
         3. Be polite, professional, and concise.
         4. If you don't know the answer based on the knowledge base, ask the user to contact the clinic directly.
-        5. FORMATTING RULES:
+        5. Answer the questions depends on User Personal Information.
+        6. FORMATTING RULES:
             - Use HTML for all responses.
             - Set style for every tag with inline styles (do not use CSS classes, do not use external CSS files). 
             - Approved inline styles: margin(min: 5px, max: 20px), background-color, color, font-weight, font-family.
@@ -51,22 +53,28 @@ export class GeminiService implements OnModuleInit {
         `;
     }
 
-    private async loadContext() {
-        try {
-            // Look for chat-bot.docx in the root or project specific paths
-            const docPath = path.join(process.cwd(), 'chat-bot.docx');
-            if (fs.existsSync(docPath)) {
-                const result = await mammoth.extractRawText({ path: docPath });
-                this.context = result.value;
-                console.log('Loaded chatbot context from docx');
-            } else {
-                console.warn('chat-bot.docx not found at', docPath);
-                this.context = 'AAA Cosmetics Clinic services and information.';
-            }
-        } catch (error) {
-            console.error('Error loading chatbot context:', error);
-        }
-    }
+
+private async loadContext() {
+  // Замените на вашу прямую ссылку из Шага 1
+  const oneDriveUrl = 'https://onedrive.live.com/personal/4c7b7a7050a7b69c/_layouts/15/download.aspx?UniqueId=708fffd2%2Db8be%2D4b09%2Dbea5%2D66b2284a4211';
+
+  try {
+    // 1. Скачиваем файл как массив байтов (arraybuffer)
+    const response = await axios.get(oneDriveUrl, { responseType: 'arraybuffer' });
+    const buffer = Buffer.from(response.data);
+
+    // 2. mammoth умеет работать с буфером вместо пути к файлу
+    const result = await mammoth.extractRawText({ buffer: buffer });
+    
+    this.context = result.value;
+    console.log('✅ База знаний успешно загружена из OneDrive');
+
+  } catch (error) {
+    console.error('❌ Ошибка загрузки контекста из OneDrive:', error.message);
+    // Фолбэк (запасной вариант) на случай проблем с сетью
+    this.context = 'AAA Cosmetics Clinic services and information.';
+  }
+}
 
     async chat(message: string): Promise<string> {
         // Legacy method, keeping for backward compatibility if needed, but using new logic
