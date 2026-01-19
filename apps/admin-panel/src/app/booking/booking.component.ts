@@ -20,43 +20,50 @@ interface Service {
 
       <!-- Category Filter -->
       <div class="flex gap-2 overflow-x-auto mb-6 pb-2">
-        <button 
-          *ngFor="let cat of categories"
-          (click)="selectedCategory.set(cat)"
-          [class.bg-rose-600]="selectedCategory() === cat"
-          [class.text-white]="selectedCategory() === cat"
-          [class.bg-white]="selectedCategory() !== cat"
-          [class.text-gray-700]="selectedCategory() !== cat"
-          class="px-4 py-2 rounded-full shadow-sm whitespace-nowrap transition-colors"
-        >
-          {{ cat }}
-        </button>
+        @for (cat of categories; track cat) {
+          <button 
+            (click)="selectedCategory.set(cat)"
+            [class.bg-rose-600]="selectedCategory() === cat"
+            [class.text-white]="selectedCategory() === cat"
+            [class.bg-white]="selectedCategory() !== cat"
+            [class.text-gray-700]="selectedCategory() !== cat"
+            class="px-4 py-2 rounded-full shadow-sm whitespace-nowrap transition-colors"
+          >
+            {{ cat }}
+          </button>
+        }
       </div>
 
       <!-- Service List -->
       <div class="space-y-3">
-        <div *ngFor="let service of filteredServices()" 
-             (click)="toggleService(service)"
-             [class.border-rose-500]="isSelected(service)"
-             class="bg-white p-4 rounded-xl shadow-sm border-2 border-transparent transition-all cursor-pointer flex justify-between items-center">
-          <div>
-            <h3 class="font-semibold text-gray-800">{{ service.name }}</h3>
-            <p class="text-rose-600 font-medium">{{ service.price }} TJS</p>
+        @for (service of filteredServices(); track service.id) {
+          <div 
+               (click)="toggleService(service)"
+               [class.border-rose-500]="isSelected(service)"
+               class="bg-white p-4 rounded-xl shadow-sm border-2 border-transparent transition-all cursor-pointer flex justify-between items-center">
+            <div>
+              <h3 class="font-semibold text-gray-800">{{ service.name }}</h3>
+              <p class="text-rose-600 font-medium">{{ service.price }} TJS</p>
+            </div>
+            @if (isSelected(service)) {
+              <div class="text-rose-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              </div>
+            }
           </div>
-          <div *ngIf="isSelected(service)" class="text-rose-600">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-        </div>
+        }
       </div>
 
       <!-- Floating Action Button -->
-      <div *ngIf="cart().length > 0" class="fixed bottom-4 left-4 right-4">
-        <button (click)="confirmBooking()" 
-                class="w-full bg-rose-600 text-white py-4 rounded-xl font-bold shadow-lg flex justify-between px-6 items-center">
-          <span i18n>Подтвердить запись</span>
-          <span>{{ totalPrice() }} TJS</span>
-        </button>
-      </div>
+      @if (cart().length > 0) {
+        <div class="fixed bottom-4 left-4 right-4">
+          <button (click)="confirmBooking()" 
+                  class="w-full bg-rose-600 text-white py-4 rounded-xl font-bold shadow-lg flex justify-between px-6 items-center">
+            <span i18n>Подтвердить запись</span>
+            <span>{{ totalPrice() }} TJS</span>
+          </button>
+        </div>
+      }
     </div>
   `
 })

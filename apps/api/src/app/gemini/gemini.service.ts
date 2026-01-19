@@ -19,7 +19,7 @@ export class GeminiService implements OnModuleInit {
     async onModuleInit() {
         await this.loadContext();
         this.model = this.genAI.getGenerativeModel({
-            model: 'gemini-pro',
+            model: 'gemini-2.5-flash',
             systemInstruction: this.buildSystemPrompt()
         });
     }
@@ -36,6 +36,18 @@ export class GeminiService implements OnModuleInit {
         2. ALWAYS provide prices in TJS (Somoni).
         3. Be polite, professional, and concise.
         4. If you don't know the answer based on the knowledge base, ask the user to contact the clinic directly.
+        5. FORMATTING RULES:
+            - Use HTML for all responses.
+            - Set style for every tag with inline styles (do not use CSS classes, do not use external CSS files). 
+            - Approved inline styles: margin(min: 5px, max: 20px), background-color, color, font-weight, font-family.
+            - Use <strong>bold text</strong> for prices and service names.
+            - Use <table> for tables of services or preparation steps.
+            - Use <img> for images of services or preparation steps. max width/height 200px
+            - Use <ul><li>bullet points</li></ul> for lists of services or preparation steps. set margin between bullet points 10px
+            - Use <h3>Headings</h3> to separate different topics.
+            - Keep <p>paragraphs short (maximum 2-3 sentences)</p>
+            - Use <hr> horizontal rules to separate sections if the answer is long.
+        
         `;
     }
 
@@ -63,19 +75,28 @@ export class GeminiService implements OnModuleInit {
 
     async chatWithHistory(history: Content[]): Promise<string> {
         try {
-            // The last message is the new user message, the rest is history
+            // Prepend system instruction to history for gemini-pro compatibility
+            const systemPrompt = this.buildSystemPrompt();
+            const historyWithSystem = [
+                { role: 'user', parts: [{ text: systemPrompt }] },
+                { role: 'model', parts: [{ text: 'Understood. I am ready to act as the AAA Cosmetics consultant.' }] },
+                ...history.slice(0, -1) // Previous history
+            ];
+
             const lastMsg = history[history.length - 1];
-            const previousHistory = history.slice(0, -1);
 
             const chat = this.model.startChat({
-                history: previousHistory,
+                history: historyWithSystem,
             });
 
             const result = await chat.sendMessage(lastMsg.parts[0].text);
             const response = await result.response;
             return response.text();
         } catch (error) {
-            console.error('Gemini API Error:', error);
+            console.error('Gemini API Error:', JSON.stringify(error, null, 2));
+            if (error instanceof Error) {
+                console.error('Error message:', error.message);
+            }
             return 'Извините, в данный момент я не могу ответить. Пожалуйста, попробуйте позже.';
         }
     }

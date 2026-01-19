@@ -10,17 +10,23 @@ import { AppModule } from './app/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = process.env.PORT || 3000;
-  app.setGlobalPrefix('api');
+  // app.setGlobalPrefix('api');
+  // app.enableCors({
+  //   // Разрешаем запросы только с твоего фронтенда на GitHub Pages
+  //   origin: [
+  //     'https://beginwebdev2002.github.io/',
+  //     /\.github\.io$/,
+  //     'http://localhost:4200' // Твой купленный домен
+  //   ],
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //   allowedHeaders: 'Content-Type, Accept, Authorization, x-telegram-init-data',
+  //   credentials: true,
+  // });
   app.enableCors({
-    // Разрешаем запросы только с твоего фронтенда на GitHub Pages
-    origin: [
-      'https://beginwebdev2002.github.io/',
-      /\.github\.io$/,
-      'http://localhost:4200' // Твой купленный домен
-    ],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Accept, Authorization, x-telegram-init-data',
+    origin: true, // Разрешает запросы с любого источника (GitHub, Localhost)
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
+    allowedHeaders: '*', // Принимает любые заголовки, включая Telegram Init Data
   });
   await app.listen(port);
   Logger.log(
