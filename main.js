@@ -33,7 +33,7 @@ const users_module_1 = __webpack_require__(16);
 const treatments_module_1 = __webpack_require__(29);
 const queue_module_1 = __webpack_require__(33);
 const gemini_module_1 = __webpack_require__(39);
-const chat_module_1 = __webpack_require__(46);
+const chat_module_1 = __webpack_require__(45);
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -559,8 +559,13 @@ let BookingService = class BookingService {
         const createdAppointment = new this.appointmentModel(createAppointmentDto);
         return createdAppointment.save();
     }
-    async findAllAppointments() {
-        return this.appointmentModel.find().populate('user', 'email role').populate('venue', 'name address').exec();
+    async findAllAppointments(page = 1, limit = 10) {
+        const MAX_LIMIT = 100;
+        if (limit > MAX_LIMIT) {
+            limit = MAX_LIMIT;
+        }
+        const skip = (page - 1) * limit;
+        return this.appointmentModel.find().populate('user', 'email role').populate('venue', 'name address').skip(skip).limit(limit).exec();
     }
 };
 exports.BookingService = BookingService;
@@ -598,8 +603,8 @@ let BookingController = class BookingController {
     createAppointment(createAppointmentDto) {
         return this.bookingService.createAppointment(createAppointmentDto);
     }
-    findAllAppointments() {
-        return this.bookingService.findAllAppointments();
+    findAllAppointments(page, limit) {
+        return this.bookingService.findAllAppointments(page, limit);
     }
 };
 exports.BookingController = BookingController;
@@ -631,8 +636,10 @@ tslib_1.__decorate([
 ], BookingController.prototype, "createAppointment", null);
 tslib_1.__decorate([
     (0, common_1.Get)('appointments'),
+    tslib_1.__param(0, (0, common_1.Query)('page', new common_1.DefaultValuePipe(1), common_1.ParseIntPipe)),
+    tslib_1.__param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:paramtypes", [Number, Number]),
     tslib_1.__metadata("design:returntype", void 0)
 ], BookingController.prototype, "findAllAppointments", null);
 exports.BookingController = BookingController = tslib_1.__decorate([
@@ -1215,9 +1222,8 @@ const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const config_1 = __webpack_require__(5);
 const generative_ai_1 = __webpack_require__(42);
-const mammoth = tslib_1.__importStar(__webpack_require__(43));
-const path = tslib_1.__importStar(__webpack_require__(44));
-const fs = tslib_1.__importStar(__webpack_require__(45));
+const axios_1 = tslib_1.__importDefault(__webpack_require__(43));
+const mammoth = tslib_1.__importStar(__webpack_require__(44));
 let GeminiService = class GeminiService {
     constructor(configService) {
         this.configService = configService;
@@ -1244,7 +1250,8 @@ let GeminiService = class GeminiService {
         2. ALWAYS provide prices in TJS (Somoni).
         3. Be polite, professional, and concise.
         4. If you don't know the answer based on the knowledge base, ask the user to contact the clinic directly.
-        5. FORMATTING RULES:
+        5. Answer the questions depends on User Personal Information.
+        6. FORMATTING RULES:
             - Use HTML for all responses.
             - Set style for every tag with inline styles (do not use CSS classes, do not use external CSS files). 
             - Approved inline styles: margin(min: 5px, max: 20px), background-color, color, font-weight, font-family.
@@ -1259,21 +1266,21 @@ let GeminiService = class GeminiService {
         `;
     }
     async loadContext() {
+        // Замените на вашу прямую ссылку из Шага 1
+        const oneDriveUrl = 'https://onedrive.live.com/personal/4c7b7a7050a7b69c/_layouts/15/download.aspx?UniqueId=708fffd2%2Db8be%2D4b09%2Dbea5%2D66b2284a4211';
         try {
-            // Look for chat-bot.docx in the root or project specific paths
-            const docPath = path.join(process.cwd(), 'chat-bot.docx');
-            if (fs.existsSync(docPath)) {
-                const result = await mammoth.extractRawText({ path: docPath });
-                this.context = result.value;
-                console.log('Loaded chatbot context from docx');
-            }
-            else {
-                console.warn('chat-bot.docx not found at', docPath);
-                this.context = 'AAA Cosmetics Clinic services and information.';
-            }
+            // 1. Скачиваем файл как массив байтов (arraybuffer)
+            const response = await axios_1.default.get(oneDriveUrl, { responseType: 'arraybuffer' });
+            const buffer = Buffer.from(response.data);
+            // 2. mammoth умеет работать с буфером вместо пути к файлу
+            const result = await mammoth.extractRawText({ buffer: buffer });
+            this.context = result.value;
+            console.log('✅ База знаний успешно загружена из OneDrive');
         }
         catch (error) {
-            console.error('Error loading chatbot context:', error);
+            console.error('❌ Ошибка загрузки контекста из OneDrive:', error.message);
+            // Фолбэк (запасной вариант) на случай проблем с сетью
+            this.context = 'AAA Cosmetics Clinic services and information.';
         }
     }
     async chat(message) {
@@ -1323,22 +1330,16 @@ module.exports = require("@google/generative-ai");
 /* 43 */
 /***/ ((module) => {
 
-module.exports = require("mammoth");
+module.exports = require("axios");
 
 /***/ }),
 /* 44 */
 /***/ ((module) => {
 
-module.exports = require("path");
+module.exports = require("mammoth");
 
 /***/ }),
 /* 45 */
-/***/ ((module) => {
-
-module.exports = require("fs");
-
-/***/ }),
-/* 46 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1347,9 +1348,9 @@ exports.ChatModule = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
-const chat_controller_1 = __webpack_require__(47);
-const chat_service_1 = __webpack_require__(48);
-const chat_schema_1 = __webpack_require__(49);
+const chat_controller_1 = __webpack_require__(46);
+const chat_service_1 = __webpack_require__(47);
+const chat_schema_1 = __webpack_require__(48);
 const gemini_module_1 = __webpack_require__(39);
 const config_1 = __webpack_require__(5);
 let ChatModule = class ChatModule {
@@ -1370,7 +1371,7 @@ exports.ChatModule = ChatModule = tslib_1.__decorate([
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1379,7 +1380,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ChatController = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
-const chat_service_1 = __webpack_require__(48);
+const chat_service_1 = __webpack_require__(47);
 let ChatController = class ChatController {
     constructor(chatService) {
         this.chatService = chatService;
@@ -1410,7 +1411,7 @@ exports.ChatController = ChatController = tslib_1.__decorate([
 
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1422,7 +1423,7 @@ const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
 const mongoose_2 = __webpack_require__(12);
-const chat_schema_1 = __webpack_require__(49);
+const chat_schema_1 = __webpack_require__(48);
 const gemini_service_1 = __webpack_require__(41);
 let ChatService = ChatService_1 = class ChatService {
     constructor(chatModel, geminiService) {
@@ -1465,7 +1466,7 @@ exports.ChatService = ChatService = ChatService_1 = tslib_1.__decorate([
 
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
