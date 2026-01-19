@@ -27,7 +27,10 @@ export class BookingController {
     }
 
     @Get('appointments')
-    findAllAppointments() {
-        return this.bookingService.findAllAppointments();
+    findAllAppointments(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number
+    ) {
+        return this.bookingService.findAllAppointments(page, limit);
     }
 }
