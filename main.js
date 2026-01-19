@@ -1161,6 +1161,7 @@ exports.GeminiModule = GeminiModule = tslib_1.__decorate([
         imports: [config_1.ConfigModule],
         controllers: [gemini_controller_1.GeminiController],
         providers: [gemini_service_1.GeminiService],
+        exports: [gemini_service_1.GeminiService],
     })
 ], GeminiModule);
 
@@ -1227,7 +1228,7 @@ let GeminiService = class GeminiService {
     async onModuleInit() {
         await this.loadContext();
         this.model = this.genAI.getGenerativeModel({
-            model: 'gemini-pro',
+            model: 'gemini-2.5-flash',
             systemInstruction: this.buildSystemPrompt()
         });
     }
@@ -1243,6 +1244,18 @@ let GeminiService = class GeminiService {
         2. ALWAYS provide prices in TJS (Somoni).
         3. Be polite, professional, and concise.
         4. If you don't know the answer based on the knowledge base, ask the user to contact the clinic directly.
+        5. FORMATTING RULES:
+            - Use HTML for all responses.
+            - Set style for every tag with inline styles (do not use CSS classes, do not use external CSS files). 
+            - Approved inline styles: margin(min: 5px, max: 20px), background-color, color, font-weight, font-family.
+            - Use <strong>bold text</strong> for prices and service names.
+            - Use <table> for tables of services or preparation steps.
+            - Use <img> for images of services or preparation steps. max width/height 200px
+            - Use <ul><li>bullet points</li></ul> for lists of services or preparation steps. set margin between bullet points 10px
+            - Use <h3>Headings</h3> to separate different topics.
+            - Keep <p>paragraphs short (maximum 2-3 sentences)</p>
+            - Use <hr> horizontal rules to separate sections if the answer is long.
+        
         `;
     }
     async loadContext() {
@@ -1269,18 +1282,26 @@ let GeminiService = class GeminiService {
     }
     async chatWithHistory(history) {
         try {
-            // The last message is the new user message, the rest is history
+            // Prepend system instruction to history for gemini-pro compatibility
+            const systemPrompt = this.buildSystemPrompt();
+            const historyWithSystem = [
+                { role: 'user', parts: [{ text: systemPrompt }] },
+                { role: 'model', parts: [{ text: 'Understood. I am ready to act as the AAA Cosmetics consultant.' }] },
+                ...history.slice(0, -1) // Previous history
+            ];
             const lastMsg = history[history.length - 1];
-            const previousHistory = history.slice(0, -1);
             const chat = this.model.startChat({
-                history: previousHistory,
+                history: historyWithSystem,
             });
             const result = await chat.sendMessage(lastMsg.parts[0].text);
             const response = await result.response;
             return response.text();
         }
         catch (error) {
-            console.error('Gemini API Error:', error);
+            console.error('Gemini API Error:', JSON.stringify(error, null, 2));
+            if (error instanceof Error) {
+                console.error('Error message:', error.message);
+            }
             return 'Извините, в данный момент я не могу ответить. Пожалуйста, попробуйте позже.';
         }
     }
@@ -1359,16 +1380,13 @@ exports.ChatController = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const chat_service_1 = __webpack_require__(48);
-const telegram_auth_guard_1 = __webpack_require__(37);
 let ChatController = class ChatController {
     constructor(chatService) {
         this.chatService = chatService;
     }
+    // @UseGuards(TelegramAuthGuard)
     async sendMessage(body, req) {
-        // We can use chatId from body or from the validated user in req.user
-        // For TWA, the initData contains the user info.
-        // Let's prefer the one from the validated token if available, or body if it's a generic endpoint.
-        // But the requirement says "Receives { message: string, chatId: string }".
+        console.log('Hello!', body);
         return {
             response: await this.chatService.handleMessage(body.chatId, body.message)
         };
@@ -1376,8 +1394,9 @@ let ChatController = class ChatController {
 };
 exports.ChatController = ChatController;
 tslib_1.__decorate([
-    (0, common_1.Post)('message'),
-    (0, common_1.UseGuards)(telegram_auth_guard_1.TelegramAuthGuard),
+    (0, common_1.Post)('message')
+    // @UseGuards(TelegramAuthGuard)
+    ,
     tslib_1.__param(0, (0, common_1.Body)()),
     tslib_1.__param(1, (0, common_1.Req)()),
     tslib_1.__metadata("design:type", Function),
@@ -1535,17 +1554,23 @@ const app_module_1 = __webpack_require__(3);
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const port = process.env.PORT || 3000;
-    app.setGlobalPrefix('api');
+    // app.setGlobalPrefix('api');
+    // app.enableCors({
+    //   // Разрешаем запросы только с твоего фронтенда на GitHub Pages
+    //   origin: [
+    //     'https://beginwebdev2002.github.io/',
+    //     /\.github\.io$/,
+    //     'http://localhost:4200' // Твой купленный домен
+    //   ],
+    //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    //   allowedHeaders: 'Content-Type, Accept, Authorization, x-telegram-init-data',
+    //   credentials: true,
+    // });
     app.enableCors({
-        // Разрешаем запросы только с твоего фронтенда на GitHub Pages
-        origin: [
-            'https://beginwebdev2002.github.io/',
-            /\.github\.io$/,
-            'http://localhost:4200' // Твой купленный домен
-        ],
-        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        allowedHeaders: 'Content-Type, Accept, Authorization, x-telegram-init-data',
+        origin: true, // Разрешает запросы с любого источника (GitHub, Localhost)
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,
+        allowedHeaders: '*', // Принимает любые заголовки, включая Telegram Init Data
     });
     await app.listen(port);
     common_1.Logger.log(`🚀 Application is running on: http://localhost:${port}`);
