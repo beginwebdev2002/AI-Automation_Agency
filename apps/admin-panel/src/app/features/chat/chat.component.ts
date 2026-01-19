@@ -169,7 +169,7 @@ export class ChatComponent implements AfterViewChecked, OnInit {
       chatId = Telegram.WebApp.initDataUnsafe.user.id.toString();
     }
     userMsg = `
-      user prompt: ${this.newMessage.trim()}
+      user prompt: ${userMsg}
       language of response must be ${language?.code}
       user Info:${userData ? JSON.stringify(userData) : 'Doesnt have user data'}
     `;
