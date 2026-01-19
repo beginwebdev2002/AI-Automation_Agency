@@ -18,31 +18,41 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
         <p class="text-gray-500 mb-8" i18n="@@selectServicePrompt">Пожалуйста, выберите услугу, чтобы встать в очередь</p>
 
         <div class="space-y-3 mb-8">
-          <button *ngFor="let cat of categories"
-                  (click)="selectedCategory.set(cat.value)"
-                  [class.ring-2]="selectedCategory() === cat.value"
-                  [class.ring-medical-rose-500]="selectedCategory() === cat.value"
-                  class="w-full p-4 rounded-xl bg-gray-50 hover:bg-medical-rose-50 transition-all text-left flex justify-between items-center group">
-            <span class="font-medium text-gray-700 group-hover:text-medical-rose-700">{{ cat.label }}</span>
-            <div [class.bg-medical-rose-500]="selectedCategory() === cat.value"
-                 [class.border-gray-300]="selectedCategory() !== cat.value"
-                 class="w-5 h-5 rounded-full border-2 flex items-center justify-center">
-                 <div *ngIf="selectedCategory() === cat.value" class="w-2 h-2 bg-white rounded-full"></div>
-            </div>
-          </button>
+          @for (cat of categories; track cat.value) {
+            <button 
+                    (click)="selectedCategory.set(cat.value)"
+                    [class.ring-2]="selectedCategory() === cat.value"
+                    [class.ring-medical-rose-500]="selectedCategory() === cat.value"
+                    class="w-full p-4 rounded-xl bg-gray-50 hover:bg-medical-rose-50 transition-all text-left flex justify-between items-center group">
+              <span class="font-medium text-gray-700 group-hover:text-medical-rose-700">{{ cat.label }}</span>
+              <div [class.bg-medical-rose-500]="selectedCategory() === cat.value"
+                   [class.border-gray-300]="selectedCategory() !== cat.value"
+                   class="w-5 h-5 rounded-full border-2 flex items-center justify-center">
+                   @if (selectedCategory() === cat.value) {
+                     <div class="w-2 h-2 bg-white rounded-full"></div>
+                   }
+              </div>
+            </button>
+          }
         </div>
 
         <button (click)="joinQueue()"
                 [disabled]="!selectedCategory() || isLoading()"
                 class="w-full bg-medical-rose-600 text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all">
-          <span *ngIf="!isLoading()" i18n="@@takeNumberButton">ВЗЯТЬ ТАЛОН</span>
-          <span *ngIf="isLoading()" i18n="@@processingButton">Обработка...</span>
+          @if (!isLoading()) {
+            <span i18n="@@takeNumberButton">ВЗЯТЬ ТАЛОН</span>
+          }
+          @if (isLoading()) {
+            <span i18n="@@processingButton">Обработка...</span>
+          }
         </button>
 
-        <div *ngIf="ticket()" class="mt-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 animate-fade-in">
-          <p class="text-sm" i18n="@@inQueueMessage">Вы в очереди!</p>
-          <p class="text-3xl font-bold mt-1">#{{ ticket()?.sequenceNumber }}</p>
-        </div>
+        @if (ticket()) {
+          <div class="mt-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 animate-fade-in">
+            <p class="text-sm" i18n="@@inQueueMessage">Вы в очереди!</p>
+            <p class="text-3xl font-bold mt-1">#{{ ticket()?.sequenceNumber }}</p>
+          </div>
+        }
       </div>
     </div>
   `

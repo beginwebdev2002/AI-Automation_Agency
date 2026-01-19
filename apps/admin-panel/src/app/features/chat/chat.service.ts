@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../core/config/config.service';
 import { Observable } from 'rxjs';
@@ -15,9 +15,10 @@ export interface Message {
     providedIn: 'root'
 })
 export class ChatService {
-    constructor(private http: HttpClient, private configService: ConfigService) { }
+    private http = inject(HttpClient)
+    private configService = inject(ConfigService)
 
-    sendMessage(message: string, chatId: string = 'guest'): Observable<{ response: string }> {
+    sendMessage(message: string, chatId = 'guest'): Observable<{ response: string }> {
         const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/chat/message';
         console.log('api_url', apiUrl);
 
