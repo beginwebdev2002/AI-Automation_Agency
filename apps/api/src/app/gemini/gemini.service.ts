@@ -56,15 +56,19 @@ export class GeminiService implements OnModuleInit {
 
 private async loadContext() {
   // Замените на вашу прямую ссылку из Шага 1
-  const oneDriveUrl = 'https://my.microsoftpersonalcontent.com/personal/4c7b7a7050a7b69c/_layouts/15/download.aspx?UniqueId=ed9b35d3-e280-4f4f-830e-a0b92e21bb0e&Translate=false&tempauth=v1e.eyJzaXRlaWQiOiJmYzhkNDkzYi01ODFjLTQ0ZWEtODNkYS1iMTYyOTgyOTI3ZTciLCJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbXkubWljcm9zb2Z0cGVyc29uYWxjb250ZW50LmNvbUA5MTg4MDQwZC02YzY3LTRjNWItYjExMi0zNmEzMDRiNjZkYWQiLCJleHAiOiIxNzY4ODYxNDUyIn0.BrylBiQ-rtpz2AmBJhOh0qyd8A9tpYcUkLX0P6ddiiMuDRZiATVAVFCqJmOQUy8LYfy6BMSafmaBBjKPceL7EVJ-zQFO-fMoN1O9TfYwsz5QWcVauSMGmEtTm9HjrfRi39vq6dWueSzSHXMd4eIMwlaZM8raLbSM35wJpp0eooipKz-XyECF_DQnQcG8AWNyu5oIfCb4kDg94usZCMzlNMIgo_maF5vwsd66s-6Sd1R58Ytv60bGeYoAzbnqiDCVsXCpb74n3ZDfTGdFFf5ooDuDpL2mjwgV05KdCKWNOVeZ-qLqQz4e_P54-wg8VEdhUOKP5lY8kOFm6K6xCv1PxKVQCiCcEpbAKYS6uFJ-pVJDbRQAEbfU2NjOJe_lp4xiD0cZYeA9e22kuSopB9TfLjpyNdNE-YQXspIozU-5sXs5M86cbwjXbOoA81P6w9BQ10f-yZZmdtBCG3FLzm8mjRjg_bamnrP8mIySWfWmp0Sm_umrGT8SN4guiICJITcvkxa-ulASjRHYJ6UfaTtfxA.t7bP0CfHeW_zZqWWgHtpUhNX3hxQJ10MdX8dNvRZjC0&ApiVersion=2.0';
+  const oneDriveUrl = 'https://onedrive.live.com/personal/4c7b7a7050a7b69c/_layouts/15/download.aspx?UniqueId=708fffd2%2Db8be%2D4b09%2Dbea5%2D66b2284a4211';
 
   try {
     // 1. Скачиваем файл как массив байтов (arraybuffer)
-    const response = await axios.get(oneDriveUrl, { responseType: 'arraybuffer' });
-    const buffer = Buffer.from(response.data);
+    // const response = await axios.get(oneDriveUrl, { responseType: 'arraybuffer' });
+    // const buffer = Buffer.from(response.data);
+    const docPath = path.join(process.cwd(), 'chat-bot.docx');
+    const result = await mammoth.extractRawText({ path: docPath });
+    console.log('result: ', result);
+    
 
     // 2. mammoth умеет работать с буфером вместо пути к файлу
-    const result = await mammoth.extractRawText({ buffer: buffer });
+    // const result = await mammoth.extractRawText({ buffer: buffer });
     
     this.context = result.value;
     console.log('✅ База знаний успешно загружена из OneDrive');
