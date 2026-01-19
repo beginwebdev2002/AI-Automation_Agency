@@ -17,11 +17,14 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
         <h2 class="text-2xl font-serif text-medical-rose-900 mb-2" i18n="@@welcomeTitle">Добро пожаловать в AAA Cosmetics</h2>
         <p class="text-gray-500 mb-8" i18n="@@selectServicePrompt">Пожалуйста, выберите услугу, чтобы встать в очередь</p>
 
-        <div class="space-y-3 mb-8">
+        <div class="space-y-3 mb-8" role="radiogroup" aria-labelledby="service-label">
+          <h3 id="service-label" class="sr-only" i18n="@@selectServiceLabel">Выберите услугу</h3>
           <button *ngFor="let cat of categories"
                   (click)="selectedCategory.set(cat.value)"
                   [class.ring-2]="selectedCategory() === cat.value"
                   [class.ring-medical-rose-500]="selectedCategory() === cat.value"
+                  [attr.aria-checked]="selectedCategory() === cat.value"
+                  role="radio"
                   class="w-full p-4 rounded-xl bg-gray-50 hover:bg-medical-rose-50 transition-all text-left flex justify-between items-center group">
             <span class="font-medium text-gray-700 group-hover:text-medical-rose-700">{{ cat.label }}</span>
             <div [class.bg-medical-rose-500]="selectedCategory() === cat.value"
@@ -32,6 +35,10 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
           </button>
         </div>
 
+        <div *ngIf="errorMessage()" class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200" role="alert">
+          {{ errorMessage() }}
+        </div>
+
         <button (click)="joinQueue()"
                 [disabled]="!selectedCategory() || isLoading()"
                 class="w-full bg-medical-rose-600 text-white py-4 rounded-xl font-bold shadow-lg active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all">
@@ -39,7 +46,7 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
           <span *ngIf="isLoading()" i18n="@@processingButton">Обработка...</span>
         </button>
 
-        <div *ngIf="ticket()" class="mt-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 animate-fade-in">
+        <div *ngIf="ticket()" class="mt-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 animate-fade-in" role="status">
           <p class="text-sm" i18n="@@inQueueMessage">Вы в очереди!</p>
           <p class="text-3xl font-bold mt-1">#{{ ticket()?.sequenceNumber }}</p>
         </div>
@@ -57,6 +64,7 @@ export class TakeQueueComponent {
   selectedCategory = signal<string>('');
   isLoading = signal(false);
   ticket = signal<any>(null);
+  errorMessage = signal<string>('');
 
   constructor(private http: HttpClient, private configService: ConfigService) { }
 
@@ -64,6 +72,7 @@ export class TakeQueueComponent {
     if (!this.selectedCategory()) return;
 
     this.isLoading.set(true);
+    this.errorMessage.set('');
     const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/queue';
     this.http.post(apiUrl, { serviceCategory: this.selectedCategory() }).subscribe({
       next: (res) => {
@@ -71,7 +80,7 @@ export class TakeQueueComponent {
         this.isLoading.set(false);
       },
       error: () => {
-        alert($localize`:@@joinQueueError:Не удалось встать в очередь. Попробуйте снова.`);
+        this.errorMessage.set($localize`:@@joinQueueError:Не удалось встать в очередь. Попробуйте снова.`);
         this.isLoading.set(false);
       }
     });
