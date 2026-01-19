@@ -33,6 +33,7 @@ const users_module_1 = __webpack_require__(16);
 const treatments_module_1 = __webpack_require__(29);
 const queue_module_1 = __webpack_require__(33);
 const gemini_module_1 = __webpack_require__(39);
+const chat_module_1 = __webpack_require__(46);
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -58,6 +59,7 @@ exports.AppModule = AppModule = tslib_1.__decorate([
             treatments_module_1.TreatmentsModule,
             queue_module_1.QueueModule,
             gemini_module_1.GeminiModule,
+            chat_module_1.ChatModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
@@ -1221,10 +1223,27 @@ let GeminiService = class GeminiService {
         this.context = '';
         const apiKey = this.configService.get('GEMINI_API_KEY') || 'YOUR_API_KEY_HERE';
         this.genAI = new generative_ai_1.GoogleGenerativeAI(apiKey);
-        this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
     }
     async onModuleInit() {
         await this.loadContext();
+        this.model = this.genAI.getGenerativeModel({
+            model: 'gemini-pro',
+            systemInstruction: this.buildSystemPrompt()
+        });
+    }
+    buildSystemPrompt() {
+        return `
+        You are a professional consultant for the AAA Cosmetics Clinic in Dushanbe.
+        
+        KNOWLEDGE BASE:
+        ${this.context}
+        
+        INSTRUCTIONS:
+        1. Answer in the user's language (Russian, Tajik, or English).
+        2. ALWAYS provide prices in TJS (Somoni).
+        3. Be polite, professional, and concise.
+        4. If you don't know the answer based on the knowledge base, ask the user to contact the clinic directly.
+        `;
     }
     async loadContext() {
         try {
@@ -1237,7 +1256,7 @@ let GeminiService = class GeminiService {
             }
             else {
                 console.warn('chat-bot.docx not found at', docPath);
-                this.context = 'You are a helpful assistant for AAA Cosmetics clinic.';
+                this.context = 'AAA Cosmetics Clinic services and information.';
             }
         }
         catch (error) {
@@ -1245,21 +1264,24 @@ let GeminiService = class GeminiService {
         }
     }
     async chat(message) {
-        const prompt = `
-      Context: ${this.context}
-      
-      User Question: ${message}
-      
-      Answer as a helpful assistant for the clinic. Keep answers concise and professional.
-    `;
+        // Legacy method, keeping for backward compatibility if needed, but using new logic
+        return this.chatWithHistory([{ role: 'user', parts: [{ text: message }] }]);
+    }
+    async chatWithHistory(history) {
         try {
-            const result = await this.model.generateContent(prompt);
+            // The last message is the new user message, the rest is history
+            const lastMsg = history[history.length - 1];
+            const previousHistory = history.slice(0, -1);
+            const chat = this.model.startChat({
+                history: previousHistory,
+            });
+            const result = await chat.sendMessage(lastMsg.parts[0].text);
             const response = await result.response;
             return response.text();
         }
         catch (error) {
             console.error('Gemini API Error:', error);
-            return 'Sorry, I am having trouble answering that right now.';
+            return 'Извините, в данный момент я не могу ответить. Пожалуйста, попробуйте позже.';
         }
     }
 };
@@ -1293,6 +1315,181 @@ module.exports = require("path");
 /***/ ((module) => {
 
 module.exports = require("fs");
+
+/***/ }),
+/* 46 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ChatModule = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const mongoose_1 = __webpack_require__(8);
+const chat_controller_1 = __webpack_require__(47);
+const chat_service_1 = __webpack_require__(48);
+const chat_schema_1 = __webpack_require__(49);
+const gemini_module_1 = __webpack_require__(39);
+const config_1 = __webpack_require__(5);
+let ChatModule = class ChatModule {
+};
+exports.ChatModule = ChatModule;
+exports.ChatModule = ChatModule = tslib_1.__decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: chat_schema_1.Chat.name, schema: chat_schema_1.ChatSchema }]),
+            gemini_module_1.GeminiModule,
+            config_1.ConfigModule
+        ],
+        controllers: [chat_controller_1.ChatController],
+        providers: [chat_service_1.ChatService],
+        exports: [chat_service_1.ChatService],
+    })
+], ChatModule);
+
+
+/***/ }),
+/* 47 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ChatController = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const chat_service_1 = __webpack_require__(48);
+const telegram_auth_guard_1 = __webpack_require__(37);
+let ChatController = class ChatController {
+    constructor(chatService) {
+        this.chatService = chatService;
+    }
+    async sendMessage(body, req) {
+        // We can use chatId from body or from the validated user in req.user
+        // For TWA, the initData contains the user info.
+        // Let's prefer the one from the validated token if available, or body if it's a generic endpoint.
+        // But the requirement says "Receives { message: string, chatId: string }".
+        return {
+            response: await this.chatService.handleMessage(body.chatId, body.message)
+        };
+    }
+};
+exports.ChatController = ChatController;
+tslib_1.__decorate([
+    (0, common_1.Post)('message'),
+    (0, common_1.UseGuards)(telegram_auth_guard_1.TelegramAuthGuard),
+    tslib_1.__param(0, (0, common_1.Body)()),
+    tslib_1.__param(1, (0, common_1.Req)()),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:returntype", Promise)
+], ChatController.prototype, "sendMessage", null);
+exports.ChatController = ChatController = tslib_1.__decorate([
+    (0, common_1.Controller)('chat'),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof chat_service_1.ChatService !== "undefined" && chat_service_1.ChatService) === "function" ? _a : Object])
+], ChatController);
+
+
+/***/ }),
+/* 48 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+var ChatService_1;
+var _a, _b;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ChatService = void 0;
+const tslib_1 = __webpack_require__(4);
+const common_1 = __webpack_require__(1);
+const mongoose_1 = __webpack_require__(8);
+const mongoose_2 = __webpack_require__(12);
+const chat_schema_1 = __webpack_require__(49);
+const gemini_service_1 = __webpack_require__(41);
+let ChatService = ChatService_1 = class ChatService {
+    constructor(chatModel, geminiService) {
+        this.chatModel = chatModel;
+        this.geminiService = geminiService;
+        this.logger = new common_1.Logger(ChatService_1.name);
+    }
+    async handleMessage(chatId, message) {
+        // 1. Retrieve or create chat history
+        let chat = await this.chatModel.findOne({ chatId });
+        if (!chat) {
+            chat = new this.chatModel({ chatId, history: [] });
+        }
+        // 2. Add user message to history
+        chat.history.push({ role: 'user', text: message, timestamp: new Date() });
+        // 3. Prepare history for Gemini (convert to Gemini format if needed)
+        // For now, we'll just pass the last few messages or the whole history depending on context window.
+        // Simple approach: Pass the current message and let GeminiService handle the context/system prompt.
+        // However, to be "context-aware", we should pass history.
+        // Let's assume GeminiService can handle history or we construct the prompt here.
+        // We will update GeminiService to accept history.
+        const historyForAi = chat.history.map(msg => ({
+            role: msg.role === 'user' ? 'user' : 'model',
+            parts: [{ text: msg.text }]
+        }));
+        // 4. Get response from Gemini
+        const responseText = await this.geminiService.chatWithHistory(historyForAi);
+        // 5. Add bot response to history
+        chat.history.push({ role: 'model', text: responseText, timestamp: new Date() });
+        await chat.save();
+        return responseText;
+    }
+};
+exports.ChatService = ChatService;
+exports.ChatService = ChatService = ChatService_1 = tslib_1.__decorate([
+    (0, common_1.Injectable)(),
+    tslib_1.__param(0, (0, mongoose_1.InjectModel)(chat_schema_1.Chat.name)),
+    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, typeof (_b = typeof gemini_service_1.GeminiService !== "undefined" && gemini_service_1.GeminiService) === "function" ? _b : Object])
+], ChatService);
+
+
+/***/ }),
+/* 49 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ChatSchema = exports.Chat = exports.MessageSchema = exports.Message = void 0;
+const tslib_1 = __webpack_require__(4);
+const mongoose_1 = __webpack_require__(8);
+let Message = class Message {
+};
+exports.Message = Message;
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ required: true, enum: ['user', 'model'] }),
+    tslib_1.__metadata("design:type", String)
+], Message.prototype, "role", void 0);
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    tslib_1.__metadata("design:type", String)
+], Message.prototype, "text", void 0);
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ default: Date.now }),
+    tslib_1.__metadata("design:type", typeof (_a = typeof Date !== "undefined" && Date) === "function" ? _a : Object)
+], Message.prototype, "timestamp", void 0);
+exports.Message = Message = tslib_1.__decorate([
+    (0, mongoose_1.Schema)()
+], Message);
+exports.MessageSchema = mongoose_1.SchemaFactory.createForClass(Message);
+let Chat = class Chat {
+};
+exports.Chat = Chat;
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    tslib_1.__metadata("design:type", String)
+], Chat.prototype, "chatId", void 0);
+tslib_1.__decorate([
+    (0, mongoose_1.Prop)({ type: [exports.MessageSchema], default: [] }),
+    tslib_1.__metadata("design:type", Array)
+], Chat.prototype, "history", void 0);
+exports.Chat = Chat = tslib_1.__decorate([
+    (0, mongoose_1.Schema)({ timestamps: true })
+], Chat);
+exports.ChatSchema = mongoose_1.SchemaFactory.createForClass(Chat);
+
 
 /***/ })
 /******/ 	]);
