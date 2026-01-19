@@ -48,41 +48,47 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-              <tr *ngFor="let item of queue()">
-                <td class="px-6 py-4 font-bold text-gray-900">{{ item.sequenceNumber }}</td>
-                <td class="px-6 py-4">{{ item.firstName }}</td>
-                <td class="px-6 py-4">
-                  <span class="px-2 py-1 bg-gray-100 rounded text-xs font-medium">{{ item.serviceCategory }}</span>
-                </td>
-                <td class="px-6 py-4">
-                  <span [class.bg-yellow-100]="item.status === 'waiting'"
-                        [class.text-yellow-800]="item.status === 'waiting'"
-                        [class.bg-blue-100]="item.status === 'in-progress'"
-                        [class.text-blue-800]="item.status === 'in-progress'"
-                        class="px-2 py-1 rounded-full text-xs font-bold uppercase">
-                    {{ item.status }}
-                  </span>
-                </td>
-                <td class="px-6 py-4 flex gap-2">
-                  <button *ngIf="item.status === 'waiting'"
-                          (click)="updateStatus(item._id, 'in-progress')"
-                          class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
-                          i18n="@@actionCall">
-                    Вызвать
-                  </button>
-                  <button *ngIf="item.status === 'in-progress'"
-                          (click)="updateStatus(item._id, 'completed')"
-                          class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
-                          i18n="@@actionComplete">
-                    Завершить
-                  </button>
-                  <button (click)="updateStatus(item._id, 'cancelled')"
-                          class="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 text-sm"
-                          i18n="@@actionCancel">
-                    Отменить
-                  </button>
-                </td>
-              </tr>
+              @for (item of queue(); track item._id) {
+                <tr>
+                  <td class="px-6 py-4 font-bold text-gray-900">{{ item.sequenceNumber }}</td>
+                  <td class="px-6 py-4">{{ item.firstName }}</td>
+                  <td class="px-6 py-4">
+                    <span class="px-2 py-1 bg-gray-100 rounded text-xs font-medium">{{ item.serviceCategory }}</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span [class.bg-yellow-100]="item.status === 'waiting'"
+                          [class.text-yellow-800]="item.status === 'waiting'"
+                          [class.bg-blue-100]="item.status === 'in-progress'"
+                          [class.text-blue-800]="item.status === 'in-progress'"
+                          class="px-2 py-1 rounded-full text-xs font-bold uppercase">
+                      {{ item.status }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 flex gap-2">
+                    @if (item.status === 'waiting') {
+                      <button 
+                              (click)="updateStatus(item._id, 'in-progress')"
+                              class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                              i18n="@@actionCall">
+                        Вызвать
+                      </button>
+                    }
+                    @if (item.status === 'in-progress') {
+                      <button 
+                              (click)="updateStatus(item._id, 'completed')"
+                              class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+                              i18n="@@actionComplete">
+                        Завершить
+                      </button>
+                    }
+                    <button (click)="updateStatus(item._id, 'cancelled')"
+                            class="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 text-sm"
+                            i18n="@@actionCancel">
+                      Отменить
+                    </button>
+                  </td>
+                </tr>
+              }
             </tbody>
           </table>
         </div>

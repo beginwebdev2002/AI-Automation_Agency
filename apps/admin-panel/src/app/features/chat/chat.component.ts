@@ -3,15 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService, Message } from './chat.service';
 import { LanguageSwitcherComponent } from '../../core/components/language-switcher/language-switcher.component';
+import { LanguageService } from '../../core/services/language.service';
 
 declare const Telegram: any;
 
 @Component({
   selector: 'app-chat',
   standalone: true,
+  styleUrl: './chat.component.scss',
   imports: [CommonModule, FormsModule, LanguageSwitcherComponent],
   template: `
-    <div class="flex flex-col h-screen bg-gradient-to-b from-rose-50 to-white">
+    <div class="flex flex-1 flex-col bg-gradient-to-b from-rose-50 to-white mb-20">
       <!-- Header -->
       <div class="bg-white/80 backdrop-blur-md p-4 shadow-sm flex items-center justify-between sticky top-0 z-10 border-b border-rose-100">
         <div class="flex items-center">
@@ -31,46 +33,54 @@ declare const Telegram: any;
 
       <!-- Messages -->
       <div #scrollContainer class="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
-        <div *ngFor="let msg of messages()" 
-             [class.items-end]="msg.role === 'user'"
-             [class.items-start]="msg.role === 'bot'"
-             class="flex flex-col animate-fade-in-up">
-          
-          <div [class.bg-gradient-to-br]="msg.role === 'user'"
-               [class.from-rose-500]="msg.role === 'user'"
-               [class.to-rose-600]="msg.role === 'user'"
-               [class.text-white]="msg.role === 'user'"
-               [class.rounded-br-none]="msg.role === 'user'"
-               
-               [class.bg-white]="msg.role === 'bot'"
-               [class.text-gray-700]="msg.role === 'bot'"
-               [class.border]="msg.role === 'bot'"
-               [class.border-rose-100]="msg.role === 'bot'"
-               [class.rounded-bl-none]="msg.role === 'bot'"
-               [class.shadow-sm]="msg.role === 'bot'"
-               
-               class="max-w-[85%] p-4 rounded-2xl text-[15px] leading-relaxed relative group">
+        @for (msg of messages(); track msg.time) {
+          <div 
+               [class.items-end]="msg.role === 'user'"
+               [class.items-start]="msg.role === 'bot'"
+               class="flex flex-col animate-fade-in-up">
             
-            <div *ngIf="msg.role === 'bot'" class="absolute -left-2 top-0 w-2 h-2 bg-white border-t border-l border-rose-100 [clip-path:polygon(100%_0,0_0,100%_100%)]"></div>
-            <div *ngIf="msg.role === 'user'" class="absolute -right-2 top-0 w-2 h-2 bg-rose-500 [clip-path:polygon(0_0,100%_0,0_100%)]"></div>
-            <p [innerHTML]="msg.text"></p>
+            <div [class.bg-gradient-to-br]="msg.role === 'user'"
+                 [class.from-rose-500]="msg.role === 'user'"
+                 [class.to-rose-600]="msg.role === 'user'"
+                 [class.text-white]="msg.role === 'user'"
+                 [class.rounded-br-none]="msg.role === 'user'"
+                 
+                 [class.bg-white]="msg.role === 'bot'"
+                 [class.text-gray-700]="msg.role === 'bot'"
+                 [class.border]="msg.role === 'bot'"
+                 [class.border-rose-100]="msg.role === 'bot'"
+                 [class.rounded-bl-none]="msg.role === 'bot'"
+                 [class.shadow-sm]="msg.role === 'bot'"
+                 
+                 class="max-w-[500px] p-4 rounded-2xl text-[15px] leading-relaxed relative group">
+              
+              @if (msg.role === 'bot') {
+                <div class="absolute -left-2 top-0 w-2 h-2 bg-white border-t border-l border-rose-100 [clip-path:polygon(100%_0,0_0,100%_100%)]"></div>
+              }
+              @if (msg.role === 'user') {
+                <div class="absolute -right-2 top-0 w-2 h-2 bg-rose-500 [clip-path:polygon(0_0,100%_0,0_100%)]"></div>
+              }
+              <p [innerHTML]="msg.text"></p>
+            </div>
+            <span class="text-[10px] text-gray-400 mt-1.5 px-1 font-medium select-none">
+              {{ msg.time | date:'HH:mm' }}
+            </span>
           </div>
-          <span class="text-[10px] text-gray-400 mt-1.5 px-1 font-medium select-none">
-            {{ msg.time | date:'HH:mm' }}
-          </span>
-        </div>
+        }
         
         <!-- Typing Indicator -->
-        <div *ngIf="isLoading()" class="flex items-center space-x-1.5 ml-2 p-3 bg-white rounded-2xl rounded-bl-none border border-rose-100 w-fit shadow-sm">
-          <div class="w-2 h-2 bg-rose-300 rounded-full animate-bounce"></div>
-          <div class="w-2 h-2 bg-rose-300 rounded-full animate-bounce delay-75"></div>
-          <div class="w-2 h-2 bg-rose-300 rounded-full animate-bounce delay-150"></div>
-        </div>
+        @if (isLoading()) {
+          <div class="flex items-center space-x-1.5 ml-2 p-3 bg-white rounded-2xl rounded-bl-none border border-rose-100 w-fit shadow-sm">
+            <div class="w-2 h-2 bg-rose-300 rounded-full animate-bounce"></div>
+            <div class="w-2 h-2 bg-rose-300 rounded-full animate-bounce delay-75"></div>
+            <div class="w-2 h-2 bg-rose-300 rounded-full animate-bounce delay-150"></div>
+          </div>
+        }
       </div>
 
       <!-- Input Area -->
-      <div class="p-3 bg-white border-t border-rose-100 pb-safe">
-        <div class="flex gap-2 items-end bg-gray-50 p-1.5 rounded-[24px] border border-gray-200 focus-within:border-rose-300 focus-within:ring-2 focus-within:ring-rose-100 transition-all">
+      <div class="p-3 bg-white border-t border-rose-100 pb-safe fixed bottom-2 w-full">
+        <div class="flex gap-2 ml-2 mr-6 items-end bg-gray-50 p-1.5 rounded-[24px] border border-gray-200 focus-within:border-rose-300 focus-within:ring-2 focus-within:ring-rose-100 transition-all">
           <textarea [(ngModel)]="newMessage" 
                     (keydown.enter)="onEnter($event)"
                     rows="1"
@@ -103,6 +113,8 @@ declare const Telegram: any;
 export class ChatComponent implements AfterViewChecked, OnInit {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
+  private langugaeService = inject(LanguageService);
+
   messages = signal<Message[]>([
     { role: 'bot', text: $localize`:@@chatWelcomeMessage:Здравствуйте! Я ваш персональный консультант клиники AAA Cosmetics. Чем я могу вам помочь сегодня?`, time: new Date() }
   ]);
@@ -129,11 +141,19 @@ export class ChatComponent implements AfterViewChecked, OnInit {
     event.preventDefault();
     this.sendMessage();
   }
+  private userData() {
+        const tg = (window as any).Telegram?.WebApp;
+        if (!tg) return null;
+        return tg.initDataUnsafe?.user;
+    }
 
   sendMessage() {
     if (!this.newMessage.trim() || this.isLoading()) return;
+    const userData = this.userData();
+    const language = this.langugaeService.getLanguage();
 
-    const userMsg = this.newMessage.trim();
+    let userMsg = this.newMessage.trim();
+
     this.messages.update(msgs => [...msgs, { role: 'user', text: userMsg, time: new Date() }]);
     this.newMessage = '';
     this.isLoading.set(true);
@@ -148,6 +168,11 @@ export class ChatComponent implements AfterViewChecked, OnInit {
     if (typeof Telegram !== 'undefined' && Telegram.WebApp && Telegram.WebApp.initDataUnsafe?.user?.id) {
       chatId = Telegram.WebApp.initDataUnsafe.user.id.toString();
     }
+    userMsg = `
+      user prompt: ${userMsg}
+      language of response must be ${language?.code}
+      user Info:${userData ? JSON.stringify(userData) : 'Doesnt have user data'}
+    `;
 
     this.chatService.sendMessage(userMsg, chatId).subscribe({
       next: (res) => {

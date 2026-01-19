@@ -8,17 +8,18 @@ import { LanguageService } from '../../services/language.service';
     imports: [CommonModule],
     template: `
     <div class="flex items-center space-x-1 bg-white/10 backdrop-blur-md rounded-full p-1 border border-white/20 shadow-sm">
-      <button 
-        *ngFor="let lang of languageService.supportedLanguages"
-        (click)="languageService.switchLanguage(lang.code)"
-        [class.bg-white]="languageService.currentLang() === lang.code"
-        [class.text-gray-900]="languageService.currentLang() === lang.code"
-        [class.text-gray-600]="languageService.currentLang() !== lang.code"
-        class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1.5 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-400"
-      >
-        <span class="text-sm leading-none">{{ lang.flag }}</span>
-        <span class="hidden sm:inline uppercase tracking-wide">{{ lang.code }}</span>
-      </button>
+      @for (lang of languageService.supportedLanguages; track lang.code) {
+        <button 
+          (click)="languageService.switchLanguage(lang.code)"
+          [class.bg-white]="languageService.currentLang() === lang.code"
+          [class.text-gray-900]="languageService.currentLang() === lang.code"
+          [class.text-gray-600]="languageService.currentLang() !== lang.code"
+          class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1.5 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-400"
+        >
+          <span class="text-sm leading-none">{{ lang.flag }}</span>
+          <span class="hidden sm:inline uppercase tracking-wide">{{ lang.code }}</span>
+        </button>
+      }
     </div>
   `
 })
