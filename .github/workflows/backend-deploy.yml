@@ -15,6 +15,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Настраиваем Node.js с кешированием pnpm
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Или твоя версия (18, 22)
+          cache: 'pnpm'
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
