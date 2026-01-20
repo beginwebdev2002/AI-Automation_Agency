@@ -1,7 +1,6 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LanguageSwitcherComponent } from '../../core/components/language-switcher/language-switcher.component';
 
 interface Service {
   id: string;
@@ -13,9 +12,24 @@ interface Service {
 @Component({
   selector: 'app-service-calculator',
   standalone: true,
-  imports: [CommonModule, FormsModule, LanguageSwitcherComponent],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="p-6 bg-medical-rose-50 min-h-screen">
+
+      <!-- Search Input -->
+      <div class="mb-6 relative">
+        <input
+          type="text"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+          placeholder="Search services..."
+          i18n-placeholder="@@searchServicesPlaceholder"
+          class="w-full px-4 py-3 pl-12 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-medical-rose-500 text-gray-700"
+        />
+        <svg class="w-5 h-5 absolute left-4 top-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
 
       <!-- Category Filter -->
       <div class="flex gap-3 mb-8 overflow-x-auto pb-2">
@@ -40,6 +54,7 @@ interface Service {
                (keydown.enter)="toggleService(service)"
                tabindex="0"
                role="button"
+               [attr.aria-pressed]="isSelected(service)"
                [class.border-medical-gold-500]="isSelected(service)"
                class="bg-white p-5 rounded-2xl shadow-sm border-2 border-transparent cursor-pointer flex justify-between items-center transition-all">
             <div>
@@ -54,6 +69,11 @@ interface Service {
                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
               }
             </div>
+          </div>
+        }
+        @if (filteredServices().length === 0) {
+          <div class="text-center py-10 text-gray-500">
+            <p i18n="@@noServicesFound">No services found</p>
           </div>
         }
       </div>
@@ -79,6 +99,7 @@ export class ServiceCalculatorComponent {
     { value: 'Facials', label: $localize`:@@categoryFacials:Уход за лицом` }
   ];
   selectedCategory = signal<string>('All');
+  searchQuery = signal<string>('');
 
   services = signal<Service[]>([
     // Laser (Women)
@@ -135,8 +156,19 @@ export class ServiceCalculatorComponent {
 
   filteredServices = computed(() => {
     const cat = this.selectedCategory();
-    if (cat === 'All') return this.services();
-    return this.services().filter(s => s.category === cat);
+    const query = this.searchQuery().toLowerCase();
+
+    let filtered = this.services();
+
+    if (cat !== 'All') {
+      filtered = filtered.filter(s => s.category === cat);
+    }
+
+    if (query) {
+      filtered = filtered.filter(s => s.name.toLowerCase().includes(query));
+    }
+
+    return filtered;
   });
 
   totalPrice = computed(() => {
