@@ -1,4 +1,4 @@
-import { Component, signal, computed, effect } from '@angular/core';
+import { Component, signal, computed, effect, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Service {
@@ -67,7 +67,7 @@ interface Service {
     </div>
   `
 })
-export class BookingComponent {
+export class BookingComponent implements OnInit, OnDestroy {
   categories = ['Все', 'Лазер', 'Ботокс', 'Уход за лицом'];
   selectedCategory = signal<string>('Все');
 
@@ -92,18 +92,32 @@ export class BookingComponent {
     return this.cart().reduce((sum, item) => sum + item.price, 0);
   });
 
+  private readonly confirmBookingCallback = this.confirmBooking.bind(this);
+
   constructor() {
     effect(() => {
       if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
         if (this.cart().length > 0) {
           Telegram.WebApp.MainButton.setText($localize`ОПЛАТИТЬ ${this.totalPrice()} TJS`);
           Telegram.WebApp.MainButton.show();
-          Telegram.WebApp.MainButton.onClick(this.confirmBooking.bind(this));
         } else {
           Telegram.WebApp.MainButton.hide();
         }
       }
     });
+  }
+
+  ngOnInit() {
+    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+      Telegram.WebApp.MainButton.onClick(this.confirmBookingCallback);
+    }
+  }
+
+  ngOnDestroy() {
+    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+      Telegram.WebApp.MainButton.offClick(this.confirmBookingCallback);
+      Telegram.WebApp.MainButton.hide();
+    }
   }
 
   toggleService(service: Service) {
