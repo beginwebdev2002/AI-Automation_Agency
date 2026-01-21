@@ -13,10 +13,12 @@ import { ConfigService } from '../../core/config/config.service';
       </div>
       <div class="bg-white p-8 rounded-3xl shadow-xl max-w-sm w-full text-center">
         <h2 class="text-2xl font-serif text-medical-rose-900 mb-2" i18n="@@welcomeTitle">Добро пожаловать в AAA Cosmetics</h2>
-        <p class="text-gray-500 mb-8" i18n="@@selectServicePrompt">Пожалуйста, выберите услугу, чтобы встать в очередь</p>
-        <div class="space-y-3 mb-8">
+        <p class="text-gray-500 mb-8" i18n="@@selectServicePrompt" id="service-prompt">Пожалуйста, выберите услугу, чтобы встать в очередь</p>
+        <div class="space-y-3 mb-8" role="radiogroup" aria-labelledby="service-prompt">
           @for (cat of categories; track cat.value) {
             <button 
+                    role="radio"
+                    [attr.aria-checked]="selectedCategory() === cat.value"
                     (click)="selectedCategory.set(cat.value)"
                     [class.ring-2]="selectedCategory() === cat.value"
                     [class.ring-medical-rose-500]="selectedCategory() === cat.value"
@@ -33,9 +35,11 @@ import { ConfigService } from '../../core/config/config.service';
                   }
         </div>
 
-        <div *ngIf="errorMessage()" class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200" role="alert">
-          {{ errorMessage() }}
-        </div>
+        @if (errorMessage()) {
+          <div class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200" role="alert">
+            {{ errorMessage() }}
+          </div>
+        }
 
         <button (click)="joinQueue()"
                 [disabled]="!selectedCategory() || isLoading()"
@@ -48,7 +52,7 @@ import { ConfigService } from '../../core/config/config.service';
           }
         </button>
         @if (ticket()) {
-          <div class="mt-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 animate-fade-in">
+          <div class="mt-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 animate-fade-in" role="status" aria-live="polite">
             <p class="text-sm" i18n="@@inQueueMessage">Вы в очереди!</p>
             <p class="text-3xl font-bold mt-1">#{{ ticket()?.sequenceNumber }}</p>
           </div>
