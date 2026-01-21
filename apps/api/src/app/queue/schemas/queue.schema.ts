@@ -25,3 +25,5 @@ export class Queue {
 }
 
 export const QueueSchema = SchemaFactory.createForClass(Queue);
+
+QueueSchema.index({ createdAt: 1, sequenceNumber: -1 });
