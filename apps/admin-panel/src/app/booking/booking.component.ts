@@ -80,6 +80,8 @@ export class BookingComponent {
 
   cart = signal<Service[]>([]);
 
+  selectedIds = computed(() => new Set(this.cart().map(s => s.id)));
+
   filteredServices = computed(() => {
     const cat = this.selectedCategory();
     if (cat === 'Все') return this.services();
@@ -115,7 +117,7 @@ export class BookingComponent {
   }
 
   isSelected(service: Service) {
-    return this.cart().some(i => i.id === service.id);
+    return this.selectedIds().has(service.id);
   }
 
   confirmBooking() {
