@@ -1573,21 +1573,33 @@ let ChatService = ChatService_1 = class ChatService {
         this.logger = new common_1.Logger(ChatService_1.name);
     }
     async handleMessage(chatId, message) {
-        let chat = await this.chatModel.findOne({ chatId });
-        if (!chat) {
-            chat = new this.chatModel({ chatId, history: [] });
-        }
-        chat.history.push({ role: 'user', text: message, timestamp: new Date() });
         // Limit history to last 50 messages to save context and tokens
         const MAX_HISTORY = 50;
-        const recentHistory = chat.history.slice(-MAX_HISTORY);
+        // Optimized: Only fetch the last 50 messages using projection and lean()
+        const chat = await this.chatModel.findOne({ chatId }, { history: { $slice: -MAX_HISTORY } }).lean();
+        // If chat exists, use its history, otherwise empty array
+        const history = chat ? chat.history : [];
+        // Prepare the new message
+        const userMessage = { role: 'user', text: message, timestamp: new Date() };
+        // Construct context: existing history + new message
+        const historyContext = [...history, userMessage];
+        // Ensure we only send the last MAX_HISTORY messages to AI
+        const recentHistory = historyContext.slice(-MAX_HISTORY);
         const historyForAi = recentHistory.map(msg => ({
             role: msg.role === 'user' ? 'user' : 'model',
             parts: [{ text: msg.text }]
         }));
         const responseText = await this.geminiService.chatWithHistory(historyForAi);
-        chat.history.push({ role: 'model', text: responseText, timestamp: new Date() });
-        await chat.save();
+        const modelMessage = { role: 'model', text: responseText, timestamp: new Date() };
+        // Update database: Push both messages. Create document if it doesn't exist.
+        await this.chatModel.updateOne({ chatId }, {
+            $setOnInsert: { chatId },
+            $push: {
+                history: {
+                    $each: [userMessage, modelMessage]
+                }
+            }
+        }, { upsert: true });
         return responseText;
     }
 };
