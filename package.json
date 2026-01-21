@@ -84,6 +84,7 @@
     "jest-util": "^30.0.2",
     "jsdom": "^27.1.0",
     "jsonc-eslint-parser": "^2.1.0",
+    "mongodb-memory-server": "^11.0.1",
     "nx": "22.3.3",
     "prettier": "~3.6.2",
     "ts-jest": "^29.4.0",

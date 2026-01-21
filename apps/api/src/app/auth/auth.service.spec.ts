@@ -2,31 +2,32 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { getModelToken } from '@nestjs/mongoose';
-import { User, UserRole } from '../users/schemas/user.schema';
+import { User } from '../users/schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 
+// Mock bcrypt
 jest.mock('bcrypt', () => ({
-  hash: jest.fn().mockResolvedValue('hashed_password'),
-  compare: jest.fn().mockResolvedValue(true),
+  compare: jest.fn(),
+  hash: jest.fn(),
 }));
 
 describe('AuthService', () => {
   let service: AuthService;
-  let userModel: any;
+  let model: any;
 
   const mockUser = {
-    _id: 'some_id',
+    _id: 'someid',
     email: 'test@example.com',
-    passwordHash: 'hashed_password',
-    role: UserRole.USER,
+    passwordHash: 'hashedpassword',
+    role: 'USER',
+  };
+
+  const mockJwtService = {
+    sign: jest.fn(),
   };
 
   const mockUserModel = {
-    findOne: jest.fn().mockReturnValue({
-      lean: jest.fn().mockResolvedValue({
-        ...mockUser
-      }),
-    }),
+    findOne: jest.fn(),
     create: jest.fn(),
   };
 
@@ -40,15 +41,13 @@ describe('AuthService', () => {
         },
         {
           provide: JwtService,
-          useValue: {
-            sign: jest.fn(() => 'token'),
-          },
+          useValue: mockJwtService,
         },
       ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    userModel = module.get(getModelToken(User.name));
+    model = module.get(getModelToken(User.name));
   });
 
   afterEach(() => {
@@ -60,35 +59,44 @@ describe('AuthService', () => {
   });
 
   describe('validateUser', () => {
-    it('should return user without passwordHash if credentials are valid', async () => {
-      const result = await service.validateUser('test@example.com', 'password');
-      expect(userModel.findOne).toHaveBeenCalledWith({ email: 'test@example.com' });
-      // Ensure lean was called
-      // We can check if the mock returned by findOne had lean called?
-      // With the current mock setup, we can't easily check 'lean' call count unless we spy on the return value of findOne.
-      // But functionality is what matters here.
-
-      expect(result).toEqual({
-        _id: 'some_id',
-        email: 'test@example.com',
-        role: UserRole.USER,
+    it('should return user object (without password) if user exists and password matches', async () => {
+      // Mock findOne().lean() chain
+      mockUserModel.findOne.mockReturnValue({
+        lean: jest.fn().mockResolvedValue(mockUser),
       });
-      expect(result.passwordHash).toBeUndefined();
+
+      // Mock bcrypt.compare to return true
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+
+      const result = await service.validateUser('test@example.com', 'password');
+
+      expect(mockUserModel.findOne).toHaveBeenCalledWith({ email: 'test@example.com' });
+      expect(bcrypt.compare).toHaveBeenCalledWith('password', 'hashedpassword');
+      expect(result).toEqual({
+        _id: 'someid',
+        email: 'test@example.com',
+        role: 'USER',
+      });
+      expect(result).not.toHaveProperty('passwordHash');
     });
 
-    it('should return null if user not found', async () => {
-      mockUserModel.findOne.mockReturnValueOnce({
+    it('should return null if user does not exist', async () => {
+       mockUserModel.findOne.mockReturnValue({
         lean: jest.fn().mockResolvedValue(null),
       });
+
       const result = await service.validateUser('wrong@example.com', 'password');
       expect(result).toBeNull();
     });
 
-    it('should return null if password invalid', async () => {
-       (bcrypt.compare as jest.Mock).mockResolvedValueOnce(false);
+    it('should return null if password does not match', async () => {
+      mockUserModel.findOne.mockReturnValue({
+        lean: jest.fn().mockResolvedValue(mockUser),
+      });
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
-       const result = await service.validateUser('test@example.com', 'wrong_password');
-       expect(result).toBeNull();
+      const result = await service.validateUser('test@example.com', 'wrongpassword');
+      expect(result).toBeNull();
     });
   });
 });
