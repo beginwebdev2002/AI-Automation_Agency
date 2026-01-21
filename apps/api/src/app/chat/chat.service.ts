@@ -21,7 +21,11 @@ export class ChatService {
 
         chat.history.push({ role: 'user', text: message, timestamp: new Date() });
 
-        const historyForAi = chat.history.map(msg => ({
+        // Limit history to last 50 messages to save context and tokens
+        const MAX_HISTORY = 50;
+        const recentHistory = chat.history.slice(-MAX_HISTORY);
+
+        const historyForAi = recentHistory.map(msg => ({
             role: msg.role === 'user' ? 'user' : 'model',
             parts: [{ text: msg.text }]
         }));
