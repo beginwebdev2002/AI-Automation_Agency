@@ -4,6 +4,8 @@ import * as crypto from 'crypto';
 
 @Injectable()
 export class TelegramAuthGuard implements CanActivate {
+    private secretKey: Buffer | undefined;
+
     constructor(private configService: ConfigService) { }
 
     canActivate(context: ExecutionContext): boolean {
@@ -40,14 +42,19 @@ export class TelegramAuthGuard implements CanActivate {
             .map(([key, value]) => `${key}=${value}`)
             .join('\n');
 
-    const token = this.configService.get<string>('TELEGRAM_TOKEN');
-    if (!token) {
-      throw new UnauthorizedException('Telegram token not configured');
-    }
-        const secretKey = crypto
-            .createHmac('sha256', 'WebAppData')
-      .update(token)
-            .digest();
+        let secretKey = this.secretKey;
+
+        if (!secretKey) {
+            const token = this.configService.get<string>('TELEGRAM_TOKEN');
+            if (!token) {
+                throw new UnauthorizedException('Telegram token not configured');
+            }
+            secretKey = crypto
+                .createHmac('sha256', 'WebAppData')
+                .update(token)
+                .digest();
+            this.secretKey = secretKey;
+        }
 
         const calculatedHash = crypto
             .createHmac('sha256', secretKey)
