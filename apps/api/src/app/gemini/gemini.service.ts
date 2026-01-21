@@ -77,17 +77,10 @@ private async loadContext() {
 
     async chatWithHistory(history: Content[]): Promise<string> {
         try {
-            const systemPrompt = this.buildSystemPrompt();
-            const historyWithSystem = [
-                { role: 'user', parts: [{ text: systemPrompt }] },
-                { role: 'model', parts: [{ text: 'Understood. I am ready to act as the AAA Cosmetics consultant.' }] },
-                ...history.slice(0, -1) // Previous history
-            ];
-
             const lastMsg = history[history.length - 1];
 
             const chat = this.model.startChat({
-                history: historyWithSystem,
+                history: history.slice(0, -1),
             });
 
             const text = lastMsg.parts[0].text || '';
