@@ -3,9 +3,9 @@ name: Build NestJS API
 on:
   push:
     branches:
-      - main # Запускать при пуше в основную ветку
+      - main
     paths:
-      - 'apps/api/**' # Только если изменился бэкенд
+      - 'apps/api/**'
 
 jobs:
   build-backend:
@@ -15,31 +15,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Настраиваем Node.js с кешированием pnpm
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      # 1. Устанавливаем pnpm (версия 9, как в твоем конфиге)
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 20 # Или твоя версия (18, 22)
-          cache: 'pnpm'
+          version: 9
 
+      # 2. ОДИН шаг настройки Node.js с кешированием pnpm
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          cache: 'pnpm'
 
+      # 3. Устанавливаем зависимости именно через pnpm
+      # Флаг --no-frozen-lockfile нужен, если Jules или ты меняли зависимости
       - name: Install dependencies
-        # Используем флаг, чтобы не упасть из-за конфликтов версий
-        run: npm install --legacy-peer-deps
+        run: pnpm install --no-frozen-lockfile
 
+      # 4. Сборка через Nx
       - name: Build NestJS
-        # Укажи правильный путь к твоему приложению в Nx
         run: npx nx build api --prod
 
+      # 5. Деплой билда в ветку gh-backend
       - name: Deploy Build to gh-backend branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist/apps/api # Папка с результатом сборки
-          branch: gh-backend # Ветка, куда пушим билд
+          folder: dist/apps/api
+          branch: gh-backend
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
