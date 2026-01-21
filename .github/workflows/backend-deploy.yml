@@ -10,35 +10,30 @@ on:
 jobs:
   build-backend:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 10 # Защита от бесконечного зависания
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 1. Устанавливаем pnpm (версия 9, как в твоем конфиге)
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      # 2. ОДИН шаг настройки Node.js с кешированием pnpm
+      # 1. Настраиваем Node.js и кеширование для npm
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          # cache: 'pnpm'
+          cache: 'npm' # Теперь используем только кеш npm
 
-      # 3. Устанавливаем зависимости именно через pnpm
-      # Флаг --no-frozen-lockfile нужен, если Jules или ты меняли зависимости
+      # 2. Устанавливаем зависимости
+      # Используем npm ci для максимальной стабильности в CI/CD
+      # Флаг --legacy-peer-deps нужен для корректной работы Nx и зависимостей Angular/NestJS
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: npm ci --legacy-peer-deps
 
-      # 4. Сборка через Nx
+      # 3. Сборка через Nx
       - name: Build NestJS
         run: npx nx build api --prod
 
-      # 5. Деплой билда в ветку gh-backend
+      # 4. Деплой билда в ветку gh-backend
       - name: Deploy Build to gh-backend branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
