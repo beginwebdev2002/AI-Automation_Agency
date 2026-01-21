@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="ru" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="891988388142771853" datatype="html">
+        <source>Выберите услуги</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/booking/booking.component.ts</context>
+          <context context-type="linenumber">19,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="791983685637217876" datatype="html">
+        <source>Подтвердить запись</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/booking/booking.component.ts</context>
+          <context context-type="linenumber">56,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3363420822965118753" datatype="html">
+        <source>ОПЛАТИТЬ <x id="PH" equiv-text="this.totalPrice()"/> TJS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/booking/booking.component.ts</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3683004319871381669" datatype="html">
+        <source>Услуги</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/core/components/header/header.component.html</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/core/components/header/header.component.html</context>
+          <context context-type="linenumber">134,135</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7553252108347565815" datatype="html">
+        <source>Моя Очередь</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/core/components/header/header.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/core/components/header/header.component.html</context>
+          <context context-type="linenumber">138,139</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2952460221981399340" datatype="html">
+        <source>AI Консультант</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/core/components/header/header.component.html</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/core/components/header/header.component.html</context>
+          <context context-type="linenumber">142,143</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6570363013146073520" datatype="html">
+        <source>Dashboard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/core/components/header/header.component.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/core/components/header/header.component.html</context>
+          <context context-type="linenumber">148,149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="adminDashboardTitle" datatype="html">
+        <source>Панель администратора</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="totalClientsLabel" datatype="html">
+        <source>Всего клиентов</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">21,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="telegramRevenueLabel" datatype="html">
+        <source>Выручка Telegram</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="currencyTJS" datatype="html">
+        <source>TJS</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">45,46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">60,61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="activeQueueLabel" datatype="html">
+        <source>Активная очередь</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="queueManagementTitle" datatype="html">
+        <source>Управление очередью</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">37,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="columnHash" datatype="html">
+        <source>#</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="columnName" datatype="html">
+        <source>Имя</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">44,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="columnService" datatype="html">
+        <source>Услуга</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">45,46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="columnStatus" datatype="html">
+        <source>Статус</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">46,47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="columnActions" datatype="html">
+        <source>Действия</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">47,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="actionCall" datatype="html">
+        <source> Вызвать </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">71,72</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="actionComplete" datatype="html">
+        <source> Завершить </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="actionCancel" datatype="html">
+        <source> Отменить </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/admin/admin-dashboard.component.ts</context>
+          <context context-type="linenumber">82,83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="calculatorTitle" datatype="html">
+        <source>Калькулятор услуг</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="totalEstimateLabel" datatype="html">
+        <source>Итого</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">59,60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bookAppointmentButton" datatype="html">
+        <source> Записаться </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">63,65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categoryAll" datatype="html">
+        <source>Все</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categoryLaser" datatype="html">
+        <source>Лазер</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categoryBotox" datatype="html">
+        <source>Ботокс</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categoryFacials" datatype="html">
+        <source>Уход за лицом</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="serviceFullFaceLaser" datatype="html">
+        <source>Лазер всего лица</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="serviceUnderarmsLaser" datatype="html">
+        <source>Лазер подмышек</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="serviceBotoxForehead" datatype="html">
+        <source>Ботокс лба</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="serviceHydraFacial" datatype="html">
+        <source>Чистка HydraFacial</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="serviceLipFiller" datatype="html">
+        <source>Увеличение губ</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/calculator/service-calculator.component.ts</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="chatBotName" datatype="html">
+        <source>AI Консультант</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/chat/chat.component.ts</context>
+          <context context-type="linenumber">25,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="chatBotStatus" datatype="html">
+        <source>Онлайн 24/7</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/chat/chat.component.ts</context>
+          <context context-type="linenumber">26,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="chatInputPlaceholder" datatype="html">
+        <source>Задайте вопрос о процедурах...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/chat/chat.component.ts</context>
+          <context context-type="linenumber">78,79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="chatWelcomeMessage" datatype="html">
+        <source>Здравствуйте! Я ваш персональный консультант клиники AAA Cosmetics. Чем я могу вам помочь сегодня?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/chat/chat.component.ts</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="chatErrorMessage" datatype="html">
+        <source>Извините, произошла ошибка. Попробуйте позже.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/chat/chat.component.ts</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="liveQueueTitle" datatype="html">
+        <source>Живая очередь</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/queue-dashboard.component.ts</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="nowServingLabel" datatype="html">
+        <source>Сейчас обслуживается</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/queue-dashboard.component.ts</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="waitingForNextPatient" datatype="html">
+        <source> Ожидание следующего пациента... </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/queue-dashboard.component.ts</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="upNextLabel" datatype="html">
+        <source>Следующие</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/queue-dashboard.component.ts</context>
+          <context context-type="linenumber">42,43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="queueEmpty" datatype="html">
+        <source> Очередь пуста </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/queue-dashboard.component.ts</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="welcomeTitle" datatype="html">
+        <source>Добро пожаловать в AAA Cosmetics</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="selectServicePrompt" datatype="html">
+        <source>Пожалуйста, выберите услугу, чтобы встать в очередь</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">18,20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="takeNumberButton" datatype="html">
+        <source>ВЗЯТЬ ТАЛОН</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">38,39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="processingButton" datatype="html">
+        <source>Обработка...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">39,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="inQueueMessage" datatype="html">
+        <source>Вы в очереди!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categoryConsultation" datatype="html">
+        <source>Консультация</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="joinQueueError" datatype="html">
+        <source>Не удалось встать в очередь. Попробуйте снова.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/admin-panel/src/app/features/queue/take-queue.component.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

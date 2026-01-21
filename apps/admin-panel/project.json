@@ -5,10 +5,19 @@
   "prefix": "app",
   "sourceRoot": "apps/admin-panel/src",
   "tags": [],
+  "i18n": {
+    "sourceLocale": "ru",
+    "locales": {
+      "tj": "apps/admin-panel/src/locale/messages.tj.xlf",
+      "en": "apps/admin-panel/src/locale/messages.en.xlf"
+    }
+  },
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/admin-panel",
         "browser": "apps/admin-panel/src/main.ts",
@@ -19,7 +28,10 @@
             "input": "apps/admin-panel/public"
           }
         ],
-        "styles": ["apps/admin-panel/src/styles.css"]
+        "styles": [
+          "apps/admin-panel/src/styles.css"
+        ],
+        "localize": true
       },
       "configurations": {
         "production": {
@@ -35,7 +47,13 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/admin-panel/src/environments/environment.ts",
+              "with": "apps/admin-panel/src/environments/environment.prod.ts"
+            }
+          ]
         },
         "development": {
           "optimization": false,
@@ -64,6 +82,12 @@
     "test": {
       "executor": "@angular/build:unit-test",
       "options": {}
+    },
+    "extract-i18n": {
+      "executor": "@angular/build:extract-i18n",
+      "options": {
+        "buildTarget": "admin-panel:build"
+      }
     },
     "serve-static": {
       "continuous": true,

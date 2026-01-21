@@ -7,12 +7,19 @@ import { AuthModule } from './auth/auth.module';
 import { BookingModule } from './booking/booking.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { UsersModule } from './users/users.module';
+import { TreatmentsModule } from './treatments/treatments.module';
+import { QueueModule } from './queue/queue.module';
+import { GeminiModule } from './gemini/gemini.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
     MongooseModule.forRootAsync({
       useFactory: () => ({
-        uri: process.env.MONGODB_URI,
+        uri: process.env.MONGODB_URI_ONLINE,
+        connectTimeoutMS: 10000,
+        socketTimeoutMS: 45000,
+        family: 4,
       }),
     }),
     ConfigModule.forRoot({
@@ -23,8 +30,13 @@ import { UsersModule } from './users/users.module';
     BookingModule,
     TelegramModule,
     UsersModule,
+    TreatmentsModule,
+    QueueModule,
+    GeminiModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule { }
+

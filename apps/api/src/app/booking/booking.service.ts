@@ -16,8 +16,13 @@ export class BookingService {
         return createdVenue.save();
     }
 
-    async findAllVenues(): Promise<Venue[]> {
-        return this.venueModel.find().exec();
+    async findAllVenues(page = 1, limit = 10): Promise<Venue[]> {
+        const MAX_LIMIT = 100;
+        if (limit > MAX_LIMIT) {
+            limit = MAX_LIMIT;
+        }
+        const skip = (page - 1) * limit;
+        return this.venueModel.find().skip(skip).limit(limit).exec();
     }
 
     async createAppointment(createAppointmentDto: any): Promise<Appointment> {
@@ -25,7 +30,12 @@ export class BookingService {
         return createdAppointment.save();
     }
 
-    async findAllAppointments(): Promise<Appointment[]> {
-        return this.appointmentModel.find().populate('user').populate('venue').exec();
+    async findAllAppointments(page = 1, limit = 10): Promise<Appointment[]> {
+        const MAX_LIMIT = 100;
+        if (limit > MAX_LIMIT) {
+            limit = MAX_LIMIT;
+        }
+        const skip = (page - 1) * limit;
+        return this.appointmentModel.find().populate('user', 'email role').populate('venue', 'name address').skip(skip).limit(limit).exec();
     }
 }

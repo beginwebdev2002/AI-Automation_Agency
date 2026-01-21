@@ -1,13 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
+
+declare const Telegram: any;
+
+import { HeaderComponent } from './core/components/header/header.component';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [RouterModule, HeaderComponent],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
+export class App implements OnInit {
   protected title = 'admin-panel';
+
+  ngOnInit() {
+    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+  }
 }
