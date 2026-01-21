@@ -1222,6 +1222,7 @@ exports.Queue = Queue = tslib_1.__decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Queue);
 exports.QueueSchema = mongoose_1.SchemaFactory.createForClass(Queue);
+exports.QueueSchema.index({ createdAt: 1, sequenceNumber: -1 });
 
 
 /***/ }),
