@@ -8,3 +8,8 @@ Sentinel Journal initialized.
 **Vulnerability:** AuthController accepted `any` type for login/register bodies, bypassing validation.
 **Learning:** Mongoose validation is late-bound. Controllers must use DTOs with class-validator.
 **Prevention:** Enforce DTO usage in controller methods via lint rules or code review. Enable global ValidationPipe.
+
+## 2026-02-19 - Hardcoded Telegram Admin ID
+**Vulnerability:** Hardcoded Telegram User ID in `TelegramAuthGuard` granting admin privileges.
+**Learning:** Hardcoded IDs for authorization are fragile and insecure. They bypass configuration management and are "security by obscurity".
+**Prevention:** Use environment variables or database-driven role management for all user roles.

@@ -10,7 +10,7 @@ import * as fs from 'fs';
 export class GeminiService implements OnModuleInit {
     private genAI: GoogleGenerativeAI;
     private model: GenerativeModel;
-    private context: string = '';
+    private context = '';
 
     constructor(private configService: ConfigService) {
         const apiKey = this.configService.get<string>('GEMINI_API_KEY') || 'YOUR_API_KEY_HERE';

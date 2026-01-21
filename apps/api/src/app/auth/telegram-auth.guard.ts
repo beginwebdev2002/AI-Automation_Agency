@@ -20,8 +20,9 @@ export class TelegramAuthGuard implements CanActivate {
             const userString = urlParams.get('user');
             if (userString) {
                 request.user = JSON.parse(userString);
-                // Add role logic here (simple check for now)
-                request.user.role = request.user.id === 6016120046 ? 'admin' : 'client'; // Example ID
+                // Add role logic here
+                const adminId = this.configService.get<string>('TELEGRAM_ADMIN_ID');
+                request.user.role = String(request.user.id) === adminId ? 'admin' : 'client';
             }
             return true;
         }
