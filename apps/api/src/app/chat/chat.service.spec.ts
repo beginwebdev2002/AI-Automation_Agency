@@ -15,6 +15,7 @@ describe('ChatService', () => {
 
     const mockChatModel = {
         findOne: jest.fn(),
+        updateOne: jest.fn(),
     };
 
     const mockChatModelConstructor = jest.fn().mockImplementation((dto) => ({
@@ -23,6 +24,7 @@ describe('ChatService', () => {
     }));
 
     (mockChatModelConstructor as any).findOne = mockChatModel.findOne;
+    (mockChatModelConstructor as any).updateOne = mockChatModel.updateOne;
 
     const mockGeminiService = {
         chatWithHistory: jest.fn().mockResolvedValue('Response'),
@@ -67,7 +69,11 @@ describe('ChatService', () => {
             save: jest.fn(),
         };
 
-        mockChatModel.findOne.mockResolvedValue(existingChat);
+        // Mock findOne to return an object with lean()
+        const mockQuery = {
+            lean: jest.fn().mockResolvedValue(existingChat),
+        };
+        mockChatModel.findOne.mockReturnValue(mockQuery);
 
         await service.handleMessage(chatId, message);
 
@@ -75,8 +81,19 @@ describe('ChatService', () => {
         const calledHistory = mockGeminiService.chatWithHistory.mock.calls[0][0];
 
         // Verify we are limiting the context
-        // Current implementation sends all (60 + 1 new = 61)
-        // Optimization should reduce this to 50
         expect(calledHistory.length).toBeLessThanOrEqual(50);
+
+        // Verify updateOne was called
+        expect(mockChatModel.updateOne).toHaveBeenCalledWith(
+            { chatId },
+            expect.objectContaining({
+                $push: expect.objectContaining({
+                    history: expect.objectContaining({
+                        $each: expect.any(Array)
+                    })
+                })
+            }),
+            { upsert: true }
+        );
     });
 });
