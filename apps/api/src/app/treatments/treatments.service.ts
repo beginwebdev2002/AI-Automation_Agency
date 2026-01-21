@@ -9,8 +9,15 @@ export class TreatmentsService {
         @InjectModel(Treatment.name) private treatmentModel: Model<TreatmentDocument>
     ) { }
 
-    async findAll(): Promise<Treatment[]> {
-        return this.treatmentModel.find().exec();
+    async findAll(page = 1, limit = 10): Promise<Treatment[]> {
+        const MAX_LIMIT = 100;
+        if (limit > MAX_LIMIT) {
+            limit = MAX_LIMIT;
+        }
+        // Ensure page is at least 1
+        const validPage = page < 1 ? 1 : page;
+        const skip = (validPage - 1) * limit;
+        return this.treatmentModel.find().skip(skip).limit(limit).exec();
     }
 
     async create(createTreatmentDto: any): Promise<Treatment> {
