@@ -28,6 +28,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     allowedHeaders: '*', // Принимает любые заголовки, включая Telegram Init Data
+    maxAge: 3600,
   });
   await app.listen(port);
   Logger.log(
