@@ -5,19 +5,6 @@ import { LanguageSwitcherComponent } from '../language-switcher/language-switche
 import { LanguageService } from '../../services/language.service';
 import { environment } from '../../../../environments/environment';
 
-// Define Telegram WebApp interface locally for now
-interface TelegramWebApp {
-    initDataUnsafe: {
-        user?: {
-            id: number;
-            first_name: string;
-            last_name?: string;
-            username?: string;
-            photo_url?: string;
-        };
-    };
-}
-
 @Component({
     selector: 'app-header',
     standalone: true,
@@ -62,7 +49,7 @@ export class HeaderComponent implements OnInit {
     }
 
     private initTelegramUser() {
-        const tg = (window as any).Telegram?.WebApp as TelegramWebApp;
+        const tg = window.Telegram?.WebApp;
 
         if (tg?.initDataUnsafe?.user) {
             const tgUser = tg.initDataUnsafe.user;

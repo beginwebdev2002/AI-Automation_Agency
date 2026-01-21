@@ -37,7 +37,7 @@ export class QueueService {
         return this.queueModel.find({ status: { $in: ['waiting', 'in-progress'] } }).sort({ sequenceNumber: 1 }).exec();
     }
 
-    async updateStatus(id: string, status: 'in-progress' | 'completed' | 'cancelled'): Promise<Queue> {
+    async updateStatus(id: string, status: 'in-progress' | 'completed' | 'cancelled'): Promise<Queue | null> {
         return this.queueModel.findByIdAndUpdate(id, { status }, { new: true }).exec();
     }
 }

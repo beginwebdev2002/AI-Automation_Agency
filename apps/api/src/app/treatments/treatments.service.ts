@@ -2,6 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Treatment, TreatmentDocument } from './schemas/treatment.schema';
+import { CreateTreatmentDto } from './dto/create-treatment.dto';
+
+export interface FaqItem {
+    question: string;
+    answer: string;
+}
 
 @Injectable()
 export class TreatmentsService {
@@ -20,12 +26,12 @@ export class TreatmentsService {
         return this.treatmentModel.find().skip(skip).limit(limit).exec();
     }
 
-    async create(createTreatmentDto: any): Promise<Treatment> {
+    async create(createTreatmentDto: CreateTreatmentDto): Promise<Treatment> {
         const createdTreatment = new this.treatmentModel(createTreatmentDto);
         return createdTreatment.save();
     }
 
-    getFaq(): any[] {
+    getFaq(): FaqItem[] {
         return [
             {
                 question: 'Does diode laser hurt?',

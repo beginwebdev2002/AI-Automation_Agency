@@ -6,16 +6,16 @@ export type VenueDocument = HydratedDocument<Venue>;
 @Schema({ timestamps: true })
 export class Venue {
     @Prop({ required: true })
-    name: string;
+    name!: string;
 
     @Prop()
-    address: string;
+    address!: string;
 
     @Prop({ type: [String], default: [] })
-    images: string[];
+    images!: string[];
 
     @Prop({ required: true })
-    capacity: number;
+    capacity!: number;
 }
 
 export const VenueSchema = SchemaFactory.createForClass(Venue);

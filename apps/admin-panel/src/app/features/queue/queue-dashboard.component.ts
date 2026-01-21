@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal, inject } from '@angular/core';
 import { ConfigService } from '../../core/config/config.service';
 
 interface QueueItem {
@@ -71,7 +71,8 @@ export class QueueDashboardComponent implements OnInit {
   current = computed(() => this.queue().find(i => i.status === 'in-progress'));
   waiting = computed(() => this.queue().filter(i => i.status === 'waiting'));
 
-  constructor(private http: HttpClient, private configService: ConfigService) { }
+  private http = inject(HttpClient);
+  private configService = inject(ConfigService);
 
   ngOnInit() {
     this.fetchQueue();

@@ -40,9 +40,13 @@ export class TelegramAuthGuard implements CanActivate {
             .map(([key, value]) => `${key}=${value}`)
             .join('\n');
 
+    const token = this.configService.get<string>('TELEGRAM_TOKEN');
+    if (!token) {
+      throw new UnauthorizedException('Telegram token not configured');
+    }
         const secretKey = crypto
             .createHmac('sha256', 'WebAppData')
-            .update(this.configService.get<string>('TELEGRAM_TOKEN'))
+      .update(token)
             .digest();
 
         const calculatedHash = crypto

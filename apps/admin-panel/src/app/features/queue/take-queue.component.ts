@@ -1,7 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../core/config/config.service';
+
+interface Ticket {
+  sequenceNumber: number;
+}
 
 @Component({
   selector: 'app-take-queue',
@@ -70,10 +74,11 @@ export class TakeQueueComponent {
   ];
   selectedCategory = signal<string>('');
   isLoading = signal(false);
-  ticket = signal<any>(null);
+  ticket = signal<Ticket | null>(null);
   errorMessage = signal<string>('');
 
-  constructor(private http: HttpClient, private configService: ConfigService) { }
+  private http = inject(HttpClient);
+  private configService = inject(ConfigService);
 
   joinQueue() {
     if (!this.selectedCategory()) return;
@@ -81,7 +86,7 @@ export class TakeQueueComponent {
     this.isLoading.set(true);
     this.errorMessage.set('');
     const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/queue';
-    this.http.post(apiUrl, { serviceCategory: this.selectedCategory() }).subscribe({
+    this.http.post<Ticket>(apiUrl, { serviceCategory: this.selectedCategory() }).subscribe({
       next: (res) => {
         this.ticket.set(res);
         this.isLoading.set(false);

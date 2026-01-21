@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-declare const Telegram: any;
-
 import { HeaderComponent } from './core/components/header/header.component';
 
 @Component({

@@ -9,7 +9,7 @@ import * as fs from 'fs';
 @Injectable()
 export class GeminiService implements OnModuleInit {
     private genAI: GoogleGenerativeAI;
-    private model: GenerativeModel;
+    private model!: GenerativeModel;
     private context = '';
 
     constructor(private configService: ConfigService) {
@@ -65,7 +65,8 @@ private async loadContext() {
     console.log('✅ База знаний успешно загружена из OneDrive');
 
   } catch (error) {
-    console.error('❌ Ошибка загрузки контекста из OneDrive:', error.message);
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    console.error('❌ Ошибка загрузки контекста из OneDrive:', errorMsg);
     this.context = 'AAA Cosmetics Clinic services and information.';
   }
 }
@@ -89,7 +90,8 @@ private async loadContext() {
                 history: historyWithSystem,
             });
 
-            const result = await chat.sendMessage(lastMsg.parts[0].text);
+            const text = lastMsg.parts[0].text || '';
+            const result = await chat.sendMessage(text);
             const response = await result.response;
             return response.text();
         } catch (error) {

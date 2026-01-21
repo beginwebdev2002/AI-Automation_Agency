@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Venue, VenueDocument } from './schemas/venue.schema';
 import { Appointment, AppointmentDocument } from './schemas/appointment.schema';
+import { CreateVenueDto } from './dto/create-venue.dto';
+import { CreateAppointmentDto } from './dto/create-appointment.dto';
 
 @Injectable()
 export class BookingService {
@@ -11,7 +13,7 @@ export class BookingService {
         @InjectModel(Appointment.name) private appointmentModel: Model<AppointmentDocument>
     ) { }
 
-    async createVenue(createVenueDto: any): Promise<Venue> {
+    async createVenue(createVenueDto: CreateVenueDto): Promise<Venue> {
         const createdVenue = new this.venueModel(createVenueDto);
         return createdVenue.save();
     }
@@ -25,7 +27,7 @@ export class BookingService {
         return this.venueModel.find().skip(skip).limit(limit).exec();
     }
 
-    async createAppointment(createAppointmentDto: any): Promise<Appointment> {
+    async createAppointment(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
         const createdAppointment = new this.appointmentModel(createAppointmentDto);
         return createdAppointment.save();
     }

@@ -14,19 +14,19 @@ export enum AppointmentStatus {
 @Schema({ timestamps: true })
 export class Appointment {
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-    user: User;
+    user!: User;
 
     @Prop({ type: Types.ObjectId, ref: 'Venue', required: true })
-    venue: Venue;
+    venue!: Venue;
 
     @Prop({ required: true })
-    startTime: Date;
+    startTime!: Date;
 
     @Prop({ required: true })
-    endTime: Date;
+    endTime!: Date;
 
     @Prop({ required: true, enum: AppointmentStatus, default: AppointmentStatus.PENDING })
-    status: AppointmentStatus;
+    status!: AppointmentStatus;
 }
 
 export const AppointmentSchema = SchemaFactory.createForClass(Appointment);
