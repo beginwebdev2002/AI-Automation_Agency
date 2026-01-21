@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          # cache: 'pnpm'
 
       # 3. Устанавливаем зависимости именно через pnpm
       # Флаг --no-frozen-lockfile нужен, если Jules или ты меняли зависимости
