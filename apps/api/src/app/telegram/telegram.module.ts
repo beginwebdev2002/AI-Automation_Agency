@@ -9,7 +9,7 @@ import { ConfigService } from '@nestjs/config';
             inject: [ConfigService],
             // 2. Используем фабрику для создания конфигурации
             useFactory: (config: ConfigService) => ({
-                token: config.get<string>('TELEGRAM_TOKEN'),
+                token: config.get<string>('TELEGRAM_TOKEN') || '',
             }),
         }),
     ],

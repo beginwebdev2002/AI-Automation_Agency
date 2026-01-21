@@ -3,8 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../../core/config/config.service';
 import { Observable } from 'rxjs';
 
-declare const Telegram: any;
-
 export interface Message {
     role: 'user' | 'bot';
     text: string;

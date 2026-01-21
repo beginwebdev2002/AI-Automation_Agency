@@ -1,8 +1,6 @@
 import { Component, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-declare const Telegram: any;
-
 interface Service {
   id: string;
   name: string;
@@ -39,8 +37,10 @@ interface Service {
         @for (service of filteredServices(); track service.id) {
           <div 
                (click)="toggleService(service)"
+               (keydown.enter)="toggleService(service)"
+               tabindex="0"
                [class.border-rose-500]="isSelected(service)"
-               class="bg-white p-4 rounded-xl shadow-sm border-2 border-transparent transition-all cursor-pointer flex justify-between items-center">
+               class="bg-white p-4 rounded-xl shadow-sm border-2 border-transparent transition-all cursor-pointer flex justify-between items-center outline-none focus:ring-2 focus:ring-rose-500">
             <div>
               <h3 class="font-semibold text-gray-800">{{ service.name }}</h3>
               <p class="text-rose-600 font-medium">{{ service.price }} TJS</p>

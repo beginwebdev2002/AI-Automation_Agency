@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { User, UserDocument } from '../users/schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 
@@ -12,16 +12,16 @@ export class AuthService {
         private jwtService: JwtService
     ) { }
 
-    async validateUser(email: string, pass: string): Promise<any> {
+    async validateUser(email: string, pass: string): Promise<(Omit<User, 'passwordHash'> & { _id: Types.ObjectId }) | null> {
         const user = await this.userModel.findOne({ email }).lean();
         if (user && (await bcrypt.compare(pass, user.passwordHash))) {
             const { passwordHash, ...result } = user;
-            return result;
+            return result as Omit<User, 'passwordHash'> & { _id: Types.ObjectId };
         }
         return null;
     }
 
-    async login(user: any) {
+    async login(user: Omit<User, 'passwordHash'> & { _id: Types.ObjectId | string }) {
         const payload = { email: user.email, sub: user._id, role: user.role };
         return {
             access_token: this.jwtService.sign(payload),

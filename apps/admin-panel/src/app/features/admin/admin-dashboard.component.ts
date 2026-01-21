@@ -1,8 +1,16 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../core/config/config.service';
 import { LanguageSwitcherComponent } from '../../core/components/language-switcher/language-switcher.component';
+
+interface QueueItem {
+  _id: string;
+  sequenceNumber: number;
+  firstName: string;
+  serviceCategory: string;
+  status: 'waiting' | 'in-progress' | 'completed' | 'cancelled';
+}
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -97,9 +105,10 @@ import { LanguageSwitcherComponent } from '../../core/components/language-switch
 })
 export class AdminDashboardComponent implements OnInit {
   stats = signal({ totalClients: 124, revenue: 15400 }); // Mock stats
-  queue = signal<any[]>([]);
+  queue = signal<QueueItem[]>([]);
 
-  constructor(private http: HttpClient, private configService: ConfigService) { }
+  private http = inject(HttpClient);
+  private configService = inject(ConfigService);
 
   ngOnInit() {
     this.fetchQueue();
@@ -107,7 +116,7 @@ export class AdminDashboardComponent implements OnInit {
 
   fetchQueue() {
     const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/queue';
-    this.http.get<any[]>(apiUrl).subscribe(data => this.queue.set(data));
+    this.http.get<QueueItem[]>(apiUrl).subscribe(data => this.queue.set(data));
   }
 
   updateStatus(id: string, status: string) {

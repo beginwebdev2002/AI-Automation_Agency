@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body, UseGuards, Query, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateVenueDto } from './dto/create-venue.dto';
+import { CreateAppointmentDto } from './dto/create-appointment.dto';
 
 @Controller('booking')
 export class BookingController {
@@ -8,7 +10,7 @@ export class BookingController {
 
     @Post('venues')
     // @UseGuards(AuthGuard('jwt')) // Uncomment to protect
-    createVenue(@Body() createVenueDto: any) {
+    createVenue(@Body() createVenueDto: CreateVenueDto) {
         return this.bookingService.createVenue(createVenueDto);
     }
 
@@ -22,7 +24,7 @@ export class BookingController {
 
     @Post('appointments')
     // @UseGuards(AuthGuard('jwt'))
-    createAppointment(@Body() createAppointmentDto: any) {
+    createAppointment(@Body() createAppointmentDto: CreateAppointmentDto) {
         return this.bookingService.createAppointment(createAppointmentDto);
     }
 

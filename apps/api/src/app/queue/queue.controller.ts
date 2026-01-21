@@ -8,7 +8,7 @@ export class QueueController {
 
     @Post()
     @UseGuards(TelegramAuthGuard)
-    async joinQueue(@Req() req, @Body() body: { serviceCategory: string }) {
+    async joinQueue(@Req() req: any, @Body() body: { serviceCategory: string }) {
         const user = req.user;
         return this.queueService.addToQueue(user.id, user.first_name, user.username, body.serviceCategory);
     }
@@ -20,7 +20,7 @@ export class QueueController {
 
     @Patch(':id/status')
     @UseGuards(TelegramAuthGuard)
-    async updateStatus(@Req() req, @Param('id') id: string, @Body() body: { status: 'in-progress' | 'completed' | 'cancelled' }) {
+    async updateStatus(@Req() req: any, @Param('id') id: string, @Body() body: { status: 'in-progress' | 'completed' | 'cancelled' }) {
         if (req.user.role !== 'admin') {
             throw new UnauthorizedException('Only admins can update status');
         }

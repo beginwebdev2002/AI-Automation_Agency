@@ -1,4 +1,4 @@
-import { Injectable, signal, Inject, LOCALE_ID } from '@angular/core';
+import { Injectable, signal, Inject, LOCALE_ID, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 @Injectable({
@@ -12,16 +12,16 @@ export class LanguageService {
         { code: 'en', label: 'English', flag: '🇺🇸', href: 'https://beginwebdev2002.github.io/AI-Automation_Agency/en/#/calculator' }
     ];
 
-    constructor(
-        @Inject(LOCALE_ID) public locale: string,
-        @Inject(DOCUMENT) private document: Document
-    ) {
-        this.currentLang.set(locale);
+    public locale = inject(LOCALE_ID);
+    private document = inject(DOCUMENT);
+
+    constructor() {
+        this.currentLang.set(this.locale);
     }
 
     switchLanguage(targetLang: string) {
         const href = this.supportedLanguages.find(l => l.code === targetLang)?.href;
-        let documentHref = this.document.location.href;
+        const documentHref = this.document.location.href;
         if (href === documentHref) return;
 
         this.document.location.href = href!;

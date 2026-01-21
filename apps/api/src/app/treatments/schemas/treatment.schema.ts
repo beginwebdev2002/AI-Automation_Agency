@@ -6,16 +6,16 @@ export type TreatmentDocument = Treatment & Document;
 @Schema()
 export class Treatment {
     @Prop({ required: true })
-    name: string;
+    name!: string;
 
     @Prop({ required: true })
-    category: string; // 'Laser', 'Botox', 'Facials'
+    category!: string; // 'Laser', 'Botox', 'Facials'
 
     @Prop({ required: true })
-    price: number; // In TJS
+    price!: number; // In TJS
 
     @Prop()
-    description: string;
+    description?: string;
 }
 
 export const TreatmentSchema = SchemaFactory.createForClass(Treatment);

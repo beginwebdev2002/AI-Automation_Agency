@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { LanguageService } from '../../core/services/language.service';
 import { ChatService, Message } from './chat.service';
 
-declare const Telegram: any;
-
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -132,7 +130,9 @@ export class ChatComponent implements AfterViewChecked, OnInit {
   private scrollToBottom(): void {
     try {
       this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
-    } catch (err) { }
+    } catch (err) {
+      console.error('Scroll error:', err);
+    }
   }
 
   onEnter(event: Event) {
@@ -140,7 +140,7 @@ export class ChatComponent implements AfterViewChecked, OnInit {
     this.sendMessage();
   }
   private userData() {
-        const tg = (window as any).Telegram?.WebApp;
+        const tg = window.Telegram?.WebApp;
         if (!tg) return null;
         return tg.initDataUnsafe?.user;
     }

@@ -1,6 +1,6 @@
-import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { ChatService } from './chat.service';
-import { TelegramAuthGuard } from '../auth/telegram-auth.guard';
+import { SendMessageDto } from './dto/send-message.dto';
 
 @Controller('chat')
 export class ChatController {
@@ -8,7 +8,7 @@ export class ChatController {
 
     @Post('message')
     // @UseGuards(TelegramAuthGuard)
-    async sendMessage(@Body() body: { message: string; chatId: string }, @Req() req: any) {
+    async sendMessage(@Body() body: SendMessageDto) {
         console.log('Hello!', body);
 
         return {

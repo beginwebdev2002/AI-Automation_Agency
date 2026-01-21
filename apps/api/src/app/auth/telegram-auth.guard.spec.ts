@@ -58,7 +58,7 @@ describe('TelegramAuthGuard', () => {
       headers: {
         'x-telegram-init-data': initData,
       },
-      user: null,
+      user: null as any,
     };
 
     const context = {
@@ -74,7 +74,7 @@ describe('TelegramAuthGuard', () => {
     // But since I'm implementing the fix immediately, I'll write the test for the DESIRED behavior.
     expect(request.user).toBeDefined();
     // Use loose equality or string conversion as ID comes as number from JSON but might be string in env
-    expect(String(request.user.role)).toBe('admin');
+    expect(String(request.user?.role)).toBe('admin');
   });
 
   it('should assign client role when user id does not match TELEGRAM_ADMIN_ID', () => {
@@ -85,7 +85,7 @@ describe('TelegramAuthGuard', () => {
       headers: {
         'x-telegram-init-data': initData,
       },
-      user: null,
+      user: null as any,
     };
 
     const context = {
@@ -95,7 +95,7 @@ describe('TelegramAuthGuard', () => {
     } as ExecutionContext;
 
     expect(guard.canActivate(context)).toBe(true);
-    expect(request.user.role).toBe('client');
+    expect(request.user?.role).toBe('client');
   });
 
   it('should throw UnauthorizedException if initData is missing', () => {
