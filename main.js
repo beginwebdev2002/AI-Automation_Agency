@@ -27,13 +27,13 @@ const app_controller_1 = __webpack_require__(6);
 const app_service_1 = __webpack_require__(7);
 const mongoose_1 = __webpack_require__(8);
 const auth_module_1 = __webpack_require__(9);
-const booking_module_1 = __webpack_require__(20);
-const telegram_module_1 = __webpack_require__(25);
-const users_module_1 = __webpack_require__(16);
-const treatments_module_1 = __webpack_require__(29);
-const queue_module_1 = __webpack_require__(33);
-const gemini_module_1 = __webpack_require__(39);
-const chat_module_1 = __webpack_require__(45);
+const booking_module_1 = __webpack_require__(23);
+const telegram_module_1 = __webpack_require__(30);
+const users_module_1 = __webpack_require__(19);
+const treatments_module_1 = __webpack_require__(34);
+const queue_module_1 = __webpack_require__(38);
+const gemini_module_1 = __webpack_require__(44);
+const chat_module_1 = __webpack_require__(50);
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -148,10 +148,10 @@ const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const auth_service_1 = __webpack_require__(10);
 const auth_controller_1 = __webpack_require__(15);
-const users_module_1 = __webpack_require__(16);
-const passport_1 = __webpack_require__(17);
+const users_module_1 = __webpack_require__(19);
+const passport_1 = __webpack_require__(20);
 const jwt_1 = __webpack_require__(11);
-const jwt_strategy_1 = __webpack_require__(18);
+const jwt_strategy_1 = __webpack_require__(21);
 const config_1 = __webpack_require__(5);
 let AuthModule = class AuthModule {
 };
@@ -206,7 +206,6 @@ let AuthService = class AuthService {
     async validateUser(email, pass) {
         const user = await this.userModel.findOne({ email }).lean();
         if (user && (await bcrypt.compare(pass, user.passwordHash))) {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { passwordHash, ...result } = user;
             return result;
         }
@@ -294,12 +293,14 @@ module.exports = require("bcrypt");
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
-var _a;
+var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AuthController = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const auth_service_1 = __webpack_require__(10);
+const login_dto_1 = __webpack_require__(16);
+const register_dto_1 = __webpack_require__(18);
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -321,14 +322,14 @@ tslib_1.__decorate([
     (0, common_1.Post)('login'),
     tslib_1.__param(0, (0, common_1.Body)()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof login_dto_1.LoginDto !== "undefined" && login_dto_1.LoginDto) === "function" ? _b : Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 tslib_1.__decorate([
     (0, common_1.Post)('register'),
     tslib_1.__param(0, (0, common_1.Body)()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof register_dto_1.RegisterDto !== "undefined" && register_dto_1.RegisterDto) === "function" ? _c : Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 exports.AuthController = AuthController = tslib_1.__decorate([
@@ -339,6 +340,61 @@ exports.AuthController = AuthController = tslib_1.__decorate([
 
 /***/ }),
 /* 16 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LoginDto = void 0;
+const tslib_1 = __webpack_require__(4);
+const class_validator_1 = __webpack_require__(17);
+class LoginDto {
+}
+exports.LoginDto = LoginDto;
+tslib_1.__decorate([
+    (0, class_validator_1.IsEmail)({}, { message: 'Invalid email format' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], LoginDto.prototype, "email", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], LoginDto.prototype, "password", void 0);
+
+
+/***/ }),
+/* 17 */
+/***/ ((module) => {
+
+module.exports = require("class-validator");
+
+/***/ }),
+/* 18 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RegisterDto = void 0;
+const tslib_1 = __webpack_require__(4);
+const class_validator_1 = __webpack_require__(17);
+class RegisterDto {
+}
+exports.RegisterDto = RegisterDto;
+tslib_1.__decorate([
+    (0, class_validator_1.IsEmail)({}, { message: 'Invalid email format' }),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], RegisterDto.prototype, "email", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.MinLength)(6, { message: 'Password must be at least 6 characters long' }),
+    tslib_1.__metadata("design:type", String)
+], RegisterDto.prototype, "password", void 0);
+
+
+/***/ }),
+/* 19 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -364,13 +420,13 @@ exports.UsersModule = UsersModule = tslib_1.__decorate([
 
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ ((module) => {
 
 module.exports = require("@nestjs/passport");
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -378,8 +434,8 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.JwtStrategy = void 0;
 const tslib_1 = __webpack_require__(4);
-const passport_jwt_1 = __webpack_require__(19);
-const passport_1 = __webpack_require__(17);
+const passport_jwt_1 = __webpack_require__(22);
+const passport_1 = __webpack_require__(20);
 const common_1 = __webpack_require__(1);
 const config_1 = __webpack_require__(5);
 let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
@@ -406,13 +462,13 @@ exports.JwtStrategy = JwtStrategy = tslib_1.__decorate([
 
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ ((module) => {
 
 module.exports = require("passport-jwt");
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -421,10 +477,10 @@ exports.BookingModule = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
-const venue_schema_1 = __webpack_require__(21);
-const appointment_schema_1 = __webpack_require__(22);
-const booking_service_1 = __webpack_require__(23);
-const booking_controller_1 = __webpack_require__(24);
+const venue_schema_1 = __webpack_require__(24);
+const appointment_schema_1 = __webpack_require__(25);
+const booking_service_1 = __webpack_require__(26);
+const booking_controller_1 = __webpack_require__(27);
 let BookingModule = class BookingModule {
 };
 exports.BookingModule = BookingModule;
@@ -443,7 +499,7 @@ exports.BookingModule = BookingModule = tslib_1.__decorate([
 
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -477,7 +533,7 @@ exports.VenueSchema = mongoose_1.SchemaFactory.createForClass(Venue);
 
 
 /***/ }),
-/* 22 */
+/* 25 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -488,7 +544,7 @@ const tslib_1 = __webpack_require__(4);
 const mongoose_1 = __webpack_require__(8);
 const mongoose_2 = __webpack_require__(12);
 const user_schema_1 = __webpack_require__(13);
-const venue_schema_1 = __webpack_require__(21);
+const venue_schema_1 = __webpack_require__(24);
 var AppointmentStatus;
 (function (AppointmentStatus) {
     AppointmentStatus["PENDING"] = "PENDING";
@@ -525,7 +581,7 @@ exports.AppointmentSchema = mongoose_1.SchemaFactory.createForClass(Appointment)
 
 
 /***/ }),
-/* 23 */
+/* 26 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -536,8 +592,8 @@ const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
 const mongoose_2 = __webpack_require__(12);
-const venue_schema_1 = __webpack_require__(21);
-const appointment_schema_1 = __webpack_require__(22);
+const venue_schema_1 = __webpack_require__(24);
+const appointment_schema_1 = __webpack_require__(25);
 let BookingService = class BookingService {
     constructor(venueModel, appointmentModel) {
         this.venueModel = venueModel;
@@ -578,16 +634,18 @@ exports.BookingService = BookingService = tslib_1.__decorate([
 
 
 /***/ }),
-/* 24 */
+/* 27 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
-var _a;
+var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BookingController = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
-const booking_service_1 = __webpack_require__(23);
+const booking_service_1 = __webpack_require__(26);
+const create_venue_dto_1 = __webpack_require__(28);
+const create_appointment_dto_1 = __webpack_require__(29);
 let BookingController = class BookingController {
     constructor(bookingService) {
         this.bookingService = bookingService;
@@ -614,7 +672,7 @@ tslib_1.__decorate([
     ,
     tslib_1.__param(0, (0, common_1.Body)()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof create_venue_dto_1.CreateVenueDto !== "undefined" && create_venue_dto_1.CreateVenueDto) === "function" ? _b : Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], BookingController.prototype, "createVenue", null);
 tslib_1.__decorate([
@@ -631,7 +689,7 @@ tslib_1.__decorate([
     ,
     tslib_1.__param(0, (0, common_1.Body)()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof create_appointment_dto_1.CreateAppointmentDto !== "undefined" && create_appointment_dto_1.CreateAppointmentDto) === "function" ? _c : Object]),
     tslib_1.__metadata("design:returntype", void 0)
 ], BookingController.prototype, "createAppointment", null);
 tslib_1.__decorate([
@@ -649,7 +707,83 @@ exports.BookingController = BookingController = tslib_1.__decorate([
 
 
 /***/ }),
-/* 25 */
+/* 28 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreateVenueDto = void 0;
+const tslib_1 = __webpack_require__(4);
+const class_validator_1 = __webpack_require__(17);
+class CreateVenueDto {
+}
+exports.CreateVenueDto = CreateVenueDto;
+tslib_1.__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], CreateVenueDto.prototype, "name", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    tslib_1.__metadata("design:type", String)
+], CreateVenueDto.prototype, "address", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsOptional)(),
+    tslib_1.__metadata("design:type", Array)
+], CreateVenueDto.prototype, "images", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", Number)
+], CreateVenueDto.prototype, "capacity", void 0);
+
+
+/***/ }),
+/* 29 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreateAppointmentDto = void 0;
+const tslib_1 = __webpack_require__(4);
+const class_validator_1 = __webpack_require__(17);
+const appointment_schema_1 = __webpack_require__(25);
+class CreateAppointmentDto {
+}
+exports.CreateAppointmentDto = CreateAppointmentDto;
+tslib_1.__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], CreateAppointmentDto.prototype, "user", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], CreateAppointmentDto.prototype, "venue", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], CreateAppointmentDto.prototype, "startTime", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], CreateAppointmentDto.prototype, "endTime", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsEnum)(appointment_schema_1.AppointmentStatus),
+    (0, class_validator_1.IsOptional)(),
+    tslib_1.__metadata("design:type", typeof (_a = typeof appointment_schema_1.AppointmentStatus !== "undefined" && appointment_schema_1.AppointmentStatus) === "function" ? _a : Object)
+], CreateAppointmentDto.prototype, "status", void 0);
+
+
+/***/ }),
+/* 30 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -657,8 +791,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TelegramModule = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
-const nestjs_telegraf_1 = __webpack_require__(26);
-const telegram_service_1 = __webpack_require__(27);
+const nestjs_telegraf_1 = __webpack_require__(31);
+const telegram_service_1 = __webpack_require__(32);
 const config_1 = __webpack_require__(5);
 let TelegramModule = class TelegramModule {
 };
@@ -671,7 +805,7 @@ exports.TelegramModule = TelegramModule = tslib_1.__decorate([
                 inject: [config_1.ConfigService],
                 // 2. Используем фабрику для создания конфигурации
                 useFactory: (config) => ({
-                    token: config.get('TELEGRAM_TOKEN'),
+                    token: config.get('TELEGRAM_TOKEN') || '',
                 }),
             }),
         ],
@@ -682,13 +816,13 @@ exports.TelegramModule = TelegramModule = tslib_1.__decorate([
 
 
 /***/ }),
-/* 26 */
+/* 31 */
 /***/ ((module) => {
 
 module.exports = require("nestjs-telegraf");
 
 /***/ }),
-/* 27 */
+/* 32 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -697,8 +831,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TelegramService = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
-const telegraf_1 = __webpack_require__(28);
-const nestjs_telegraf_1 = __webpack_require__(26);
+const telegraf_1 = __webpack_require__(33);
+const nestjs_telegraf_1 = __webpack_require__(31);
 let TelegramService = class TelegramService {
     constructor(bot) {
         this.bot = bot;
@@ -723,13 +857,13 @@ exports.TelegramService = TelegramService = tslib_1.__decorate([
 
 
 /***/ }),
-/* 28 */
+/* 33 */
 /***/ ((module) => {
 
 module.exports = require("telegraf");
 
 /***/ }),
-/* 29 */
+/* 34 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -738,9 +872,9 @@ exports.TreatmentsModule = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
-const treatments_controller_1 = __webpack_require__(30);
-const treatments_service_1 = __webpack_require__(31);
-const treatment_schema_1 = __webpack_require__(32);
+const treatments_controller_1 = __webpack_require__(35);
+const treatments_service_1 = __webpack_require__(36);
+const treatment_schema_1 = __webpack_require__(37);
 let TreatmentsModule = class TreatmentsModule {
 };
 exports.TreatmentsModule = TreatmentsModule;
@@ -756,7 +890,7 @@ exports.TreatmentsModule = TreatmentsModule = tslib_1.__decorate([
 
 
 /***/ }),
-/* 30 */
+/* 35 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -765,13 +899,13 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TreatmentsController = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
-const treatments_service_1 = __webpack_require__(31);
+const treatments_service_1 = __webpack_require__(36);
 let TreatmentsController = class TreatmentsController {
     constructor(treatmentsService) {
         this.treatmentsService = treatmentsService;
     }
-    async findAll() {
-        return this.treatmentsService.findAll();
+    async findAll(page, limit) {
+        return this.treatmentsService.findAll(page, limit);
     }
     getFaq() {
         return this.treatmentsService.getFaq();
@@ -784,8 +918,10 @@ let TreatmentsController = class TreatmentsController {
 exports.TreatmentsController = TreatmentsController;
 tslib_1.__decorate([
     (0, common_1.Get)(),
+    tslib_1.__param(0, (0, common_1.Query)('page', new common_1.DefaultValuePipe(1), common_1.ParseIntPipe)),
+    tslib_1.__param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
+    tslib_1.__metadata("design:paramtypes", [Number, Number]),
     tslib_1.__metadata("design:returntype", Promise)
 ], TreatmentsController.prototype, "findAll", null);
 tslib_1.__decorate([
@@ -807,7 +943,7 @@ exports.TreatmentsController = TreatmentsController = tslib_1.__decorate([
 
 
 /***/ }),
-/* 31 */
+/* 36 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -818,13 +954,20 @@ const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
 const mongoose_2 = __webpack_require__(12);
-const treatment_schema_1 = __webpack_require__(32);
+const treatment_schema_1 = __webpack_require__(37);
 let TreatmentsService = class TreatmentsService {
     constructor(treatmentModel) {
         this.treatmentModel = treatmentModel;
     }
-    async findAll() {
-        return this.treatmentModel.find().exec();
+    async findAll(page = 1, limit = 10) {
+        const MAX_LIMIT = 100;
+        if (limit > MAX_LIMIT) {
+            limit = MAX_LIMIT;
+        }
+        // Ensure page is at least 1
+        const validPage = page < 1 ? 1 : page;
+        const skip = (validPage - 1) * limit;
+        return this.treatmentModel.find().skip(skip).limit(limit).exec();
     }
     async create(createTreatmentDto) {
         const createdTreatment = new this.treatmentModel(createTreatmentDto);
@@ -864,7 +1007,7 @@ exports.TreatmentsService = TreatmentsService = tslib_1.__decorate([
 
 
 /***/ }),
-/* 32 */
+/* 37 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -898,7 +1041,7 @@ exports.TreatmentSchema = mongoose_1.SchemaFactory.createForClass(Treatment);
 
 
 /***/ }),
-/* 33 */
+/* 38 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -907,9 +1050,9 @@ exports.QueueModule = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
-const queue_controller_1 = __webpack_require__(34);
-const queue_service_1 = __webpack_require__(35);
-const queue_schema_1 = __webpack_require__(36);
+const queue_controller_1 = __webpack_require__(39);
+const queue_service_1 = __webpack_require__(40);
+const queue_schema_1 = __webpack_require__(41);
 const config_1 = __webpack_require__(5);
 let QueueModule = class QueueModule {
 };
@@ -927,7 +1070,7 @@ exports.QueueModule = QueueModule = tslib_1.__decorate([
 
 
 /***/ }),
-/* 34 */
+/* 39 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -936,8 +1079,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.QueueController = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
-const queue_service_1 = __webpack_require__(35);
-const telegram_auth_guard_1 = __webpack_require__(37);
+const queue_service_1 = __webpack_require__(40);
+const telegram_auth_guard_1 = __webpack_require__(42);
 let QueueController = class QueueController {
     constructor(queueService) {
         this.queueService = queueService;
@@ -989,7 +1132,7 @@ exports.QueueController = QueueController = tslib_1.__decorate([
 
 
 /***/ }),
-/* 35 */
+/* 40 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1000,7 +1143,7 @@ const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
 const mongoose_2 = __webpack_require__(12);
-const queue_schema_1 = __webpack_require__(36);
+const queue_schema_1 = __webpack_require__(41);
 let QueueService = class QueueService {
     constructor(queueModel) {
         this.queueModel = queueModel;
@@ -1040,7 +1183,7 @@ exports.QueueService = QueueService = tslib_1.__decorate([
 
 
 /***/ }),
-/* 36 */
+/* 41 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1082,7 +1225,7 @@ exports.QueueSchema = mongoose_1.SchemaFactory.createForClass(Queue);
 
 
 /***/ }),
-/* 37 */
+/* 42 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1092,7 +1235,7 @@ exports.TelegramAuthGuard = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const config_1 = __webpack_require__(5);
-const crypto = tslib_1.__importStar(__webpack_require__(38));
+const crypto = tslib_1.__importStar(__webpack_require__(43));
 let TelegramAuthGuard = class TelegramAuthGuard {
     constructor(configService) {
         this.configService = configService;
@@ -1109,8 +1252,9 @@ let TelegramAuthGuard = class TelegramAuthGuard {
             const userString = urlParams.get('user');
             if (userString) {
                 request.user = JSON.parse(userString);
-                // Add role logic here (simple check for now)
-                request.user.role = request.user.id === 6016120046 ? 'admin' : 'client'; // Example ID
+                // Add role logic here
+                const adminId = this.configService.get('TELEGRAM_ADMIN_ID');
+                request.user.role = String(request.user.id) === adminId ? 'admin' : 'client';
             }
             return true;
         }
@@ -1124,10 +1268,18 @@ let TelegramAuthGuard = class TelegramAuthGuard {
             .sort((a, b) => a[0].localeCompare(b[0]))
             .map(([key, value]) => `${key}=${value}`)
             .join('\n');
-        const secretKey = crypto
-            .createHmac('sha256', 'WebAppData')
-            .update(this.configService.get('TELEGRAM_TOKEN'))
-            .digest();
+        let secretKey = this.secretKey;
+        if (!secretKey) {
+            const token = this.configService.get('TELEGRAM_TOKEN');
+            if (!token) {
+                throw new common_1.UnauthorizedException('Telegram token not configured');
+            }
+            secretKey = crypto
+                .createHmac('sha256', 'WebAppData')
+                .update(token)
+                .digest();
+            this.secretKey = secretKey;
+        }
         const calculatedHash = crypto
             .createHmac('sha256', secretKey)
             .update(dataCheckString)
@@ -1143,13 +1295,13 @@ exports.TelegramAuthGuard = TelegramAuthGuard = tslib_1.__decorate([
 
 
 /***/ }),
-/* 38 */
+/* 43 */
 /***/ ((module) => {
 
 module.exports = require("crypto");
 
 /***/ }),
-/* 39 */
+/* 44 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1157,8 +1309,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GeminiModule = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
-const gemini_controller_1 = __webpack_require__(40);
-const gemini_service_1 = __webpack_require__(41);
+const gemini_controller_1 = __webpack_require__(45);
+const gemini_service_1 = __webpack_require__(46);
 const config_1 = __webpack_require__(5);
 let GeminiModule = class GeminiModule {
 };
@@ -1174,7 +1326,7 @@ exports.GeminiModule = GeminiModule = tslib_1.__decorate([
 
 
 /***/ }),
-/* 40 */
+/* 45 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1183,7 +1335,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GeminiController = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
-const gemini_service_1 = __webpack_require__(41);
+const gemini_service_1 = __webpack_require__(46);
 let GeminiController = class GeminiController {
     constructor(geminiService) {
         this.geminiService = geminiService;
@@ -1211,7 +1363,7 @@ exports.GeminiController = GeminiController = tslib_1.__decorate([
 
 
 /***/ }),
-/* 41 */
+/* 46 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1221,9 +1373,9 @@ exports.GeminiService = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const config_1 = __webpack_require__(5);
-const generative_ai_1 = __webpack_require__(42);
-const mammoth = tslib_1.__importStar(__webpack_require__(43));
-const path = tslib_1.__importStar(__webpack_require__(44));
+const generative_ai_1 = __webpack_require__(47);
+const mammoth = tslib_1.__importStar(__webpack_require__(48));
+const path = tslib_1.__importStar(__webpack_require__(49));
 let GeminiService = class GeminiService {
     constructor(configService) {
         this.configService = configService;
@@ -1274,7 +1426,8 @@ let GeminiService = class GeminiService {
             console.log('✅ База знаний успешно загружена из OneDrive');
         }
         catch (error) {
-            console.error('❌ Ошибка загрузки контекста из OneDrive:', error.message);
+            const errorMsg = error instanceof Error ? error.message : String(error);
+            console.error('❌ Ошибка загрузки контекста из OneDrive:', errorMsg);
             this.context = 'AAA Cosmetics Clinic services and information.';
         }
     }
@@ -1283,17 +1436,12 @@ let GeminiService = class GeminiService {
     }
     async chatWithHistory(history) {
         try {
-            const systemPrompt = this.buildSystemPrompt();
-            const historyWithSystem = [
-                { role: 'user', parts: [{ text: systemPrompt }] },
-                { role: 'model', parts: [{ text: 'Understood. I am ready to act as the AAA Cosmetics consultant.' }] },
-                ...history.slice(0, -1) // Previous history
-            ];
             const lastMsg = history[history.length - 1];
             const chat = this.model.startChat({
-                history: historyWithSystem,
+                history: history.slice(0, -1),
             });
-            const result = await chat.sendMessage(lastMsg.parts[0].text);
+            const text = lastMsg.parts[0].text || '';
+            const result = await chat.sendMessage(text);
             const response = await result.response;
             return response.text();
         }
@@ -1314,25 +1462,25 @@ exports.GeminiService = GeminiService = tslib_1.__decorate([
 
 
 /***/ }),
-/* 42 */
+/* 47 */
 /***/ ((module) => {
 
 module.exports = require("@google/generative-ai");
 
 /***/ }),
-/* 43 */
+/* 48 */
 /***/ ((module) => {
 
 module.exports = require("mammoth");
 
 /***/ }),
-/* 44 */
+/* 49 */
 /***/ ((module) => {
 
 module.exports = require("path");
 
 /***/ }),
-/* 45 */
+/* 50 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1341,10 +1489,10 @@ exports.ChatModule = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
-const chat_controller_1 = __webpack_require__(46);
-const chat_service_1 = __webpack_require__(47);
-const chat_schema_1 = __webpack_require__(48);
-const gemini_module_1 = __webpack_require__(39);
+const chat_controller_1 = __webpack_require__(51);
+const chat_service_1 = __webpack_require__(52);
+const chat_schema_1 = __webpack_require__(53);
+const gemini_module_1 = __webpack_require__(44);
 const config_1 = __webpack_require__(5);
 let ChatModule = class ChatModule {
 };
@@ -1364,22 +1512,23 @@ exports.ChatModule = ChatModule = tslib_1.__decorate([
 
 
 /***/ }),
-/* 46 */
+/* 51 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
-var _a;
+var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ChatController = void 0;
 const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
-const chat_service_1 = __webpack_require__(47);
+const chat_service_1 = __webpack_require__(52);
+const send_message_dto_1 = __webpack_require__(54);
 let ChatController = class ChatController {
     constructor(chatService) {
         this.chatService = chatService;
     }
     // @UseGuards(TelegramAuthGuard)
-    async sendMessage(body, req) {
+    async sendMessage(body) {
         console.log('Hello!', body);
         return {
             response: await this.chatService.handleMessage(body.chatId, body.message)
@@ -1392,9 +1541,8 @@ tslib_1.__decorate([
     // @UseGuards(TelegramAuthGuard)
     ,
     tslib_1.__param(0, (0, common_1.Body)()),
-    tslib_1.__param(1, (0, common_1.Req)()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object, Object]),
+    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof send_message_dto_1.SendMessageDto !== "undefined" && send_message_dto_1.SendMessageDto) === "function" ? _b : Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], ChatController.prototype, "sendMessage", null);
 exports.ChatController = ChatController = tslib_1.__decorate([
@@ -1404,7 +1552,7 @@ exports.ChatController = ChatController = tslib_1.__decorate([
 
 
 /***/ }),
-/* 47 */
+/* 52 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1416,8 +1564,8 @@ const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const mongoose_1 = __webpack_require__(8);
 const mongoose_2 = __webpack_require__(12);
-const chat_schema_1 = __webpack_require__(48);
-const gemini_service_1 = __webpack_require__(41);
+const chat_schema_1 = __webpack_require__(53);
+const gemini_service_1 = __webpack_require__(46);
 let ChatService = ChatService_1 = class ChatService {
     constructor(chatModel, geminiService) {
         this.chatModel = chatModel;
@@ -1430,7 +1578,10 @@ let ChatService = ChatService_1 = class ChatService {
             chat = new this.chatModel({ chatId, history: [] });
         }
         chat.history.push({ role: 'user', text: message, timestamp: new Date() });
-        const historyForAi = chat.history.map(msg => ({
+        // Limit history to last 50 messages to save context and tokens
+        const MAX_HISTORY = 50;
+        const recentHistory = chat.history.slice(-MAX_HISTORY);
+        const historyForAi = recentHistory.map(msg => ({
             role: msg.role === 'user' ? 'user' : 'model',
             parts: [{ text: msg.text }]
         }));
@@ -1449,7 +1600,7 @@ exports.ChatService = ChatService = ChatService_1 = tslib_1.__decorate([
 
 
 /***/ }),
-/* 48 */
+/* 53 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -1492,6 +1643,30 @@ exports.Chat = Chat = tslib_1.__decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Chat);
 exports.ChatSchema = mongoose_1.SchemaFactory.createForClass(Chat);
+
+
+/***/ }),
+/* 54 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SendMessageDto = void 0;
+const tslib_1 = __webpack_require__(4);
+const class_validator_1 = __webpack_require__(17);
+class SendMessageDto {
+}
+exports.SendMessageDto = SendMessageDto;
+tslib_1.__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], SendMessageDto.prototype, "message", void 0);
+tslib_1.__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    tslib_1.__metadata("design:type", String)
+], SendMessageDto.prototype, "chatId", void 0);
 
 
 /***/ })
@@ -1537,6 +1712,7 @@ const core_1 = __webpack_require__(2);
 const app_module_1 = __webpack_require__(3);
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.useGlobalPipes(new common_1.ValidationPipe({ whitelist: true }));
     const port = process.env.PORT || 3000;
     // app.setGlobalPrefix('api');
     // app.enableCors({
@@ -1555,6 +1731,7 @@ async function bootstrap() {
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,
         allowedHeaders: '*', // Принимает любые заголовки, включая Telegram Init Data
+        maxAge: 3600,
     });
     await app.listen(port);
     common_1.Logger.log(`🚀 Application is running on: http://localhost:${port}`);
