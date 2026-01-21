@@ -28,7 +28,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm i --legacy-peer-deps
 
       - name: Build Admin Panel
         run: npx nx build admin-panel --prod --base-href /AI-Automation_Agency/
