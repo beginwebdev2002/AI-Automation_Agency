@@ -12,60 +12,8 @@ interface Service {
   selector: 'app-booking',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="p-4 bg-gray-50 min-h-screen pb-24">
-      <h1 class="text-2xl font-bold text-rose-700 mb-4" i18n>Выберите услуги</h1>
-
-      <!-- Category Filter -->
-      <div class="flex gap-2 overflow-x-auto mb-6 pb-2">
-        @for (cat of categories; track cat) {
-          <button 
-            (click)="selectedCategory.set(cat)"
-            [class.bg-rose-600]="selectedCategory() === cat"
-            [class.text-white]="selectedCategory() === cat"
-            [class.bg-white]="selectedCategory() !== cat"
-            [class.text-gray-700]="selectedCategory() !== cat"
-            class="px-4 py-2 rounded-full shadow-sm whitespace-nowrap transition-colors"
-          >
-            {{ cat }}
-          </button>
-        }
-      </div>
-
-      <!-- Service List -->
-      <div class="space-y-3">
-        @for (service of filteredServices(); track service.id) {
-          <div 
-               (click)="toggleService(service)"
-               (keydown.enter)="toggleService(service)"
-               tabindex="0"
-               [class.border-rose-500]="isSelected(service)"
-               class="bg-white p-4 rounded-xl shadow-sm border-2 border-transparent transition-all cursor-pointer flex justify-between items-center outline-none focus:ring-2 focus:ring-rose-500">
-            <div>
-              <h3 class="font-semibold text-gray-800">{{ service.name }}</h3>
-              <p class="text-rose-600 font-medium">{{ service.price }} TJS</p>
-            </div>
-            @if (isSelected(service)) {
-              <div class="text-rose-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              </div>
-            }
-          </div>
-        }
-      </div>
-
-      <!-- Floating Action Button -->
-      @if (cart().length > 0) {
-        <div class="fixed bottom-4 left-4 right-4">
-          <button (click)="confirmBooking()" 
-                  class="w-full bg-rose-600 text-white py-4 rounded-xl font-bold shadow-lg flex justify-between px-6 items-center">
-            <span i18n>Подтвердить запись</span>
-            <span>{{ totalPrice() }} TJS</span>
-          </button>
-        </div>
-      }
-    </div>
-  `
+  templateUrl: './booking.component.html',
+  styleUrls: ['./booking.component.scss']
 })
 export class BookingComponent implements OnInit, OnDestroy {
   categories = ['Все', 'Лазер', 'Ботокс', 'Уход за лицом'];

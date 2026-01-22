@@ -11,6 +11,10 @@
 - Follow the official Angular Style Guide (https://angular.dev/style-guide).
 - Use Standalone Components (Angular 17+ architecture).
 - Implement OnPush change detection strategy where possible.
+- **Component File Structure Standard**:
+  - Every component must have its own separate template and style files.
+  - Required files: `[name].component.ts`, `[name].component.html`, and `[name].component.scss`.
+  - Inline templates (`template: '...'`) and inline styles (`styles: [...]`) are strictly prohibited.
 - Shared logic must be in Services, UI only in Components.
 
 ## 3. Backend: NestJS (apps/api)

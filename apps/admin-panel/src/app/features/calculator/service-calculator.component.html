@@ -1,0 +1,75 @@
+<div class="p-6 bg-medical-rose-50 min-h-screen">
+
+  <!-- Search Input -->
+  <div class="mb-6 relative">
+    <input
+      type="text"
+      [ngModel]="searchQuery()"
+      (ngModelChange)="searchQuery.set($event)"
+      placeholder="Search services..."
+      i18n-placeholder="@@searchServicesPlaceholder"
+      class="w-full px-4 py-3 pl-12 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-medical-rose-500 text-gray-700"
+    />
+    <svg class="w-5 h-5 absolute left-4 top-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    </svg>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="flex gap-3 mb-8 overflow-x-auto pb-2">
+    @for (cat of categories; track cat.value) {
+      <button 
+              (click)="selectedCategory.set(cat.value)"
+              [class.bg-medical-rose-500]="selectedCategory() === cat.value"
+              [class.text-white]="selectedCategory() === cat.value"
+              [class.bg-white]="selectedCategory() !== cat.value"
+              [class.text-gray-600]="selectedCategory() !== cat.value"
+              class="px-5 py-2 rounded-full shadow-sm transition-all whitespace-nowrap">
+        {{ cat.label }}
+      </button>
+    }
+  </div>
+
+  <!-- Services List -->
+  <div class="grid gap-4 mb-24">
+    @for (service of filteredServices(); track service.id) {
+      <div 
+           (click)="toggleService(service)"
+           (keydown.enter)="toggleService(service)"
+           tabindex="0"
+           role="button"
+           [attr.aria-pressed]="isSelected(service)"
+           [class.border-medical-gold-500]="isSelected(service)"
+           class="bg-white p-5 rounded-2xl shadow-sm border-2 border-transparent cursor-pointer flex justify-between items-center transition-all">
+        <div>
+          <h3 class="font-medium text-gray-900">{{ service.name }}</h3>
+          <p class="text-medical-rose-500 font-bold">{{ service.price }} <span i18n="@@currencyTJS">TJS</span></p>
+        </div>
+        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center"
+             [class.border-medical-gold-500]="isSelected(service)"
+             [class.bg-medical-gold-500]="isSelected(service)"
+             [class.border-gray-300]="!isSelected(service)">
+          @if (isSelected(service)) {
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          }
+        </div>
+      </div>
+    }
+    @if (filteredServices().length === 0) {
+      <div class="text-center py-10 text-gray-500">
+        <p i18n="@@noServicesFound">No services found</p>
+      </div>
+    }
+  </div>
+
+  <!-- Total Widget -->
+  <div class="fixed bottom-0 left-0 right-0 p-4 bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] rounded-t-3xl">
+    <div class="flex justify-between items-center mb-4">
+      <span class="text-gray-500" i18n="@@totalEstimateLabel">Итого</span>
+      <span class="text-2xl font-bold text-medical-rose-900">{{ totalPrice() }} <span i18n="@@currencyTJS">TJS</span></span>
+    </div>
+    <button class="w-full bg-medical-rose-900 text-white py-4 rounded-xl font-medium shadow-lg active:scale-95 transition-transform" i18n="@@bookAppointmentButton">
+      Записаться
+    </button>
+  </div>
+</div>
