@@ -18,3 +18,8 @@ Sentinel Journal initialized.
 **Vulnerability:** `TelegramAuthGuard` verified the hash signature of `initData` but did not check `auth_date`.
 **Learning:** Signature verification proves *authenticity* but not *freshness*. Without an expiration check, a captured valid token is valid forever (or until the bot token changes).
 **Prevention:** Always validate `auth_date` for Telegram authentication data against a reasonable window (e.g., 24 hours).
+
+## 2026-02-21 - Disabled Security Guard on Sensitive Endpoint
+**Vulnerability:** The `TelegramAuthGuard` was commented out on the `ChatController.sendMessage` endpoint, leaving the AI service and database open to unauthenticated access and potential DoS.
+**Learning:** Security controls can be accidentally disabled during development and forgotten. Commented-out security code is a major risk indicator.
+**Prevention:** Use environment-based bypasses for development instead of modifying code. Scan for commented-out decorators in sensitive files.
