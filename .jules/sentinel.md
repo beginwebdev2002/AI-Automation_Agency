@@ -13,3 +13,8 @@ Sentinel Journal initialized.
 **Vulnerability:** Hardcoded Telegram User ID in `TelegramAuthGuard` granting admin privileges.
 **Learning:** Hardcoded IDs for authorization are fragile and insecure. They bypass configuration management and are "security by obscurity".
 **Prevention:** Use environment variables or database-driven role management for all user roles.
+
+## 2026-02-21 - Telegram InitData Replay Attack
+**Vulnerability:** `TelegramAuthGuard` verified the hash signature of `initData` but did not check `auth_date`.
+**Learning:** Signature verification proves *authenticity* but not *freshness*. Without an expiration check, a captured valid token is valid forever (or until the bot token changes).
+**Prevention:** Always validate `auth_date` for Telegram authentication data against a reasonable window (e.g., 24 hours).

@@ -35,7 +35,21 @@ export class TelegramAuthGuard implements CanActivate {
     private validateInitData(initData: string): boolean {
         const urlParams = new URLSearchParams(initData);
         const hash = urlParams.get('hash');
+        const authDate = urlParams.get('auth_date');
         urlParams.delete('hash');
+
+        if (!authDate) {
+            return false;
+        }
+
+        const authTimestamp = parseInt(authDate, 10);
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        const timeDifference = currentTimestamp - authTimestamp;
+
+        // Check if data is older than 24 hours (86400 seconds)
+        if (timeDifference > 86400) {
+            return false;
+        }
 
         const dataCheckString = Array.from(urlParams.entries())
             .sort((a, b) => a[0].localeCompare(b[0]))
