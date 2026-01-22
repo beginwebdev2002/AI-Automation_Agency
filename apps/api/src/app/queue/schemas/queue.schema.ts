@@ -27,3 +27,5 @@ export class Queue {
 export const QueueSchema = SchemaFactory.createForClass(Queue);
 
 QueueSchema.index({ createdAt: 1, sequenceNumber: -1 });
+// Optimize getQueue: Compound index for filtering by status and sorting by sequence
+QueueSchema.index({ status: 1, sequenceNumber: 1 });
