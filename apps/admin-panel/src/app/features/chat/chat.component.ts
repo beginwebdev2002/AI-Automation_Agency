@@ -79,13 +79,18 @@ import { ChatService, Message } from './chat.service';
         <div class="flex gap-2 ml-2 mr-6 items-end bg-gray-50 p-1.5 rounded-[24px] border border-gray-200 focus-within:border-rose-300 focus-within:ring-2 focus-within:ring-rose-100 transition-all">
           <textarea [(ngModel)]="newMessage" 
                     (keydown.enter)="onEnter($event)"
+                    (input)="autoResize($event)"
                     rows="1"
+                    aria-label="Сообщение"
+                    i18n-aria-label="@@chatInputLabel"
                     placeholder="Задайте вопрос о процедурах..." 
                     i18n-placeholder="@@chatInputPlaceholder"
                     class="flex-1 bg-transparent border-0 rounded-xl px-4 py-3 focus:ring-0 text-gray-700 placeholder-gray-400 resize-none max-h-32 min-h-[44px]"></textarea>
           
           <button (click)="sendMessage()" 
                   [disabled]="!newMessage.trim() || isLoading()"
+                  aria-label="Отправить"
+                  i18n-aria-label="@@chatSendButton"
                   class="bg-rose-500 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-rose-600 disabled:opacity-50 disabled:hover:bg-rose-500 transition-all shadow-md active:scale-95 mb-0.5 mr-0.5">
             <svg class="w-5 h-5 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
           </button>
@@ -129,15 +134,25 @@ export class ChatComponent implements AfterViewChecked, OnInit {
 
   private scrollToBottom(): void {
     try {
-      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+      if (this.scrollContainer?.nativeElement) {
+        this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+      }
     } catch (err) {
       console.error('Scroll error:', err);
     }
   }
 
   onEnter(event: Event) {
-    event.preventDefault();
-    this.sendMessage();
+    if (event instanceof KeyboardEvent && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
+  }
+
+  autoResize(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
   private userData() {
         const tg = window.Telegram?.WebApp;
