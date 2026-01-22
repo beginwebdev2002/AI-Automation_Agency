@@ -1,4 +1,4 @@
-import { Injectable, signal, Inject, LOCALE_ID, inject } from '@angular/core';
+import { Injectable, signal, LOCALE_ID, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 @Injectable({
@@ -22,9 +22,9 @@ export class LanguageService {
     switchLanguage(targetLang: string) {
         const href = this.supportedLanguages.find(l => l.code === targetLang)?.href;
         const documentHref = this.document.location.href;
-        if (href === documentHref) return;
-
-        this.document.location.href = href!;
+        if (href && href !== documentHref) {
+            this.document.location.href = href;
+        }
     }
     getLanguage() {
         return this.supportedLanguages.find((lang) => lang.code === this.currentLang());

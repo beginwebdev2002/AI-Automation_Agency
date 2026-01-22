@@ -6,6 +6,6 @@ import { environment } from '../../../environments/environment';
 })
 export class ConfigService {
     get(key: string): string {
-        return (environment as Record<string, any>)[key] || '';
+        return String((environment as Record<string, unknown>)[key] || '');
     }
 }

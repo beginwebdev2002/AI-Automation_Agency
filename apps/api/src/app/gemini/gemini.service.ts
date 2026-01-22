@@ -1,10 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GoogleGenerativeAI, Content, GenerativeModel } from '@google/generative-ai';
-import axios from 'axios';
 import * as mammoth from 'mammoth';
 import * as path from 'path';
-import * as fs from 'fs';
 
 @Injectable()
 export class GeminiService implements OnModuleInit {

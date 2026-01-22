@@ -23,8 +23,10 @@ describe('ChatService', () => {
         ...dto,
     }));
 
-    (mockChatModelConstructor as any).findOne = mockChatModel.findOne;
-    (mockChatModelConstructor as any).updateOne = mockChatModel.updateOne;
+    Object.assign(mockChatModelConstructor, {
+        findOne: mockChatModel.findOne,
+        updateOne: mockChatModel.updateOne,
+    });
 
     const mockGeminiService = {
         chatWithHistory: jest.fn().mockResolvedValue('Response'),

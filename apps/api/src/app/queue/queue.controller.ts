@@ -2,13 +2,24 @@ import { Controller, Get, Post, Body, UseGuards, Req, Patch, Param, Unauthorized
 import { QueueService } from './queue.service';
 import { TelegramAuthGuard } from '../auth/telegram-auth.guard';
 
+interface TelegramUser {
+    id: number;
+    first_name: string;
+    username?: string;
+    role: string;
+}
+
+interface RequestWithUser {
+    user: TelegramUser;
+}
+
 @Controller('queue')
 export class QueueController {
     constructor(private readonly queueService: QueueService) { }
 
     @Post()
     @UseGuards(TelegramAuthGuard)
-    async joinQueue(@Req() req: any, @Body() body: { serviceCategory: string }) {
+    async joinQueue(@Req() req: RequestWithUser, @Body() body: { serviceCategory: string }) {
         const user = req.user;
         return this.queueService.addToQueue(user.id, user.first_name, user.username, body.serviceCategory);
     }
@@ -20,7 +31,7 @@ export class QueueController {
 
     @Patch(':id/status')
     @UseGuards(TelegramAuthGuard)
-    async updateStatus(@Req() req: any, @Param('id') id: string, @Body() body: { status: 'in-progress' | 'completed' | 'cancelled' }) {
+    async updateStatus(@Req() req: RequestWithUser, @Param('id') id: string, @Body() body: { status: 'in-progress' | 'completed' | 'cancelled' }) {
         if (req.user.role !== 'admin') {
             throw new UnauthorizedException('Only admins can update status');
         }

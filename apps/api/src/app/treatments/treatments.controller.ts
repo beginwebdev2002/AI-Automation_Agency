@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
+import { Controller, Get, Post, Query, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
 import { TreatmentsService } from './treatments.service';
 
 @Controller('treatments')

@@ -18,7 +18,7 @@ describe('TelegramAuthGuard Replay Attack', () => {
         if (key === 'TELEGRAM_ADMIN_ID') return mockAdminId;
         return null;
       }),
-    } as any;
+    } as unknown as ConfigService;
 
     guard = new TelegramAuthGuard(configService);
   });
@@ -59,7 +59,7 @@ describe('TelegramAuthGuard Replay Attack', () => {
       headers: {
         'x-telegram-init-data': initData,
       },
-      user: null as any,
+      user: null as unknown,
     };
 
     const context = {

@@ -10,8 +10,8 @@ import '@angular/localize/init';
 describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
-  let chatServiceMock: any;
-  let languageServiceMock: any;
+  let chatServiceMock: { sendMessage: ReturnType<typeof vi.fn> };
+  let languageServiceMock: { getLanguage: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
     chatServiceMock = {
@@ -89,7 +89,6 @@ describe('ChatComponent', () => {
     Object.defineProperty(nativeTextarea, 'scrollHeight', { value: 100, configurable: true });
 
     // Trigger input event
-    const event = new Event('input');
     textarea.triggerEventHandler('input', { target: nativeTextarea });
 
     expect(nativeTextarea.style.height).toBe('100px');
