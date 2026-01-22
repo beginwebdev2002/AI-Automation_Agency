@@ -14,11 +14,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       # 1. Настраиваем Node.js и кеширование для npm
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: '20'
           cache: 'npm' # Теперь используем только кеш npm
@@ -35,7 +35,7 @@ jobs:
 
       # 4. Деплой билда в ветку gh-backend
       - name: Deploy Build to gh-backend branch
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.7.2
         with:
           folder: dist/apps/api
           branch: gh-backend
