@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   workflow_dispatch:
@@ -9,6 +9,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'apps/admin-panel/**'
 
 permissions:
   contents: write

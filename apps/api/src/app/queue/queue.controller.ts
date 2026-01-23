@@ -21,7 +21,7 @@ export class QueueController {
     @UseGuards(TelegramAuthGuard)
     async joinQueue(@Req() req: RequestWithUser, @Body() body: { serviceCategory: string }) {
         const user = req.user;
-        return this.queueService.addToQueue(user.id, user.first_name, user.username, body.serviceCategory);
+        return this.queueService.addToQueue(user.id, user.first_name, user.username ?? '', body.serviceCategory);
     }
 
     @Get()
