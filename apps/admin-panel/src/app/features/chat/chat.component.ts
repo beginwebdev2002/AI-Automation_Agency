@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, signal, ViewChild, effect, HostListener, Renderer2, DestroyRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LanguageService } from '../../core/services/language.service';
+import { LanguageService } from '@core/services/language.service';
 import { ChatService, Message } from './chat.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { ChatService, Message } from './chat.service';
 export class ChatComponent implements OnInit {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
-  private langugaeService = inject(LanguageService);
+  private languageService = inject(LanguageService);
   private renderer = inject(Renderer2);
   private destroyRef = inject(DestroyRef);
 
@@ -87,7 +87,7 @@ export class ChatComponent implements OnInit {
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
-    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+    const { scrollHeight, scrollTop } = document.documentElement;
     if (scrollHeight > window.innerHeight) {
         this.updateScrollBtn(scrollHeight - (window.scrollY || scrollTop) - window.innerHeight);
     }
@@ -119,7 +119,7 @@ export class ChatComponent implements OnInit {
   sendMessage() {
     if (!this.newMessage.trim() || this.isLoading()) return;
     const userData = this.userData();
-    const language = this.langugaeService.getLanguage();
+    const language = this.languageService.getLanguage();
 
     let userMsg = this.newMessage.trim();
 
@@ -139,7 +139,7 @@ export class ChatComponent implements OnInit {
     }
     userMsg = `
       user prompt: ${userMsg}
-      language of response must be ${language?.code}
+      language of response must be ${language}
       user Info:${userData ? JSON.stringify(userData) : 'Doesnt have user data'}
     `;
 

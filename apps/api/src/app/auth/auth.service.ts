@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { User, UserDocument } from '../users/schemas/user.schema';
+import { User, UserDocument } from '@app/users/schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()

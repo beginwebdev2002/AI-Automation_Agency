@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, IsDateString, IsEnum, IsOptional } from 'class-validator';
-import { AppointmentStatus } from '../schemas/appointment.schema';
+import { AppointmentStatus } from '@app/booking/schemas/appointment.schema';
 
 export class CreateAppointmentDto {
   @IsString()

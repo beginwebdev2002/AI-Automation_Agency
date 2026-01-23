@@ -1,102 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="ru" datatype="plaintext" original="ng2.template">
+  <file source-language="ru" target-language="tj" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="891988388142771853" datatype="html">
-        <source>Выберите услуги</source>
-        <target>Хизматрасониҳоро интихоб кунед</target>
+      <trans-unit id="loginTitle" datatype="html">
+        <source>Вход в систему</source>
+        <target>Воридшавӣ ба система</target>
       </trans-unit>
-      <trans-unit id="791983685637217876" datatype="html">
-        <source>Подтвердить запись</source>
-        <target>Тасдиқи сабт</target>
+      <trans-unit id="emailLabel" datatype="html">
+        <source>Email</source>
+        <target>Почтаи электронӣ</target>
       </trans-unit>
-      <trans-unit id="3363420822965118753" datatype="html">
-        <source>ОПЛАТИТЬ <x id="PH" equiv-text="this.totalPrice()"/> TJS</source>
-        <target>ПАРДОХТ <x id="PH" equiv-text="this.totalPrice()"/> TJS</target>
+      <trans-unit id="emailPlaceholder" datatype="html">
+        <source>admin@mavluda.beauty</source>
+        <target>admin@mavluda.beauty</target>
       </trans-unit>
-      <trans-unit id="3683004319871381669" datatype="html">
-        <source>Услуги</source>
-        <target>Хизматрасониҳо</target>
+      <trans-unit id="passwordLabel" datatype="html">
+        <source>Пароль</source>
+        <target>Рамз</target>
       </trans-unit>
-      <trans-unit id="7553252108347565815" datatype="html">
-        <source>Моя Очередь</source>
-        <target>Навбати ман</target>
+      <trans-unit id="passwordPlaceholder" datatype="html">
+        <source>••••••••</source>
+        <target>••••••••</target>
       </trans-unit>
-      <trans-unit id="2952460221981399340" datatype="html">
-        <source>AI Консультант</source>
-        <target>AI Мушовир</target>
+      <trans-unit id="rememberMe" datatype="html">
+        <source>Запомнить меня</source>
+        <target>Маро ба хотир гиред</target>
       </trans-unit>
-      <trans-unit id="6570363013146073520" datatype="html">
-        <source>Dashboard</source>
-        <target>Лавҳаи иттилоотӣ</target>
+      <trans-unit id="forgotPassword" datatype="html">
+        <source>Забыли пароль?</source>
+        <target>Рамзро фаромӯш кардед?</target>
       </trans-unit>
-      <trans-unit id="adminDashboardTitle" datatype="html">
-        <source>Панель администратора</source>
-        <target>Панели маъмур</target>
+      <trans-unit id="loginButton" datatype="html">
+        <source>Войти</source>
+        <target>Ворид шудан</target>
       </trans-unit>
-      <trans-unit id="totalClientsLabel" datatype="html">
-        <source>Всего клиентов</source>
-        <target>Ҷами мизоҷон</target>
+      <trans-unit id="loginButtonLoading" datatype="html">
+        <source>Вход...</source>
+        <target>Воридшавӣ...</target>
       </trans-unit>
-      <trans-unit id="telegramRevenueLabel" datatype="html">
-        <source>Выручка Telegram</source>
-        <target>Даромади Telegram</target>
+      <trans-unit id="dashboardTitle" datatype="html">
+        <source>Обзор</source>
+        <target>Шарҳи умумӣ</target>
       </trans-unit>
-      <trans-unit id="currencyTJS" datatype="html">
-        <source>TJS</source>
-        <target>TJS</target>
+      <trans-unit id="lastUpdate" datatype="html">
+        <source>Последнее обновление: Только что</source>
+        <target>Навсозии охирин: Ҳоло</target>
       </trans-unit>
-      <trans-unit id="activeQueueLabel" datatype="html">
-        <source>Активная очередь</source>
-        <target>Навбати фаъол</target>
+      <trans-unit id="recentBookingsPlaceholder" datatype="html">
+        <source>График записей (Скоро)</source>
+        <target>Ҷадвали сабтҳо (Ба зудӣ)</target>
       </trans-unit>
-      <trans-unit id="queueManagementTitle" datatype="html">
-        <source>Управление очередью</source>
-        <target>Идоракунии навбат</target>
+      <trans-unit id="inventoryStatusPlaceholder" datatype="html">
+        <source>Статус инвентаря (Скоро)</source>
+        <target>Ҳолати инвентар (Ба зудӣ)</target>
       </trans-unit>
-      <trans-unit id="columnHash" datatype="html">
-        <source>#</source>
-        <target>#</target>
+      <trans-unit id="statsBookingsToday" datatype="html">
+        <source>Записей сегодня</source>
+        <target>Сабтҳои имрӯз</target>
       </trans-unit>
-      <trans-unit id="columnName" datatype="html">
-        <source>Имя</source>
-        <target>Ном</target>
+      <trans-unit id="statsRevenue" datatype="html">
+        <source>Выручка (TJS)</source>
+        <target>Даромад (TJS)</target>
       </trans-unit>
-      <trans-unit id="columnService" datatype="html">
-        <source>Услуга</source>
-        <target>Хизматрасонӣ</target>
+      <trans-unit id="statsNewClients" datatype="html">
+        <source>Новых клиентов</source>
+        <target>Мизоҷони нав</target>
       </trans-unit>
-      <trans-unit id="columnStatus" datatype="html">
-        <source>Статус</source>
-        <target>Ҳолат</target>
-      </trans-unit>
-      <trans-unit id="columnActions" datatype="html">
-        <source>Действия</source>
-        <target>Амалҳо</target>
-      </trans-unit>
-      <trans-unit id="actionCall" datatype="html">
-        <source> Вызвать </source>
-        <target> Даъват кардан </target>
-      </trans-unit>
-      <trans-unit id="actionComplete" datatype="html">
-        <source> Завершить </source>
-        <target> Анҷом додан </target>
-      </trans-unit>
-      <trans-unit id="actionCancel" datatype="html">
-        <source> Отменить </source>
-        <target> Бекор кардан </target>
-      </trans-unit>
-      <trans-unit id="calculatorTitle" datatype="html">
-        <source>Калькулятор услуг</source>
-        <target>Калкулятори хизматрасониҳо</target>
-      </trans-unit>
-      <trans-unit id="totalEstimateLabel" datatype="html">
-        <source>Итого</source>
-        <target>Ҷамъ</target>
-      </trans-unit>
-      <trans-unit id="bookAppointmentButton" datatype="html">
-        <source> Записаться </source>
-        <target> Номнавис шудан </target>
+      <trans-unit id="statsRentedDresses" datatype="html">
+        <source>Платьев в аренде</source>
+        <target>Либосҳо дар иҷора</target>
       </trans-unit>
       <trans-unit id="categoryAll" datatype="html">
         <source>Все</source>
@@ -114,93 +86,41 @@
         <source>Уход за лицом</source>
         <target>Нигоҳубини рӯй</target>
       </trans-unit>
-      <trans-unit id="serviceFullFaceLaser" datatype="html">
-        <source>Лазер всего лица</source>
-        <target>Лазери тамоми рӯй</target>
+      <trans-unit id="categoryInjectables" datatype="html">
+        <source>Инъекции</source>
+        <target>Тазриқ</target>
       </trans-unit>
-      <trans-unit id="serviceUnderarmsLaser" datatype="html">
-        <source>Лазер подмышек</source>
-        <target>Лазери зери бағал</target>
+      <trans-unit id="statusAvailable" datatype="html">
+        <source>Доступно</source>
+        <target>Дастрас</target>
       </trans-unit>
-      <trans-unit id="serviceBotoxForehead" datatype="html">
-        <source>Ботокс лба</source>
-        <target>Ботокси пешонӣ</target>
+      <trans-unit id="statusRented" datatype="html">
+        <source>В аренде</source>
+        <target>Дар иҷора</target>
       </trans-unit>
-      <trans-unit id="serviceHydraFacial" datatype="html">
-        <source>Чистка HydraFacial</source>
-        <target>Тозакунии HydraFacial</target>
+      <trans-unit id="statusCleaning" datatype="html">
+        <source>Химчистка</source>
+        <target>Тозакунии кимиёвӣ</target>
       </trans-unit>
-      <trans-unit id="serviceLipFiller" datatype="html">
-        <source>Увеличение губ</source>
-        <target>Калон кардани лабҳо</target>
+      <trans-unit id="menuDashboard" datatype="html">
+        <source>Дашборд</source>
+        <target>Дашборд</target>
       </trans-unit>
-      <trans-unit id="chatBotName" datatype="html">
-        <source>AI Консультант</source>
-        <target>AI Мушовир</target>
+      <trans-unit id="menuBooking" datatype="html">
+        <source>Запись</source>
+        <target>Сабт</target>
       </trans-unit>
-      <trans-unit id="chatBotStatus" datatype="html">
-        <source>Онлайн 24/7</source>
-        <target>Онлайн 24/7</target>
+      <trans-unit id="menuInventory" datatype="html">
+        <source>Инвентарь</source>
+        <target>Инвентар</target>
       </trans-unit>
-      <trans-unit id="chatInputPlaceholder" datatype="html">
-        <source>Задайте вопрос о процедурах...</source>
-        <target>Дар бораи расмиёт савол диҳед...</target>
+      <trans-unit id="menuServices" datatype="html">
+        <source>Услуги</source>
+        <target>Хизматрасониҳо</target>
       </trans-unit>
-      <trans-unit id="chatWelcomeMessage" datatype="html">
-        <source>Здравствуйте! Я ваш персональный консультант клиники AAA Cosmetics. Чем я могу вам помочь сегодня?</source>
-        <target>Салом! Ман мушовири шахсии шумо дар клиникаи AAA Cosmetics ҳастам. Имрӯз чӣ гуна метавонам ба шумо кӯмак расонам?</target>
-      </trans-unit>
-      <trans-unit id="chatErrorMessage" datatype="html">
-        <source>Извините, произошла ошибка. Попробуйте позже.</source>
-        <target>Мебахшед, хатогӣ рух дод. Лутфан дертар кӯшиш кунед.</target>
-      </trans-unit>
-      <trans-unit id="liveQueueTitle" datatype="html">
-        <source>Живая очередь</source>
-        <target>Навбати зинда</target>
-      </trans-unit>
-      <trans-unit id="nowServingLabel" datatype="html">
-        <source>Сейчас обслуживается</source>
-        <target>Ҳоло хизматрасонӣ мешавад</target>
-      </trans-unit>
-      <trans-unit id="waitingForNextPatient" datatype="html">
-        <source> Ожидание следующего пациента... </source>
-        <target> Интизории бемори навбатӣ... </target>
-      </trans-unit>
-      <trans-unit id="upNextLabel" datatype="html">
-        <source>Следующие</source>
-        <target>Оянда</target>
-      </trans-unit>
-      <trans-unit id="queueEmpty" datatype="html">
-        <source> Очередь пуста </source>
-        <target> Навбат холӣ аст </target>
-      </trans-unit>
-      <trans-unit id="welcomeTitle" datatype="html">
-        <source>Добро пожаловать в AAA Cosmetics</source>
-        <target>Хуш омадед ба AAA Cosmetics</target>
-      </trans-unit>
-      <trans-unit id="selectServicePrompt" datatype="html">
-        <source>Пожалуйста, выберите услугу, чтобы встать в очередь</source>
-        <target>Лутфан, барои гирифтани навбат хизматрасониро интихоб кунед</target>
-      </trans-unit>
-      <trans-unit id="takeNumberButton" datatype="html">
-        <source>ВЗЯТЬ ТАЛОН</source>
-        <target>ГИРИФТАНИ ТАЛОН</target>
-      </trans-unit>
-      <trans-unit id="processingButton" datatype="html">
-        <source>Обработка...</source>
-        <target>Коркард...</target>
-      </trans-unit>
-      <trans-unit id="inQueueMessage" datatype="html">
-        <source>Вы в очереди!</source>
-        <target>Шумо дар навбат ҳастед!</target>
-      </trans-unit>
-      <trans-unit id="categoryConsultation" datatype="html">
-        <source>Консультация</source>
-        <target>Машварат</target>
-      </trans-unit>
-      <trans-unit id="joinQueueError" datatype="html">
-        <source>Не удалось встать в очередь. Попробуйте снова.</source>
-        <target>Навбат гирифтан нашуд. Лутфан дубора кӯшиш кунед.</target>
+      <trans-unit id="menuSettings" datatype="html">
+        <source>Настройки</source>
+        <target>Танзимот</target>
       </trans-unit>
     </body>
   </file>

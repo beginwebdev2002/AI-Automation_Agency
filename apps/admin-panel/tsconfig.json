@@ -10,7 +10,37 @@
     "target": "es2022",
     "moduleResolution": "bundler",
     "emitDecoratorMetadata": false,
-    "module": "preserve"
+    "module": "preserve",
+    "baseUrl": "./src",
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ],
+      "@pages/*": [
+        "app/pages/*"
+      ],
+      "@widgets/*": [
+        "app/widgets/*"
+      ],
+      "@features/*": [
+        "app/features/*"
+      ],
+      "@entities/*": [
+        "app/entities/*"
+      ],
+      "@shared/*": [
+        "app/shared/*"
+      ],
+      "@core/*": [
+        "app/core/*"
+      ],
+      "@environments/*": [
+        "environments/*"
+      ],
+      "@/*": [
+        "*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

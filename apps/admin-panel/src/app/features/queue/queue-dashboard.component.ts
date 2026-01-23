@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, computed, OnInit, signal, inject } from '@angular/core';
-import { ConfigService } from '../../core/config/config.service';
+import { ConfigService } from '@core/config/config.service';
 
 interface QueueItem {
   _id: string;
@@ -33,7 +33,7 @@ export class QueueDashboardComponent implements OnInit {
   }
 
   fetchQueue() {
-    const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/queue';
+    const apiUrl = (this.configService.get('BACKEND_URL_ONLINE') as string) + '/queue';
     this.http.get<QueueItem[]>(apiUrl).subscribe(data => {
       this.queue.set(data);
     });

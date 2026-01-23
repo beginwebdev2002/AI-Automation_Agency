@@ -1,106 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="ru" datatype="plaintext" original="ng2.template">
+  <file source-language="ru" target-language="en" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="891988388142771853" datatype="html">
-        <source>Выберите услуги</source>
-        <target>Select Services</target>
+      <trans-unit id="loginTitle" datatype="html">
+        <source>Вход в систему</source>
+        <target>Login</target>
       </trans-unit>
-      <trans-unit id="791983685637217876" datatype="html">
-        <source>Подтвердить запись</source>
-        <target>Confirm Booking</target>
+      <trans-unit id="emailLabel" datatype="html">
+        <source>Email</source>
+        <target>Email</target>
       </trans-unit>
-      <trans-unit id="3363420822965118753" datatype="html">
-        <source>ОПЛАТИТЬ <x id="PH" equiv-text="this.totalPrice()"/> TJS</source>
-        <target>PAY <x id="PH" equiv-text="this.totalPrice()"/> TJS</target>
+      <trans-unit id="emailPlaceholder" datatype="html">
+        <source>admin@mavluda.beauty</source>
+        <target>admin@mavluda.beauty</target>
       </trans-unit>
-      <trans-unit id="3683004319871381669" datatype="html">
-        <source>Услуги</source>
-        <target>Services</target>
+      <trans-unit id="passwordLabel" datatype="html">
+        <source>Пароль</source>
+        <target>Password</target>
       </trans-unit>
-      <trans-unit id="7553252108347565815" datatype="html">
-        <source>Моя Очередь</source>
-        <target>My Queue</target>
+      <trans-unit id="passwordPlaceholder" datatype="html">
+        <source>••••••••</source>
+        <target>••••••••</target>
       </trans-unit>
-      <trans-unit id="2952460221981399340" datatype="html">
-        <source>AI Консультант</source>
-        <target>AI Consultant</target>
+      <trans-unit id="rememberMe" datatype="html">
+        <source>Запомнить меня</source>
+        <target>Remember me</target>
       </trans-unit>
-      <trans-unit id="2952460221981399340" datatype="html">
-        <source>AI Консультант</source>
-        <target>AI Consultant</target>
+      <trans-unit id="forgotPassword" datatype="html">
+        <source>Забыли пароль?</source>
+        <target>Forgot password?</target>
       </trans-unit>
-      <trans-unit id="6570363013146073520" datatype="html">
-        <source>Dashboard</source>
+      <trans-unit id="loginButton" datatype="html">
+        <source>Войти</source>
+        <target>Sign In</target>
+      </trans-unit>
+      <trans-unit id="loginButtonLoading" datatype="html">
+        <source>Вход...</source>
+        <target>Signing In...</target>
+      </trans-unit>
+      <trans-unit id="dashboardTitle" datatype="html">
+        <source>Обзор</source>
         <target>Dashboard</target>
       </trans-unit>
-      <trans-unit id="adminDashboardTitle" datatype="html">
-        <source>Панель администратора</source>
-        <target>Admin Panel</target>
+      <trans-unit id="lastUpdate" datatype="html">
+        <source>Последнее обновление: Только что</source>
+        <target>Last updated: Just now</target>
       </trans-unit>
-      <trans-unit id="totalClientsLabel" datatype="html">
-        <source>Всего клиентов</source>
-        <target>Total Clients</target>
+      <trans-unit id="recentBookingsPlaceholder" datatype="html">
+        <source>График записей (Скоро)</source>
+        <target>Booking Schedule (Coming Soon)</target>
       </trans-unit>
-      <trans-unit id="telegramRevenueLabel" datatype="html">
-        <source>Выручка Telegram</source>
-        <target>Telegram Revenue</target>
+      <trans-unit id="inventoryStatusPlaceholder" datatype="html">
+        <source>Статус инвентаря (Скоро)</source>
+        <target>Inventory Status (Coming Soon)</target>
       </trans-unit>
-      <trans-unit id="currencyTJS" datatype="html">
-        <source>TJS</source>
-        <target>TJS</target>
+      <trans-unit id="statsBookingsToday" datatype="html">
+        <source>Записей сегодня</source>
+        <target>Bookings Today</target>
       </trans-unit>
-      <trans-unit id="activeQueueLabel" datatype="html">
-        <source>Активная очередь</source>
-        <target>Active Queue</target>
+      <trans-unit id="statsRevenue" datatype="html">
+        <source>Выручка (TJS)</source>
+        <target>Revenue (TJS)</target>
       </trans-unit>
-      <trans-unit id="queueManagementTitle" datatype="html">
-        <source>Управление очередью</source>
-        <target>Queue Management</target>
+      <trans-unit id="statsNewClients" datatype="html">
+        <source>Новых клиентов</source>
+        <target>New Clients</target>
       </trans-unit>
-      <trans-unit id="columnHash" datatype="html">
-        <source>#</source>
-        <target>#</target>
-      </trans-unit>
-      <trans-unit id="columnName" datatype="html">
-        <source>Имя</source>
-        <target>Name</target>
-      </trans-unit>
-      <trans-unit id="columnService" datatype="html">
-        <source>Услуга</source>
-        <target>Service</target>
-      </trans-unit>
-      <trans-unit id="columnStatus" datatype="html">
-        <source>Статус</source>
-        <target>Status</target>
-      </trans-unit>
-      <trans-unit id="columnActions" datatype="html">
-        <source>Действия</source>
-        <target>Actions</target>
-      </trans-unit>
-      <trans-unit id="actionCall" datatype="html">
-        <source> Вызвать </source>
-        <target> Call </target>
-      </trans-unit>
-      <trans-unit id="actionComplete" datatype="html">
-        <source> Завершить </source>
-        <target> Complete </target>
-      </trans-unit>
-      <trans-unit id="actionCancel" datatype="html">
-        <source> Отменить </source>
-        <target> Cancel </target>
-      </trans-unit>
-      <trans-unit id="calculatorTitle" datatype="html">
-        <source>Калькулятор услуг</source>
-        <target>Service Calculator</target>
-      </trans-unit>
-      <trans-unit id="totalEstimateLabel" datatype="html">
-        <source>Итого</source>
-        <target>Total</target>
-      </trans-unit>
-      <trans-unit id="bookAppointmentButton" datatype="html">
-        <source> Записаться </source>
-        <target> Book Appointment </target>
+      <trans-unit id="statsRentedDresses" datatype="html">
+        <source>Платьев в аренде</source>
+        <target>Rented Dresses</target>
       </trans-unit>
       <trans-unit id="categoryAll" datatype="html">
         <source>Все</source>
@@ -118,93 +86,41 @@
         <source>Уход за лицом</source>
         <target>Facials</target>
       </trans-unit>
-      <trans-unit id="serviceFullFaceLaser" datatype="html">
-        <source>Лазер всего лица</source>
-        <target>Full Face Laser</target>
+      <trans-unit id="categoryInjectables" datatype="html">
+        <source>Инъекции</source>
+        <target>Injectables</target>
       </trans-unit>
-      <trans-unit id="serviceUnderarmsLaser" datatype="html">
-        <source>Лазер подмышек</source>
-        <target>Underarms Laser</target>
+      <trans-unit id="statusAvailable" datatype="html">
+        <source>Доступно</source>
+        <target>Available</target>
       </trans-unit>
-      <trans-unit id="serviceBotoxForehead" datatype="html">
-        <source>Ботокс лба</source>
-        <target>Forehead Botox</target>
+      <trans-unit id="statusRented" datatype="html">
+        <source>В аренде</source>
+        <target>Rented</target>
       </trans-unit>
-      <trans-unit id="serviceHydraFacial" datatype="html">
-        <source>Чистка HydraFacial</source>
-        <target>HydraFacial</target>
+      <trans-unit id="statusCleaning" datatype="html">
+        <source>Химчистка</source>
+        <target>Cleaning</target>
       </trans-unit>
-      <trans-unit id="serviceLipFiller" datatype="html">
-        <source>Увеличение губ</source>
-        <target>Lip Filler</target>
+      <trans-unit id="menuDashboard" datatype="html">
+        <source>Дашборд</source>
+        <target>Dashboard</target>
       </trans-unit>
-      <trans-unit id="chatBotName" datatype="html">
-        <source>AI Консультант</source>
-        <target>AI Consultant</target>
+      <trans-unit id="menuBooking" datatype="html">
+        <source>Запись</source>
+        <target>Booking</target>
       </trans-unit>
-      <trans-unit id="chatBotStatus" datatype="html">
-        <source>Онлайн 24/7</source>
-        <target>Online 24/7</target>
+      <trans-unit id="menuInventory" datatype="html">
+        <source>Инвентарь</source>
+        <target>Inventory</target>
       </trans-unit>
-      <trans-unit id="chatInputPlaceholder" datatype="html">
-        <source>Задайте вопрос о процедурах...</source>
-        <target>Ask about treatments...</target>
+      <trans-unit id="menuServices" datatype="html">
+        <source>Услуги</source>
+        <target>Services</target>
       </trans-unit>
-      <trans-unit id="chatWelcomeMessage" datatype="html">
-        <source>Здравствуйте! Я ваш персональный консультант клиники AAA Cosmetics. Чем я могу вам помочь сегодня?</source>
-        <target>Hello! I am your personal consultant at AAA Cosmetics. How can I help you today?</target>
-      </trans-unit>
-      <trans-unit id="chatErrorMessage" datatype="html">
-        <source>Извините, произошла ошибка. Попробуйте позже.</source>
-        <target>Sorry, an error occurred. Please try again later.</target>
-      </trans-unit>
-      <trans-unit id="liveQueueTitle" datatype="html">
-        <source>Живая очередь</source>
-        <target>Live Queue</target>
-      </trans-unit>
-      <trans-unit id="nowServingLabel" datatype="html">
-        <source>Сейчас обслуживается</source>
-        <target>Now Serving</target>
-      </trans-unit>
-      <trans-unit id="waitingForNextPatient" datatype="html">
-        <source> Ожидание следующего пациента... </source>
-        <target> Waiting for next patient... </target>
-      </trans-unit>
-      <trans-unit id="upNextLabel" datatype="html">
-        <source>Следующие</source>
-        <target>Up Next</target>
-      </trans-unit>
-      <trans-unit id="queueEmpty" datatype="html">
-        <source> Очередь пуста </source>
-        <target> Queue is empty </target>
-      </trans-unit>
-      <trans-unit id="welcomeTitle" datatype="html">
-        <source>Добро пожаловать в AAA Cosmetics</source>
-        <target>Welcome to AAA Cosmetics</target>
-      </trans-unit>
-      <trans-unit id="selectServicePrompt" datatype="html">
-        <source>Пожалуйста, выберите услугу, чтобы встать в очередь</source>
-        <target>Please select a service to join the queue</target>
-      </trans-unit>
-      <trans-unit id="takeNumberButton" datatype="html">
-        <source>ВЗЯТЬ ТАЛОН</source>
-        <target>TAKE TICKET</target>
-      </trans-unit>
-      <trans-unit id="processingButton" datatype="html">
-        <source>Обработка...</source>
-        <target>Processing...</target>
-      </trans-unit>
-      <trans-unit id="inQueueMessage" datatype="html">
-        <source>Вы в очереди!</source>
-        <target>You are in the queue!</target>
-      </trans-unit>
-      <trans-unit id="categoryConsultation" datatype="html">
-        <source>Консультация</source>
-        <target>Consultation</target>
-      </trans-unit>
-      <trans-unit id="joinQueueError" datatype="html">
-        <source>Не удалось встать в очередь. Попробуйте снова.</source>
-        <target>Failed to join queue. Please try again.</target>
+      <trans-unit id="menuSettings" datatype="html">
+        <source>Настройки</source>
+        <target>Settings</target>
       </trans-unit>
     </body>
   </file>

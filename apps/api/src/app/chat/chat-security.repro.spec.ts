@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ChatController } from './chat.controller';
 import { ChatService } from './chat.service';
 import { SendMessageDto } from './dto/send-message.dto';
-import { TelegramAuthGuard } from '../auth/telegram-auth.guard';
+import { TelegramAuthGuard } from '@app/auth/telegram-auth.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 describe('ChatController Security Repro', () => {

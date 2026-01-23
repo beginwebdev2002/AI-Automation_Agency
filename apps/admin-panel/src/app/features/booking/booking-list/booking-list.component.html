@@ -1,0 +1,60 @@
+<div class="space-y-6">
+  <!-- Category Filter -->
+  <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+    @for (cat of categories; track cat) {
+      <button
+        (click)="selectedCategory.set(cat)"
+        [class]="selectedCategory() === cat 
+          ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30' 
+          : 'bg-surface-50 text-surface-600 hover:bg-surface-100'"
+        class="px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300"
+      >
+        {{ cat }}
+      </button>
+    }
+  </div>
+
+  <!-- Service List -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    @for (service of filteredServices(); track service.id) {
+      <div 
+        (click)="toggleService(service)"
+        (keydown.enter)="toggleService(service)"
+        tabindex="0"
+        role="button"
+        [class]="isSelected(service) ? 'border-primary-500 ring-1 ring-primary-500 bg-primary-50/50' : 'border-transparent hover:border-primary-200 bg-white'"
+        class="relative p-4 rounded-xl border transition-all duration-300 cursor-pointer group shadow-sm hover:shadow-md outline-none focus:ring-2 focus:ring-primary-500"
+      >
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="font-bold text-surface-900 group-hover:text-primary-700 transition-colors">{{ service.name }}</h3>
+            <p class="text-sm text-surface-500 mt-1">{{ service.duration }} мин</p>
+          </div>
+          <span class="font-serif font-bold text-lg text-primary-600">{{ service.price }} TJS</span>
+        </div>
+        
+        @if (isSelected(service)) {
+          <div class="absolute top-3 right-3 text-primary-500">
+            <i class="fas fa-check-circle text-xl"></i>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Floating Action Button (Mobile Only fallback if not in Telegram) -->
+  @if (cart().length > 0) {
+    <div class="fixed bottom-6 left-4 right-4 md:hidden z-50">
+      <app-button 
+        [fullWidth]="true" 
+        (clicked)="confirmBooking()"
+        class="shadow-xl shadow-primary-900/20"
+      >
+        <div class="flex justify-between items-center w-full">
+          <span>Подтвердить</span>
+          <span class="bg-white/20 px-2 py-0.5 rounded text-sm">{{ totalPrice() }} TJS</span>
+        </div>
+      </app-button>
+    </div>
+  }
+</div>

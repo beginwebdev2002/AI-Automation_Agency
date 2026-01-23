@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { getModelToken } from '@nestjs/mongoose';
-import { User } from '../users/schemas/user.schema';
+import { User } from '@app/users/schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 
 // Mock bcrypt

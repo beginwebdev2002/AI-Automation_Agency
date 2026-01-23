@@ -2,8 +2,8 @@ import '@angular/localize/init';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TakeQueueComponent } from './take-queue.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ConfigService } from '../../core/config/config.service';
-import { LanguageSwitcherComponent } from '../../core/components/language-switcher/language-switcher.component';
+import { ConfigService } from '@core/config/config.service';
+import { LanguageSwitcherComponent } from '@core/components/language-switcher/language-switcher.component';
 import { Component } from '@angular/core';
 import { vi } from 'vitest';
 
