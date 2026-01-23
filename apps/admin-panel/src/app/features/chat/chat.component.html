@@ -16,7 +16,7 @@
   </div>
 
   <!-- Messages -->
-  <div #scrollContainer (scroll)="onDivScroll()" class="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
+  <div #scrollContainer class="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
     @for (msg of messages(); track msg.time) {
       <div 
            [class.items-end]="msg.role === 'user'"

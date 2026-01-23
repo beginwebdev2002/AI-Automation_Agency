@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, OnInit, signal, ViewChild, effect, HostListener, Renderer2, DestroyRef } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, ViewChild, effect, Renderer2, DestroyRef, NgZone, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LanguageService } from '../../core/services/language.service';
 import { ChatService, Message } from './chat.service';
@@ -9,14 +9,16 @@ import { ChatService, Message } from './chat.service';
   standalone: true,
   styleUrls: ['./chat.component.scss'],
   imports: [CommonModule, FormsModule],
-  templateUrl: './chat.component.html'
+  templateUrl: './chat.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
   private langugaeService = inject(LanguageService);
   private renderer = inject(Renderer2);
   private destroyRef = inject(DestroyRef);
+  private ngZone = inject(NgZone);
 
   messages = signal<Message[]>([
     { role: 'bot', text: $localize`:@@chatWelcomeMessage:Здравствуйте! Я ваш персональный консультант клиники AAA Cosmetics. Чем я могу вам помочь сегодня?`, time: new Date() }
@@ -37,8 +39,24 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.scrollToBottom();
-    const unlistenBody = this.renderer.listen(document.body, 'scroll', () => this.onBodyScroll());
-    this.destroyRef.onDestroy(() => unlistenBody());
+  }
+
+  ngAfterViewInit() {
+    this.ngZone.runOutsideAngular(() => {
+      const unlistenBody = this.renderer.listen(document.body, 'scroll', () => this.onBodyScroll());
+      const unlistenWindow = this.renderer.listen(window, 'scroll', () => this.onWindowScroll());
+
+      let unlistenDiv = () => { /* noop */ };
+      if (this.scrollContainer?.nativeElement) {
+         unlistenDiv = this.renderer.listen(this.scrollContainer.nativeElement, 'scroll', () => this.onDivScroll());
+      }
+
+      this.destroyRef.onDestroy(() => {
+        unlistenBody();
+        unlistenWindow();
+        unlistenDiv();
+      });
+    });
   }
 
   private scrollToBottom(): void {
@@ -77,7 +95,12 @@ export class ChatComponent implements OnInit {
   }
 
   updateScrollBtn(distance: number) {
-    this.showScrollButton.set(distance > 100);
+    const shouldShow = distance > 100;
+    if (this.showScrollButton() !== shouldShow) {
+      this.ngZone.run(() => {
+        this.showScrollButton.set(shouldShow);
+      });
+    }
   }
 
   onDivScroll(): void {
@@ -85,9 +108,8 @@ export class ChatComponent implements OnInit {
     if (el) this.updateScrollBtn(el.scrollHeight - el.scrollTop - el.clientHeight);
   }
 
-  @HostListener('window:scroll')
   onWindowScroll(): void {
-    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+    const { scrollHeight, scrollTop } = document.documentElement;
     if (scrollHeight > window.innerHeight) {
         this.updateScrollBtn(scrollHeight - (window.scrollY || scrollTop) - window.innerHeight);
     }
