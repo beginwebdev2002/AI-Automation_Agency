@@ -1535,26 +1535,28 @@ const tslib_1 = __webpack_require__(4);
 const common_1 = __webpack_require__(1);
 const chat_service_1 = __webpack_require__(52);
 const send_message_dto_1 = __webpack_require__(54);
+const telegram_auth_guard_1 = __webpack_require__(42);
 let ChatController = class ChatController {
     constructor(chatService) {
         this.chatService = chatService;
     }
-    // @UseGuards(TelegramAuthGuard)
-    async sendMessage(body) {
-        console.log('Hello!', body);
+    async sendMessage(req, body) {
+        // Use authenticated user ID to prevent spoofing
+        // Telegram user ID is a number, but ChatService uses string IDs
+        const chatId = req.user?.id ? String(req.user.id) : body.chatId;
         return {
-            response: await this.chatService.handleMessage(body.chatId, body.message)
+            response: await this.chatService.handleMessage(chatId, body.message)
         };
     }
 };
 exports.ChatController = ChatController;
 tslib_1.__decorate([
-    (0, common_1.Post)('message')
-    // @UseGuards(TelegramAuthGuard)
-    ,
-    tslib_1.__param(0, (0, common_1.Body)()),
+    (0, common_1.Post)('message'),
+    (0, common_1.UseGuards)(telegram_auth_guard_1.TelegramAuthGuard),
+    tslib_1.__param(0, (0, common_1.Req)()),
+    tslib_1.__param(1, (0, common_1.Body)()),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof send_message_dto_1.SendMessageDto !== "undefined" && send_message_dto_1.SendMessageDto) === "function" ? _b : Object]),
+    tslib_1.__metadata("design:paramtypes", [Object, typeof (_b = typeof send_message_dto_1.SendMessageDto !== "undefined" && send_message_dto_1.SendMessageDto) === "function" ? _b : Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], ChatController.prototype, "sendMessage", null);
 exports.ChatController = ChatController = tslib_1.__decorate([
