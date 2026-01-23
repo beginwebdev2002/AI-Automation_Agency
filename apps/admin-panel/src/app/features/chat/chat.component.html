@@ -16,7 +16,7 @@
   </div>
 
   <!-- Messages -->
-  <div #scrollContainer class="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
+  <div #scrollContainer (scroll)="onDivScroll()" class="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
     @for (msg of messages(); track msg.time) {
       <div 
            [class.items-end]="msg.role === 'user'"
@@ -61,6 +61,18 @@
       </div>
     }
   </div>
+
+  <!-- Scroll To Bottom Button -->
+  @if (showScrollButton()) {
+    <button (click)="scrollToBottomSmooth()"
+            aria-label="Прокрутить вниз"
+            i18n-aria-label="@@chatScrollToBottom"
+            class="fixed bottom-24 right-4 w-10 h-10 bg-white text-rose-500 rounded-full shadow-lg border border-rose-100 flex items-center justify-center hover:bg-rose-50 transition-all animate-fade-in-up z-20">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </button>
+  }
 
   <!-- Input Area -->
   <div class="p-3 bg-white border-t border-rose-100 pb-safe fixed bottom-2 w-full">
