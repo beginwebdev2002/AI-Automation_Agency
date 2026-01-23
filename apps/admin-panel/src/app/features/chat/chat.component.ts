@@ -87,7 +87,7 @@ export class ChatComponent implements OnInit {
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
-    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+    const { scrollHeight, scrollTop } = document.documentElement;
     if (scrollHeight > window.innerHeight) {
         this.updateScrollBtn(scrollHeight - (window.scrollY || scrollTop) - window.innerHeight);
     }
