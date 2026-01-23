@@ -34,7 +34,7 @@ jobs:
         run: npx nx build api --prod
 
       # 4. Деплой билда в ветку gh-backend
-      - name: Deploy Build to gh-backend-development branch
+      - name: Deploy Build to gh-backend branch
         uses: JamesIves/github-pages-deploy-action@v4.7.2
         with:
           folder: dist/apps/api

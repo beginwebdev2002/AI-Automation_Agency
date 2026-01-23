@@ -28,6 +28,7 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit() {
     this.fetchQueue();
   }
+  
 
   fetchQueue() {
     const apiUrl = this.config.apiUrl + '/queue';
