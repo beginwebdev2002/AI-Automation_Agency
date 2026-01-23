@@ -206,6 +206,7 @@ let AuthService = class AuthService {
     async validateUser(email, pass) {
         const user = await this.userModel.findOne({ email }).lean();
         if (user && (await bcrypt.compare(pass, user.passwordHash))) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { passwordHash, ...result } = user;
             return result;
         }
@@ -1087,7 +1088,7 @@ let QueueController = class QueueController {
     }
     async joinQueue(req, body) {
         const user = req.user;
-        return this.queueService.addToQueue(user.id, user.first_name, user.username, body.serviceCategory);
+        return this.queueService.addToQueue(user.id, user.first_name, user.username ?? '', body.serviceCategory);
     }
     async getQueue() {
         return this.queueService.getQueue();
