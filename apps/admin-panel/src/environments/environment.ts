@@ -1,7 +1,7 @@
-export const environment = {
-    production: false,
-    BACKEND_URL: 'http://localhost:3000',
-    // BACKEND_URL_ONLINE: 'http://localhost:3000'
-    BACKEND_URL_ONLINE: 'https://ai-automation-agency-qlud.onrender.com',
-    telegramAdminId: 123456789
+import { AppConfig } from '../app/shared/models/app-config';
+
+export const environment: AppConfig = {
+  production: false,
+  apiUrl: 'https://ai-automation-agency-qlud.onrender.com',
+  telegramBotName: 'MavludaBeautyBot' // Placeholder, should be updated with actual bot name if different
 };

@@ -1,8 +1,7 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '@core/config/config.service';
-import { LanguageSwitcherComponent } from '@core/components/language-switcher/language-switcher.component';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { APP_CONFIG } from '../../shared/tokens/app-config.token';
 
 interface QueueItem {
   _id: string;
@@ -15,7 +14,7 @@ interface QueueItem {
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, LanguageSwitcherComponent],
+  imports: [CommonModule],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.scss']
 })
@@ -24,19 +23,19 @@ export class AdminDashboardComponent implements OnInit {
   queue = signal<QueueItem[]>([]);
 
   private http = inject(HttpClient);
-  private configService = inject(ConfigService);
+  private config = inject(APP_CONFIG);
 
   ngOnInit() {
     this.fetchQueue();
   }
 
   fetchQueue() {
-    const apiUrl = (this.configService.get('BACKEND_URL_ONLINE') as string) + '/queue';
+    const apiUrl = this.config.apiUrl + '/queue';
     this.http.get<QueueItem[]>(apiUrl).subscribe(data => this.queue.set(data));
   }
 
   updateStatus(id: string, status: string) {
-    const apiUrl = (this.configService.get('BACKEND_URL_ONLINE') as string) + `/queue/${id}/status`;
+    const apiUrl = this.config.apiUrl + `/queue/${id}/status`;
     this.http.patch(apiUrl, { status }).subscribe(() => {
       this.fetchQueue();
     });
