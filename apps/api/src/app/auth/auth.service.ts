@@ -15,6 +15,7 @@ export class AuthService {
     async validateUser(email: string, pass: string): Promise<(Omit<User, 'passwordHash'> & { _id: Types.ObjectId }) | null> {
         const user = await this.userModel.findOne({ email }).lean();
         if (user && (await bcrypt.compare(pass, user.passwordHash))) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { passwordHash, ...result } = user;
             return result as Omit<User, 'passwordHash'> & { _id: Types.ObjectId };
         }

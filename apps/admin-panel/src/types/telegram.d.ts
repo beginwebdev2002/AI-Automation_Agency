@@ -5,7 +5,19 @@ declare global {
     ready: () => void;
     expand: () => void;
     initData: string;
-    initDataUnsafe: any;
+    initDataUnsafe: {
+      query_id?: string;
+      user?: {
+        id: number;
+        first_name: string;
+        last_name?: string;
+        username?: string;
+        language_code?: string;
+        photo_url?: string;
+      };
+      auth_date?: string;
+      hash?: string;
+    };
     close: () => void;
     sendData: (data: string) => void;
     MainButton: {

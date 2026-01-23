@@ -13,7 +13,6 @@ jest.mock('bcrypt', () => ({
 
 describe('AuthService', () => {
   let service: AuthService;
-  let model: any;
 
   const mockUser = {
     _id: 'someid',
@@ -47,7 +46,6 @@ describe('AuthService', () => {
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    model = module.get(getModelToken(User.name));
   });
 
   afterEach(() => {

@@ -18,12 +18,12 @@ describe('TelegramAuthGuard', () => {
         if (key === 'TELEGRAM_ADMIN_ID') return mockAdminId;
         return null;
       }),
-    } as any;
+    } as unknown as ConfigService;
 
     guard = new TelegramAuthGuard(configService);
   });
 
-  const generateInitData = (user: any, token: string) => {
+  const generateInitData = (user: { id: number; first_name: string; username?: string }, token: string) => {
     const userStr = JSON.stringify(user);
     const params = new URLSearchParams();
     params.append('user', userStr);
@@ -58,7 +58,7 @@ describe('TelegramAuthGuard', () => {
       headers: {
         'x-telegram-init-data': initData,
       },
-      user: null as any,
+      user: null as unknown as { role?: string },
     };
 
     const context = {
@@ -85,7 +85,7 @@ describe('TelegramAuthGuard', () => {
       headers: {
         'x-telegram-init-data': initData,
       },
-      user: null as any,
+      user: null as unknown as { role?: string },
     };
 
     const context = {

@@ -1,6 +1,5 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { GeminiService } from './gemini.service';
-import { TelegramAuthGuard } from '../auth/telegram-auth.guard';
 
 @Controller('chat')
 export class GeminiController {

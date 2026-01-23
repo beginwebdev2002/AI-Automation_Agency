@@ -3,12 +3,21 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BookingComponent } from './booking.component';
 
 // Assuming vi is global because of vitest/globals
-declare const vi: any;
+import { vi } from 'vitest';
+
+interface MockMainButton {
+  setText: ReturnType<typeof vi.fn>;
+  show: ReturnType<typeof vi.fn>;
+  hide: ReturnType<typeof vi.fn>;
+  onClick: ReturnType<typeof vi.fn>;
+  offClick: ReturnType<typeof vi.fn>;
+  isVisible: boolean;
+}
 
 describe('BookingComponent Performance', () => {
   let component: BookingComponent;
   let fixture: ComponentFixture<BookingComponent>;
-  let mockMainButton: any;
+  let mockMainButton: MockMainButton;
 
   beforeEach(async () => {
     mockMainButton = {
@@ -20,7 +29,7 @@ describe('BookingComponent Performance', () => {
       isVisible: false
     };
 
-    (window as any).Telegram = {
+    (window as unknown as { Telegram: unknown }).Telegram = {
       WebApp: {
         MainButton: mockMainButton,
         sendData: vi.fn()
@@ -37,7 +46,7 @@ describe('BookingComponent Performance', () => {
   });
 
   afterEach(() => {
-    delete (window as any).Telegram;
+    (window as unknown as { Telegram: unknown }).Telegram = undefined;
   });
 
   it('demonstrates event listener leak', async () => {

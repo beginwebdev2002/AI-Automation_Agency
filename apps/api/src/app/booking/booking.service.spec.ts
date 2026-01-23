@@ -6,8 +6,8 @@ import { Appointment } from './schemas/appointment.schema';
 
 describe('BookingService', () => {
     let service: BookingService;
-    let venueModel: any;
-    let appointmentModel: any;
+    let venueModel: { find: jest.Mock; skip: jest.Mock; limit: jest.Mock; exec: jest.Mock };
+    let appointmentModel: { find: jest.Mock; populate: jest.Mock; skip: jest.Mock; limit: jest.Mock; exec: jest.Mock };
 
     const mockVenueModel = {
         find: jest.fn().mockReturnThis(),
@@ -40,8 +40,8 @@ describe('BookingService', () => {
         }).compile();
 
         service = module.get<BookingService>(BookingService);
-        venueModel = module.get(getModelToken(Venue.name));
-        appointmentModel = module.get(getModelToken(Appointment.name));
+        venueModel = module.get(getModelToken(Venue.name)) as unknown as typeof mockVenueModel;
+        appointmentModel = module.get(getModelToken(Appointment.name)) as unknown as typeof mockAppointmentModel;
     });
 
     afterEach(() => {

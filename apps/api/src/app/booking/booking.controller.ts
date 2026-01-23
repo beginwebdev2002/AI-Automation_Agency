@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Body, UseGuards, Query, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
 import { BookingService } from './booking.service';
-import { AuthGuard } from '@nestjs/passport';
 import { CreateVenueDto } from './dto/create-venue.dto';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 
