@@ -38,6 +38,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.7.2
         with:
           folder: dist/apps/api
-          branch: gh-backend-development
+          branch: gh-backend
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
