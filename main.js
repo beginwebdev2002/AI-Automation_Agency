@@ -1223,6 +1223,8 @@ exports.Queue = Queue = tslib_1.__decorate([
 ], Queue);
 exports.QueueSchema = mongoose_1.SchemaFactory.createForClass(Queue);
 exports.QueueSchema.index({ createdAt: 1, sequenceNumber: -1 });
+// Optimize getQueue: Compound index for filtering by status and sorting by sequence
+exports.QueueSchema.index({ status: 1, sequenceNumber: 1 });
 
 
 /***/ }),
