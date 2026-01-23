@@ -1,7 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '../../core/config/config.service';
+import { ConfigService } from '@core/config/config.service';
 
 interface Ticket {
   sequenceNumber: number;
@@ -34,7 +34,7 @@ export class TakeQueueComponent {
 
     this.isLoading.set(true);
     this.errorMessage.set('');
-    const apiUrl = this.configService.get('BACKEND_URL_ONLINE') + '/queue';
+    const apiUrl = (this.configService.get('BACKEND_URL_ONLINE') as string) + '/queue';
     this.http.post<Ticket>(apiUrl, { serviceCategory: this.selectedCategory() }).subscribe({
       next: (res) => {
         this.ticket.set(res);

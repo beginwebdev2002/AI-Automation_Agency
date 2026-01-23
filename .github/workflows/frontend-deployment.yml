@@ -1,0 +1,43 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for deployment'
+        required: true
+  push:
+    branches:
+      - development
+    paths:
+      - 'apps/admin-panel/**'
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm i --legacy-peer-deps
+
+      - name: Build Admin Panel
+        run: npx nx build admin-panel --prod --base-href /AI-Automation_Agency/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/apps/admin-panel/browser
+          publish_branch: gh-frontend-development

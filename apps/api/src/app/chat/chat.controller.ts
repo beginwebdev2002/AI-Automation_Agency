@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { SendMessageDto } from './dto/send-message.dto';
-import { TelegramAuthGuard } from '../auth/telegram-auth.guard';
+import { TelegramAuthGuard } from '@app/auth/telegram-auth.guard';
 
 // Define a minimal interface for the user attached by TelegramAuthGuard
 interface TelegramUser {

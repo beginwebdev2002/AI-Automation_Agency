@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, UseGuards, Req, Patch, Param, UnauthorizedException } from '@nestjs/common';
 import { QueueService } from './queue.service';
-import { TelegramAuthGuard } from '../auth/telegram-auth.guard';
+import { TelegramAuthGuard } from '@app/auth/telegram-auth.guard';
 
 interface TelegramUser {
     id: number;

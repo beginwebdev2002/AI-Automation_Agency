@@ -1,0 +1,12 @@
+<button
+  [type]="type()"
+  [class]="classes"
+  [disabled]="disabled()"
+  (click)="clicked.emit()"
+>
+  @if (label()) {
+    {{ label() }}
+  } @else {
+    <ng-content></ng-content>
+  }
+</button>

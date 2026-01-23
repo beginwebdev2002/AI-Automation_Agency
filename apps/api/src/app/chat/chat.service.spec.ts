@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChatService } from './chat.service';
-import { GeminiService } from '../gemini/gemini.service';
+import { GeminiService } from '@app/gemini/gemini.service';
 import { getModelToken } from '@nestjs/mongoose';
 import { Chat } from './schemas/chat.schema';
 

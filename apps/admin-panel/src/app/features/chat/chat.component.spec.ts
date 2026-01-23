@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChatComponent } from './chat.component';
 import { ChatService } from './chat.service';
-import { LanguageService } from '../../core/services/language.service';
+import { LanguageService } from '@core/services/language.service';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
