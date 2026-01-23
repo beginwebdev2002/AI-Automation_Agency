@@ -3,7 +3,7 @@ name: Build NestJS API
 on:
   push:
     branches:
-      - development
+      - main
     paths:
       - 'apps/api/**'
 
