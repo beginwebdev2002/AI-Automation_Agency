@@ -49,8 +49,6 @@ export class QueueDashboardComponent implements OnInit, OnDestroy {
       if (JSON.stringify(data) !== JSON.stringify(this.queue())) {
         this.queue.set(data);
       }
-    this.http.get<QueueItem[]>(apiUrl).subscribe((data) => {
-      this.queue.set(data);
     });
   }
 }
