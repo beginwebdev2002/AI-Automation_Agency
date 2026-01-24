@@ -17,6 +17,7 @@ export class QueueService {
         const lastEntry = await this.queueModel
             .findOne({ createdAt: { $gte: startOfDay } })
             .sort({ sequenceNumber: -1 })
+            .lean()
             .exec();
 
         const sequenceNumber = lastEntry ? lastEntry.sequenceNumber + 1 : 1;
@@ -34,7 +35,10 @@ export class QueueService {
     }
 
     async getQueue(): Promise<Queue[]> {
-        return this.queueModel.find({ status: { $in: ['waiting', 'in-progress'] } }).sort({ sequenceNumber: 1 }).exec();
+        return this.queueModel.find({ status: { $in: ['waiting', 'in-progress'] } })
+            .sort({ sequenceNumber: 1 })
+            .lean()
+            .exec();
     }
 
     async updateStatus(id: string, status: 'in-progress' | 'completed' | 'cancelled'): Promise<Queue | null> {
