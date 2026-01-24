@@ -29,6 +29,24 @@ export class LoginFormComponent {
       : $localize`:@@loginButton:Войти`;
   });
 
+  get emailError(): string | null {
+    const control = this.form.get('email');
+    if (control?.touched && control?.errors) {
+      if (control.errors['required']) return $localize`:@@emailRequired:Email обязателен`;
+      if (control.errors['email']) return $localize`:@@emailInvalid:Некорректный email`;
+    }
+    return null;
+  }
+
+  get passwordError(): string | null {
+    const control = this.form.get('password');
+    if (control?.touched && control?.errors) {
+      if (control.errors['required']) return $localize`:@@passwordRequired:Пароль обязателен`;
+      if (control.errors['minlength']) return $localize`:@@passwordMinLength:Минимум 6 символов`;
+    }
+    return null;
+  }
+
   onSubmit() {
     if (this.form.valid) {
       this.isLoading.set(true);
@@ -37,6 +55,8 @@ export class LoginFormComponent {
         this.isLoading.set(false);
         this.router.navigate(['/dashboard']);
       }, 1500);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }
