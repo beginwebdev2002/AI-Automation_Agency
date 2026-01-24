@@ -15,7 +15,7 @@ You are the AI Implementation Agent for the "Mavluda Beauty" ecosystem. Your mis
 - **File Structure**:
   - Strictly separate files: `[name].component.ts`, `[name].component.html`, `[name].component.scss`.
   - NO inline templates or styles.
-- **Styling**: Tailwind CSS + Flowbite. Theme: "Medical Luxury" (Gold, White, Premium Dark).
+- **Styling**: Tailwind CSS + Flowbite(figma maket: https://www.figma.com/design/BwJpLnMEFPsqLDaSgylB0V/flowbite-pro-figma-v2.10.0?node-id=18-0&t=LCEeUVj5dUFDnbXU-1). Theme: "Medical Luxury" (Gold, White, Premium Dark).
 
 ### Backend: NestJS
 
