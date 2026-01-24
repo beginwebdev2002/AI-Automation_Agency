@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req, UnauthorizedException } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { SendMessageDto } from './dto/send-message.dto';
 import { TelegramAuthGuard } from '@app/auth/telegram-auth.guard';
@@ -20,15 +20,15 @@ interface AuthenticatedRequest {
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
-  @Post('message')
-  @UseGuards(TelegramAuthGuard)
-  async sendMessage(
-    @Req() req: AuthenticatedRequest,
-    @Body() body: SendMessageDto,
-  ) {
-    // Use authenticated user ID to prevent spoofing
-    // Telegram user ID is a number, but ChatService uses string IDs
-    const chatId = req.user?.id ? String(req.user.id) : body.chatId;
+    @Post('message')
+    @UseGuards(TelegramAuthGuard)
+    async sendMessage(@Req() req: AuthenticatedRequest, @Body() body: SendMessageDto) {
+        if (!req.user) {
+            throw new UnauthorizedException('User not authenticated');
+        }
+        // Use authenticated user ID to prevent spoofing
+        // Telegram user ID is a number, but ChatService uses string IDs
+        const chatId = String(req.user.id);
 
     return {
       response: await this.chatService.handleMessage(chatId, body.message),

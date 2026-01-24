@@ -6,6 +6,8 @@
     formControlName="email"
     placeholder="admin@mavluda.beauty"
     i18n-placeholder="@@emailPlaceholder"
+    [error]="emailError"
+    [required]="true"
   ></app-input>
 
   <app-input
@@ -15,6 +17,8 @@
     formControlName="password"
     placeholder="••••••••"
     i18n-placeholder="@@passwordPlaceholder"
+    [error]="passwordError"
+    [required]="true"
   ></app-input>
 
   <div class="flex items-center justify-between">

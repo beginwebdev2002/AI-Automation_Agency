@@ -5,7 +5,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { APP_CONFIG } from '../../shared/tokens/app-config.token';
-import { LanguageSwitcherComponent } from '@core/components/language-switcher/language-switcher.component';
+import { LanguageSwitcherComponent } from '@shared/ui/language-switcher/language-switcher.component';
 import { Component } from '@angular/core';
 import { vi } from 'vitest';
 
