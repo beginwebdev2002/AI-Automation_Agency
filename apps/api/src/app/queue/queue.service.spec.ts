@@ -49,7 +49,8 @@ describe('QueueService', () => {
     it('should add a new entry with incremented sequence number', async () => {
       // Mock findOne -> sort -> exec to return last entry
       const mockExec = jest.fn();
-      const mockSort = jest.fn().mockReturnValue({ exec: mockExec });
+      const mockLean = jest.fn().mockReturnValue({ exec: mockExec });
+      const mockSort = jest.fn().mockReturnValue({ lean: mockLean });
       model.findOne.mockReturnValue({ sort: mockSort });
 
       mockExec.mockResolvedValue({ sequenceNumber: 5 }); // Last entry was 5
@@ -64,7 +65,8 @@ describe('QueueService', () => {
 
     it('should start sequence at 1 if no entry found for today', async () => {
       const mockExec = jest.fn().mockResolvedValue(null);
-      const mockSort = jest.fn().mockReturnValue({ exec: mockExec });
+      const mockLean = jest.fn().mockReturnValue({ exec: mockExec });
+      const mockSort = jest.fn().mockReturnValue({ lean: mockLean });
       model.findOne.mockReturnValue({ sort: mockSort });
 
       const result = await service.addToQueue(1, 'John', 'john', 'Laser');
@@ -81,7 +83,8 @@ describe('QueueService', () => {
       ];
 
       const mockExec = jest.fn().mockResolvedValue(mockItems);
-      const mockSort = jest.fn().mockReturnValue({ exec: mockExec });
+      const mockLean = jest.fn().mockReturnValue({ exec: mockExec });
+      const mockSort = jest.fn().mockReturnValue({ lean: mockLean });
       model.find.mockReturnValue({ sort: mockSort });
 
       const result = await service.getQueue();
