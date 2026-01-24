@@ -1,4 +1,3 @@
-
 import { TelegramAuthGuard } from './telegram-auth.guard';
 import { ConfigService } from '@nestjs/config';
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
@@ -23,7 +22,10 @@ describe('TelegramAuthGuard', () => {
     guard = new TelegramAuthGuard(configService);
   });
 
-  const generateInitData = (user: { id: number; first_name: string; username?: string }, token: string) => {
+  const generateInitData = (
+    user: { id: number; first_name: string; username?: string },
+    token: string,
+  ) => {
     const userStr = JSON.stringify(user);
     const params = new URLSearchParams();
     params.append('user', userStr);
@@ -99,35 +101,35 @@ describe('TelegramAuthGuard', () => {
   });
 
   it('should throw UnauthorizedException if initData is missing', () => {
-      const request = {
-          headers: {},
-      };
-      const context = {
-          switchToHttp: () => ({
-              getRequest: () => request,
-          }),
-      } as ExecutionContext;
+    const request = {
+      headers: {},
+    };
+    const context = {
+      switchToHttp: () => ({
+        getRequest: () => request,
+      }),
+    } as ExecutionContext;
 
-      expect(() => guard.canActivate(context)).toThrow(UnauthorizedException);
+    expect(() => guard.canActivate(context)).toThrow(UnauthorizedException);
   });
 
   it('should throw UnauthorizedException if hash is invalid', () => {
-      const adminUser = { id: 123456789, first_name: 'Admin', username: 'admin' };
-      // Generate with WRONG token
-      const initData = generateInitData(adminUser, 'wrong_token');
+    const adminUser = { id: 123456789, first_name: 'Admin', username: 'admin' };
+    // Generate with WRONG token
+    const initData = generateInitData(adminUser, 'wrong_token');
 
-      const request = {
-          headers: {
-              'x-telegram-init-data': initData,
-          },
-      };
+    const request = {
+      headers: {
+        'x-telegram-init-data': initData,
+      },
+    };
 
-      const context = {
-          switchToHttp: () => ({
-              getRequest: () => request,
-          }),
-      } as ExecutionContext;
+    const context = {
+      switchToHttp: () => ({
+        getRequest: () => request,
+      }),
+    } as ExecutionContext;
 
-      expect(() => guard.canActivate(context)).toThrow(UnauthorizedException);
+    expect(() => guard.canActivate(context)).toThrow(UnauthorizedException);
   });
 });

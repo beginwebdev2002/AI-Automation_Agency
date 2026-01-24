@@ -9,9 +9,11 @@ import { InventoryModule } from '@infrastructure/inventory/inventory.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/aaa'),
+    MongooseModule.forRoot(
+      process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/aaa',
+    ),
     BookingModule,
-    InventoryModule
+    InventoryModule,
   ],
   controllers: [],
   providers: [],

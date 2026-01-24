@@ -15,7 +15,7 @@ export class Booking {
     public readonly date: Date,
     public readonly items: ServiceItem[],
     public status: BookingStatus = 'pending',
-    public readonly createdAt: Date = new Date()
+    public readonly createdAt: Date = new Date(),
   ) {}
 
   get totalPrice(): number {

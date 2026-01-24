@@ -1,4 +1,3 @@
-import '@angular/localize/init';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ServiceCalculatorComponent } from './service-calculator.component';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +8,7 @@ describe('ServiceCalculatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ServiceCalculatorComponent, FormsModule]
+      imports: [ServiceCalculatorComponent, FormsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ServiceCalculatorComponent);
@@ -34,7 +33,9 @@ describe('ServiceCalculatorComponent', () => {
     expect(filteredCount).toBeLessThan(initialCount);
 
     // Check if filtered services contain the query
-    const allMatch = component.filteredServices().every(s => s.name.toLowerCase().includes('лазер'));
+    const allMatch = component
+      .filteredServices()
+      .every((s) => s.name.toLowerCase().includes('лазер'));
     expect(allMatch).toBe(true);
   });
 
@@ -49,8 +50,8 @@ describe('ServiceCalculatorComponent', () => {
     const filtered = component.filteredServices();
 
     // Should match both category and name
-    const allMatch = filtered.every(s =>
-      s.category === 'Injectables' && s.name.includes('Ботокс')
+    const allMatch = filtered.every(
+      (s) => s.category === 'Injectables' && s.name.includes('Ботокс'),
     );
     expect(allMatch).toBe(true);
     expect(filtered.length).toBeGreaterThan(0);

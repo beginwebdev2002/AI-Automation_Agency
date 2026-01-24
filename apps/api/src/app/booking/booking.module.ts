@@ -6,13 +6,13 @@ import { BookingService } from './booking.service';
 import { BookingController } from './booking.controller';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([
-            { name: Venue.name, schema: VenueSchema },
-            { name: Appointment.name, schema: AppointmentSchema },
-        ]),
-    ],
-    controllers: [BookingController],
-    providers: [BookingService],
+  imports: [
+    MongooseModule.forFeature([
+      { name: Venue.name, schema: VenueSchema },
+      { name: Appointment.name, schema: AppointmentSchema },
+    ]),
+  ],
+  controllers: [BookingController],
+  providers: [BookingService],
 })
-export class BookingModule { }
+export class BookingModule {}

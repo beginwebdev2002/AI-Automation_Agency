@@ -9,7 +9,7 @@ import { BookingModel, BookingDocument } from './booking.schema';
 export class BookingRepository implements IBookingRepository {
   constructor(
     @InjectModel(BookingModel.name)
-    private readonly bookingModel: Model<BookingDocument>
+    private readonly bookingModel: Model<BookingDocument>,
   ) {}
 
   async save(booking: Booking): Promise<void> {
@@ -19,7 +19,7 @@ export class BookingRepository implements IBookingRepository {
     } else {
       await this.bookingModel.create({
         _id: booking.id,
-        ...booking
+        ...booking,
       });
     }
   }
@@ -31,14 +31,16 @@ export class BookingRepository implements IBookingRepository {
 
   async findAll(): Promise<Booking[]> {
     const docs = await this.bookingModel.find().exec();
-    return docs.map(doc => this.toEntity(doc));
+    return docs.map((doc) => this.toEntity(doc));
   }
 
   async findByDateRange(start: Date, end: Date): Promise<Booking[]> {
-    const docs = await this.bookingModel.find({
-      date: { $gte: start, $lte: end }
-    }).exec();
-    return docs.map(doc => this.toEntity(doc));
+    const docs = await this.bookingModel
+      .find({
+        date: { $gte: start, $lte: end },
+      })
+      .exec();
+    return docs.map((doc) => this.toEntity(doc));
   }
 
   private toEntity(doc: BookingDocument): Booking {
@@ -49,7 +51,7 @@ export class BookingRepository implements IBookingRepository {
       doc.date,
       doc.items,
       doc.status as BookingStatus,
-      (doc as any).createdAt
+      (doc as any).createdAt,
     );
   }
 }

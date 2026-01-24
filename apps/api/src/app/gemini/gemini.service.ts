@@ -1,32 +1,37 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GoogleGenerativeAI, Content, GenerativeModel } from '@google/generative-ai';
+import {
+  GoogleGenerativeAI,
+  Content,
+  GenerativeModel,
+} from '@google/generative-ai';
 import * as mammoth from 'mammoth';
 import * as path from 'path';
 
 @Injectable()
 export class GeminiService implements OnModuleInit {
-    private genAI: GoogleGenerativeAI;
-    private model!: GenerativeModel;
-    private context = '';
+  private genAI: GoogleGenerativeAI;
+  private model!: GenerativeModel;
+  private context = '';
 
-    constructor(private configService: ConfigService) {
-        const apiKey = this.configService.get<string>('GEMINI_API_KEY') || 'YOUR_API_KEY_HERE';
-        this.genAI = new GoogleGenerativeAI(apiKey);
-    }
+  constructor(private configService: ConfigService) {
+    const apiKey =
+      this.configService.get<string>('GEMINI_API_KEY') || 'YOUR_API_KEY_HERE';
+    this.genAI = new GoogleGenerativeAI(apiKey);
+  }
 
-    async onModuleInit() {
-        await this.loadContext();
-        console.log('✅ База знаний успешно загружена из OneDrive');
-        
-        this.model = await this.genAI.getGenerativeModel({
-            model: 'gemini-2.5-flash',
-            systemInstruction: this.buildSystemPrompt()
-        });
-    }
+  async onModuleInit() {
+    await this.loadContext();
+    console.log('✅ База знаний успешно загружена из OneDrive');
 
-    private buildSystemPrompt(): string {
-        return `
+    this.model = await this.genAI.getGenerativeModel({
+      model: 'gemini-2.5-flash',
+      systemInstruction: this.buildSystemPrompt(),
+    });
+  }
+
+  private buildSystemPrompt(): string {
+    return `
         You are a professional consultant for the AAA Cosmetics Clinic in Dushanbe.
         
         KNOWLEDGE BASE:
@@ -51,46 +56,46 @@ export class GeminiService implements OnModuleInit {
             - Use <hr> horizontal rules to separate sections if the answer is long.
         
         `;
-    }
-
-
-private async loadContext() {
-  try {
-    const docPath = path.join(__dirname, 'assets', 'chat-bot.docx');
-    const result = await mammoth.extractRawText({ path: docPath });
-    
-    this.context = result.value;
-    console.log('✅ База знаний успешно загружена из OneDrive');
-
-  } catch (error) {
-    const errorMsg = error instanceof Error ? error.message : String(error);
-    console.error('❌ Ошибка загрузки контекста из OneDrive:', errorMsg);
-    this.context = 'AAA Cosmetics Clinic services and information.';
   }
-}
 
-    async chat(message: string): Promise<string> {
-        return await this.chatWithHistory([{ role: 'user', parts: [{ text: message }] }]);
+  private async loadContext() {
+    try {
+      const docPath = path.join(__dirname, 'assets', 'chat-bot.docx');
+      const result = await mammoth.extractRawText({ path: docPath });
+
+      this.context = result.value;
+      console.log('✅ База знаний успешно загружена из OneDrive');
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      console.error('❌ Ошибка загрузки контекста из OneDrive:', errorMsg);
+      this.context = 'AAA Cosmetics Clinic services and information.';
     }
+  }
 
-    async chatWithHistory(history: Content[]): Promise<string> {
-        try {
-            const lastMsg = history[history.length - 1];
+  async chat(message: string): Promise<string> {
+    return await this.chatWithHistory([
+      { role: 'user', parts: [{ text: message }] },
+    ]);
+  }
 
-            const chat = this.model.startChat({
-                history: history.slice(0, -1),
-            });
+  async chatWithHistory(history: Content[]): Promise<string> {
+    try {
+      const lastMsg = history[history.length - 1];
 
-            const text = lastMsg.parts[0].text || '';
-            const result = await chat.sendMessage(text);
-            const response = await result.response;
-            return response.text();
-        } catch (error) {
-            console.error('Gemini API Error:', JSON.stringify(error, null, 2));
-            if (error instanceof Error) {
-                console.error('Error message:', error.message);
-            }
-            return 'Извините, в данный момент я не могу ответить. Пожалуйста, попробуйте позже.';
-        }
+      const chat = this.model.startChat({
+        history: history.slice(0, -1),
+      });
+
+      const text = lastMsg.parts[0].text || '';
+      const result = await chat.sendMessage(text);
+      const response = await result.response;
+      return response.text();
+    } catch (error) {
+      console.error('Gemini API Error:', JSON.stringify(error, null, 2));
+      if (error instanceof Error) {
+        console.error('Error message:', error.message);
+      }
+      return 'Извините, в данный момент я не могу ответить. Пожалуйста, попробуйте позже.';
     }
+  }
 }

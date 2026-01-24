@@ -20,14 +20,14 @@ export class ServiceListComponent {
     { value: 'All', label: $localize`:@@categoryAll:Все` },
     { value: 'Laser', label: $localize`:@@categoryLaser:Лазер` },
     { value: 'Injectables', label: $localize`:@@categoryInjectables:Инъекции` },
-    { value: 'Facials', label: $localize`:@@categoryFacials:Уход за лицом` }
+    { value: 'Facials', label: $localize`:@@categoryFacials:Уход за лицом` },
   ];
 
   filteredServices = computed(() => {
     const query = this.searchQuery().toLowerCase();
     const cat = this.selectedCategory();
 
-    return this.services().filter(s => {
+    return this.services().filter((s) => {
       const matchesSearch = s.name.toLowerCase().includes(query);
       const matchesCat = cat === 'All' || s.category === cat;
       return matchesSearch && matchesCat;

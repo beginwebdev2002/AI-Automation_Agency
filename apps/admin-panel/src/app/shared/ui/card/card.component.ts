@@ -15,15 +15,15 @@ export class CardComponent {
 
   get classes(): string {
     const base = 'rounded-xl border transition-all duration-300';
-    const style = this.glass() 
-      ? 'bg-white/80 backdrop-blur-md border-white/20 shadow-xl' 
+    const style = this.glass()
+      ? 'bg-white/80 backdrop-blur-md border-white/20 shadow-xl'
       : 'bg-white border-primary-100 shadow-lg shadow-primary-500/5 hover:shadow-primary-500/10';
-    
+
     const paddings = {
       none: 'p-0',
       sm: 'p-4',
       md: 'p-6',
-      lg: 'p-8'
+      lg: 'p-8',
     };
 
     return `${base} ${style} ${paddings[this.padding()]}`;

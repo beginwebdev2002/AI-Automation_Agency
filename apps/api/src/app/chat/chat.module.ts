@@ -7,13 +7,13 @@ import { GeminiModule } from '@app/gemini/gemini.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([{ name: Chat.name, schema: ChatSchema }]),
-        GeminiModule,
-        ConfigModule
-    ],
-    controllers: [ChatController],
-    providers: [ChatService],
-    exports: [ChatService],
+  imports: [
+    MongooseModule.forFeature([{ name: Chat.name, schema: ChatSchema }]),
+    GeminiModule,
+    ConfigModule,
+  ],
+  controllers: [ChatController],
+  providers: [ChatService],
+  exports: [ChatService],
 })
-export class ChatModule { }
+export class ChatModule {}

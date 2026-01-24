@@ -8,27 +8,27 @@ export const BOOKING_REPOSITORY = 'BOOKING_REPOSITORY';
 export class CreateBookingUseCase {
   constructor(
     @Inject(BOOKING_REPOSITORY)
-    private readonly bookingRepository: IBookingRepository
+    private readonly bookingRepository: IBookingRepository,
   ) {}
 
   async execute(
     clientId: string,
     clientName: string,
     date: Date,
-    items: ServiceItem[]
+    items: ServiceItem[],
   ): Promise<Booking> {
     // Business Logic: Validate date availability (could be another service)
-    
+
     const booking = new Booking(
       crypto.randomUUID(), // In real app, ID gen might be infrastructure
       clientId,
       clientName,
       date,
-      items
+      items,
     );
 
     await this.bookingRepository.save(booking);
-    
+
     // Future: Send Notification via NotificationService Port
 
     return booking;

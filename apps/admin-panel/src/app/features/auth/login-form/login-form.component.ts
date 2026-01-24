@@ -24,8 +24,8 @@ export class LoginFormComponent {
   isLoading = signal(false);
 
   buttonLabel = computed(() => {
-    return this.isLoading() 
-      ? $localize`:@@loginButtonLoading:Вход...` 
+    return this.isLoading()
+      ? $localize`:@@loginButtonLoading:Вход...`
       : $localize`:@@loginButton:Войти`;
   });
 

@@ -12,18 +12,10 @@
     "strict": true,
     "baseUrl": "./src",
     "paths": {
-      "@app/*": [
-        "app/*"
-      ],
-      "@application/*": [
-        "application/*"
-      ],
-      "@domain/*": [
-        "domain/*"
-      ],
-      "@infrastructure/*": [
-        "infrastructure/*"
-      ],
+      "@app/*": ["app/*"],
+      "@application/*": ["application/*"],
+      "@domain/*": ["domain/*"],
+      "@infrastructure/*": ["infrastructure/*"],
       "@/*": ["*"]
     }
   }

@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./apps/admin-panel/src/**/*.{html,ts}",
-    "./node_modules/flowbite/**/*.js"
+    './apps/admin-panel/src/**/*.{html,ts}',
+    './node_modules/flowbite/**/*.js',
   ],
   theme: {
     extend: {
@@ -39,18 +39,17 @@ module.exports = {
         // Semantic Colors
         success: '#10B981', // Emerald
         warning: '#F59E0B', // Amber
-        error: '#EF4444',   // Red
+        error: '#EF4444', // Red
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         serif: ['"Playfair Display"', 'serif'], // For Headings
       },
       backgroundImage: {
-        'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #F2EBC6 50%, #B5922B 100%)',
-      }
+        'gold-gradient':
+          'linear-gradient(135deg, #D4AF37 0%, #F2EBC6 50%, #B5922B 100%)',
+      },
     },
   },
-  plugins: [
-    require('flowbite/plugin')
-  ],
-}
+  plugins: [require('flowbite/plugin')],
+};

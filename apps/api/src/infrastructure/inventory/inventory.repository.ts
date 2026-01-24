@@ -2,14 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IInventoryRepository } from '@domain/inventory/inventory.repository.interface';
-import { Dress, DressCategory, DressStatus } from '@domain/inventory/dress.entity';
+import {
+  Dress,
+  DressCategory,
+  DressStatus,
+} from '@domain/inventory/dress.entity';
 import { DressModel, DressDocument } from './dress.schema';
 
 @Injectable()
 export class InventoryRepository implements IInventoryRepository {
   constructor(
     @InjectModel(DressModel.name)
-    private readonly dressModel: Model<DressDocument>
+    private readonly dressModel: Model<DressDocument>,
   ) {}
 
   async save(dress: Dress): Promise<void> {
@@ -19,7 +23,7 @@ export class InventoryRepository implements IInventoryRepository {
     } else {
       await this.dressModel.create({
         _id: dress.id,
-        ...dress
+        ...dress,
       });
     }
   }
@@ -31,17 +35,17 @@ export class InventoryRepository implements IInventoryRepository {
 
   async findAll(): Promise<Dress[]> {
     const docs = await this.dressModel.find().exec();
-    return docs.map(doc => this.toEntity(doc));
+    return docs.map((doc) => this.toEntity(doc));
   }
 
   async findByCategory(category: DressCategory): Promise<Dress[]> {
     const docs = await this.dressModel.find({ category }).exec();
-    return docs.map(doc => this.toEntity(doc));
+    return docs.map((doc) => this.toEntity(doc));
   }
 
   async findByStatus(status: DressStatus): Promise<Dress[]> {
     const docs = await this.dressModel.find({ status }).exec();
-    return docs.map(doc => this.toEntity(doc));
+    return docs.map((doc) => this.toEntity(doc));
   }
 
   private toEntity(doc: DressDocument): Dress {
@@ -53,7 +57,7 @@ export class InventoryRepository implements IInventoryRepository {
       doc.price,
       doc.status as DressStatus,
       doc.imageUrl,
-      (doc as any).createdAt
+      (doc as any).createdAt,
     );
   }
 }

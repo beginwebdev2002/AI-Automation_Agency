@@ -20,7 +20,10 @@ export class DressModel {
   @Prop({ required: true })
   price!: number;
 
-  @Prop({ required: true, enum: ['available', 'rented', 'cleaning', 'maintenance'] })
+  @Prop({
+    required: true,
+    enum: ['available', 'rented', 'cleaning', 'maintenance'],
+  })
   status!: string;
 
   @Prop({ required: true })

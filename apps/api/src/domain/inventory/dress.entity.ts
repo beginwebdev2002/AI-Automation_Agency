@@ -10,12 +10,14 @@ export class Dress {
     public price: number,
     public status: DressStatus = 'available',
     public imageUrl: string,
-    public readonly createdAt: Date = new Date()
+    public readonly createdAt: Date = new Date(),
   ) {}
 
   rent(): void {
     if (this.status !== 'available') {
-      throw new Error(`Dress is not available for rent. Current status: ${this.status}`);
+      throw new Error(
+        `Dress is not available for rent. Current status: ${this.status}`,
+      );
     }
     this.status = 'rented';
   }

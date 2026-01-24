@@ -77,7 +77,7 @@ describe('QueueService', () => {
     it('should return waiting and in-progress items sorted by sequence', async () => {
       const mockItems = [
         { sequenceNumber: 1, status: 'in-progress' },
-        { sequenceNumber: 2, status: 'waiting' }
+        { sequenceNumber: 2, status: 'waiting' },
       ];
 
       const mockExec = jest.fn().mockResolvedValue(mockItems);
@@ -86,7 +86,9 @@ describe('QueueService', () => {
 
       const result = await service.getQueue();
 
-      expect(model.find).toHaveBeenCalledWith({ status: { $in: ['waiting', 'in-progress'] } });
+      expect(model.find).toHaveBeenCalledWith({
+        status: { $in: ['waiting', 'in-progress'] },
+      });
       expect(mockSort).toHaveBeenCalledWith({ sequenceNumber: 1 });
       expect(result).toEqual(mockItems);
     });

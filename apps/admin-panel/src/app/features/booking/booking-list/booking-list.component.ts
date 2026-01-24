@@ -1,7 +1,10 @@
 import { Component, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '@shared/ui/button/button.component';
-import { Service, MOCK_SERVICES } from '@entities/appointment/model/appointment.model';
+import {
+  Service,
+  MOCK_SERVICES,
+} from '@entities/appointment/model/appointment.model';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const Telegram: any;
@@ -18,7 +21,7 @@ export class BookingListComponent {
     $localize`:@@categoryAll:Все`,
     $localize`:@@categoryLaser:Лазер`,
     $localize`:@@categoryBotox:Ботокс`,
-    $localize`:@@categoryFacials:Уход за лицом`
+    $localize`:@@categoryFacials:Уход за лицом`,
   ];
   selectedCategory = signal<string>($localize`:@@categoryAll:Все`);
   services = signal<Service[]>(MOCK_SERVICES);
@@ -27,21 +30,23 @@ export class BookingListComponent {
   filteredServices = computed(() => {
     const cat = this.selectedCategory();
     if (cat === $localize`:@@categoryAll:Все`) return this.services();
-    return this.services().filter(s => s.category === cat); // Note: This assumes service categories match localized strings or need mapping
+    return this.services().filter((s) => s.category === cat); // Note: This assumes service categories match localized strings or need mapping
   });
 
   totalPrice = computed(() => {
     return this.cart().reduce((sum, item) => sum + item.price, 0);
   });
 
-  selectedIds = computed(() => new Set(this.cart().map(s => s.id)));
+  selectedIds = computed(() => new Set(this.cart().map((s) => s.id)));
 
   constructor() {
     effect(() => {
       // Telegram WebApp Integration
       if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
         if (this.cart().length > 0) {
-          Telegram.WebApp.MainButton.setText(`ОПЛАТИТЬ ${this.totalPrice()} TJS`);
+          Telegram.WebApp.MainButton.setText(
+            `ОПЛАТИТЬ ${this.totalPrice()} TJS`,
+          );
           Telegram.WebApp.MainButton.show();
           Telegram.WebApp.MainButton.onClick(() => this.confirmBooking());
         } else {
@@ -53,10 +58,10 @@ export class BookingListComponent {
   }
 
   toggleService(service: Service) {
-    this.cart.update(items => {
-      const exists = items.find(i => i.id === service.id);
+    this.cart.update((items) => {
+      const exists = items.find((i) => i.id === service.id);
       if (exists) {
-        return items.filter(i => i.id !== service.id);
+        return items.filter((i) => i.id !== service.id);
       }
       return [...items, service];
     });
@@ -69,9 +74,9 @@ export class BookingListComponent {
   confirmBooking() {
     const data = {
       items: this.cart(),
-      total: this.totalPrice()
+      total: this.totalPrice(),
     };
-    
+
     if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
       Telegram.WebApp.sendData(JSON.stringify(data));
     } else {

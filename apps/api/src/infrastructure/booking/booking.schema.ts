@@ -25,7 +25,10 @@ export class BookingModel {
     durationMinutes: number;
   }[];
 
-  @Prop({ required: true, enum: ['pending', 'confirmed', 'completed', 'cancelled'] })
+  @Prop({
+    required: true,
+    enum: ['pending', 'confirmed', 'completed', 'cancelled'],
+  })
   status!: string;
 }
 

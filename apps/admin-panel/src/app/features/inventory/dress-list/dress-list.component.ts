@@ -16,17 +16,23 @@ export class DressListComponent {
 
   getStatusColor(status: Dress['status']): string {
     switch (status) {
-      case 'available': return 'bg-success/10 text-success border-success/20';
-      case 'rented': return 'bg-primary-500/10 text-primary-600 border-primary-500/20';
-      case 'cleaning': return 'bg-surface-500/10 text-surface-600 border-surface-500/20';
+      case 'available':
+        return 'bg-success/10 text-success border-success/20';
+      case 'rented':
+        return 'bg-primary-500/10 text-primary-600 border-primary-500/20';
+      case 'cleaning':
+        return 'bg-surface-500/10 text-surface-600 border-surface-500/20';
     }
   }
 
   getStatusLabel(status: Dress['status']): string {
     switch (status) {
-      case 'available': return $localize`:@@statusAvailable:Доступно`;
-      case 'rented': return $localize`:@@statusRented:В аренде`;
-      case 'cleaning': return $localize`:@@statusCleaning:Химчистка`;
+      case 'available':
+        return $localize`:@@statusAvailable:Доступно`;
+      case 'rented':
+        return $localize`:@@statusRented:В аренде`;
+      case 'cleaning':
+        return $localize`:@@statusCleaning:Химчистка`;
     }
   }
 }

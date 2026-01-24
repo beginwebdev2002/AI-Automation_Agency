@@ -1,4 +1,3 @@
-
 import { TelegramAuthGuard } from './telegram-auth.guard';
 import { ConfigService } from '@nestjs/config';
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
@@ -52,7 +51,7 @@ describe('TelegramAuthGuard Replay Attack', () => {
 
   it('FIXED: should REJECT initData with old auth_date', () => {
     // 2 days ago
-    const oldDate = Math.floor(Date.now() / 1000) - (2 * 86400);
+    const oldDate = Math.floor(Date.now() / 1000) - 2 * 86400;
     const initData = generateInitData(oldDate, mockTelegramToken);
 
     const request = {

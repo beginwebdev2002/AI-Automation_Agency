@@ -7,7 +7,7 @@ import { BOOKING_REPOSITORY } from './create-booking.usecase';
 export class GetBookingsUseCase {
   constructor(
     @Inject(BOOKING_REPOSITORY)
-    private readonly bookingRepository: IBookingRepository
+    private readonly bookingRepository: IBookingRepository,
   ) {}
 
   async execute(): Promise<Booking[]> {

@@ -6,11 +6,11 @@ import { Queue, QueueSchema } from './schemas/queue.schema';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([{ name: Queue.name, schema: QueueSchema }]),
-        ConfigModule
-    ],
-    controllers: [QueueController],
-    providers: [QueueService],
+  imports: [
+    MongooseModule.forFeature([{ name: Queue.name, schema: QueueSchema }]),
+    ConfigModule,
+  ],
+  controllers: [QueueController],
+  providers: [QueueService],
 })
-export class QueueModule { }
+export class QueueModule {}

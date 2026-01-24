@@ -5,10 +5,12 @@ import { TreatmentsService } from './treatments.service';
 import { Treatment, TreatmentSchema } from './schemas/treatment.schema';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([{ name: Treatment.name, schema: TreatmentSchema }]),
-    ],
-    controllers: [TreatmentsController],
-    providers: [TreatmentsService],
+  imports: [
+    MongooseModule.forFeature([
+      { name: Treatment.name, schema: TreatmentSchema },
+    ]),
+  ],
+  controllers: [TreatmentsController],
+  providers: [TreatmentsService],
 })
-export class TreatmentsModule { }
+export class TreatmentsModule {}

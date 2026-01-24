@@ -6,7 +6,7 @@ import { GetBookingsUseCase } from '@application/booking/get-bookings.usecase';
 export class BookingController {
   constructor(
     private readonly createBookingUseCase: CreateBookingUseCase,
-    private readonly getBookingsUseCase: GetBookingsUseCase
+    private readonly getBookingsUseCase: GetBookingsUseCase,
   ) {}
 
   @Post()
@@ -16,7 +16,7 @@ export class BookingController {
       body.clientId,
       body.clientName,
       new Date(body.date),
-      body.items
+      body.items,
     );
   }
 

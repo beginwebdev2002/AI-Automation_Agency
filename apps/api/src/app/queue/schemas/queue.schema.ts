@@ -5,23 +5,23 @@ export type QueueDocument = Queue & Document;
 
 @Schema({ timestamps: true })
 export class Queue {
-    @Prop({ required: true })
-    userId!: number;
+  @Prop({ required: true })
+  userId!: number;
 
-    @Prop({ required: true })
-    firstName!: string;
+  @Prop({ required: true })
+  firstName!: string;
 
-    @Prop()
-    username!: string;
+  @Prop()
+  username!: string;
 
-    @Prop({ required: true })
-    serviceCategory!: string; // 'Laser', 'Botox', etc.
+  @Prop({ required: true })
+  serviceCategory!: string; // 'Laser', 'Botox', etc.
 
-    @Prop({ required: true })
-    sequenceNumber!: number;
+  @Prop({ required: true })
+  sequenceNumber!: number;
 
-    @Prop({ default: 'waiting' })
-    status!: 'waiting' | 'in-progress' | 'completed' | 'cancelled';
+  @Prop({ default: 'waiting' })
+  status!: 'waiting' | 'in-progress' | 'completed' | 'cancelled';
 }
 
 export const QueueSchema = SchemaFactory.createForClass(Queue);

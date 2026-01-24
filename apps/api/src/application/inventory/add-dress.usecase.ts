@@ -8,7 +8,7 @@ export const INVENTORY_REPOSITORY = 'INVENTORY_REPOSITORY';
 export class AddDressUseCase {
   constructor(
     @Inject(INVENTORY_REPOSITORY)
-    private readonly inventoryRepository: IInventoryRepository
+    private readonly inventoryRepository: IInventoryRepository,
   ) {}
 
   async execute(
@@ -16,7 +16,7 @@ export class AddDressUseCase {
     category: DressCategory,
     size: string,
     price: number,
-    imageUrl: string
+    imageUrl: string,
   ): Promise<Dress> {
     const dress = new Dress(
       crypto.randomUUID(),
@@ -25,7 +25,7 @@ export class AddDressUseCase {
       size,
       price,
       'available',
-      imageUrl
+      imageUrl,
     );
 
     await this.inventoryRepository.save(dress);

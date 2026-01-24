@@ -68,7 +68,9 @@ describe('AuthService', () => {
 
       const result = await service.validateUser('test@example.com', 'password');
 
-      expect(mockUserModel.findOne).toHaveBeenCalledWith({ email: 'test@example.com' });
+      expect(mockUserModel.findOne).toHaveBeenCalledWith({
+        email: 'test@example.com',
+      });
       expect(bcrypt.compare).toHaveBeenCalledWith('password', 'hashedpassword');
       expect(result).toEqual({
         _id: 'someid',
@@ -79,11 +81,14 @@ describe('AuthService', () => {
     });
 
     it('should return null if user does not exist', async () => {
-       mockUserModel.findOne.mockReturnValue({
+      mockUserModel.findOne.mockReturnValue({
         lean: jest.fn().mockResolvedValue(null),
       });
 
-      const result = await service.validateUser('wrong@example.com', 'password');
+      const result = await service.validateUser(
+        'wrong@example.com',
+        'password',
+      );
       expect(result).toBeNull();
     });
 
@@ -93,7 +98,10 @@ describe('AuthService', () => {
       });
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
-      const result = await service.validateUser('test@example.com', 'wrongpassword');
+      const result = await service.validateUser(
+        'test@example.com',
+        'wrongpassword',
+      );
       expect(result).toBeNull();
     });
   });

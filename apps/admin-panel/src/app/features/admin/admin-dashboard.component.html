@@ -1,21 +1,41 @@
 <div class="min-h-screen bg-gray-100 p-6">
   <div class="flex justify-between items-center mb-8">
-    <h1 class="text-3xl font-bold text-gray-800" i18n="@@adminDashboardTitle">Панель администратора</h1>
+    <h1 class="text-3xl font-bold text-gray-800" i18n="@@adminDashboardTitle">
+      Панель администратора
+    </h1>
   </div>
 
-  
   <!-- Analytics Cards -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
     <div class="bg-white p-6 rounded-2xl shadow-sm">
-      <h3 class="text-gray-500 text-sm font-medium uppercase" i18n="@@totalClientsLabel">Всего клиентов</h3>
-      <p class="text-3xl font-bold text-gray-900 mt-2">{{ stats().totalClients }}</p>
+      <h3
+        class="text-gray-500 text-sm font-medium uppercase"
+        i18n="@@totalClientsLabel"
+      >
+        Всего клиентов
+      </h3>
+      <p class="text-3xl font-bold text-gray-900 mt-2">
+        {{ stats().totalClients }}
+      </p>
     </div>
     <div class="bg-white p-6 rounded-2xl shadow-sm">
-      <h3 class="text-gray-500 text-sm font-medium uppercase" i18n="@@telegramRevenueLabel">Выручка Telegram</h3>
-      <p class="text-3xl font-bold text-green-600 mt-2">{{ stats().revenue }} <span i18n="@@currencyTJS">TJS</span></p>
+      <h3
+        class="text-gray-500 text-sm font-medium uppercase"
+        i18n="@@telegramRevenueLabel"
+      >
+        Выручка Telegram
+      </h3>
+      <p class="text-3xl font-bold text-green-600 mt-2">
+        {{ stats().revenue }} <span i18n="@@currencyTJS">TJS</span>
+      </p>
     </div>
     <div class="bg-white p-6 rounded-2xl shadow-sm">
-      <h3 class="text-gray-500 text-sm font-medium uppercase" i18n="@@activeQueueLabel">Активная очередь</h3>
+      <h3
+        class="text-gray-500 text-sm font-medium uppercase"
+        i18n="@@activeQueueLabel"
+      >
+        Активная очередь
+      </h3>
       <p class="text-3xl font-bold text-blue-600 mt-2">{{ queue().length }}</p>
     </div>
   </div>
@@ -23,7 +43,9 @@
   <!-- Queue Management -->
   <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
     <div class="p-6 border-b border-gray-100">
-      <h2 class="text-xl font-bold text-gray-800" i18n="@@queueManagementTitle">Управление очередью</h2>
+      <h2 class="text-xl font-bold text-gray-800" i18n="@@queueManagementTitle">
+        Управление очередью
+      </h2>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-left">
@@ -39,40 +61,51 @@
         <tbody class="divide-y divide-gray-100">
           @for (item of queue(); track item._id) {
             <tr>
-              <td class="px-6 py-4 font-bold text-gray-900">{{ item.sequenceNumber }}</td>
+              <td class="px-6 py-4 font-bold text-gray-900">
+                {{ item.sequenceNumber }}
+              </td>
               <td class="px-6 py-4">{{ item.firstName }}</td>
               <td class="px-6 py-4">
-                <span class="px-2 py-1 bg-gray-100 rounded text-xs font-medium">{{ item.serviceCategory }}</span>
+                <span
+                  class="px-2 py-1 bg-gray-100 rounded text-xs font-medium"
+                  >{{ item.serviceCategory }}</span
+                >
               </td>
               <td class="px-6 py-4">
-                <span [class.bg-yellow-100]="item.status === 'waiting'"
-                      [class.text-yellow-800]="item.status === 'waiting'"
-                      [class.bg-blue-100]="item.status === 'in-progress'"
-                      [class.text-blue-800]="item.status === 'in-progress'"
-                      class="px-2 py-1 rounded-full text-xs font-bold uppercase">
+                <span
+                  [class.bg-yellow-100]="item.status === 'waiting'"
+                  [class.text-yellow-800]="item.status === 'waiting'"
+                  [class.bg-blue-100]="item.status === 'in-progress'"
+                  [class.text-blue-800]="item.status === 'in-progress'"
+                  class="px-2 py-1 rounded-full text-xs font-bold uppercase"
+                >
                   {{ item.status }}
                 </span>
               </td>
               <td class="px-6 py-4 flex gap-2">
                 @if (item.status === 'waiting') {
-                  <button 
-                          (click)="updateStatus(item._id, 'in-progress')"
-                          class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
-                          i18n="@@actionCall">
+                  <button
+                    (click)="updateStatus(item._id, 'in-progress')"
+                    class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                    i18n="@@actionCall"
+                  >
                     Вызвать
                   </button>
                 }
                 @if (item.status === 'in-progress') {
-                  <button 
-                          (click)="updateStatus(item._id, 'completed')"
-                          class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
-                          i18n="@@actionComplete">
+                  <button
+                    (click)="updateStatus(item._id, 'completed')"
+                    class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+                    i18n="@@actionComplete"
+                  >
                     Завершить
                   </button>
                 }
-                <button (click)="updateStatus(item._id, 'cancelled')"
-                        class="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 text-sm"
-                        i18n="@@actionCancel">
+                <button
+                  (click)="updateStatus(item._id, 'cancelled')"
+                  class="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 text-sm"
+                  i18n="@@actionCancel"
+                >
                   Отменить
                 </button>
               </td>

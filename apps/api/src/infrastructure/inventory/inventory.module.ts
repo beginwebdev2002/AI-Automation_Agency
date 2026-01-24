@@ -3,20 +3,23 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { InventoryController } from './inventory.controller';
 import { DressModel, DressSchema } from './dress.schema';
 import { InventoryRepository } from './inventory.repository';
-import { AddDressUseCase, INVENTORY_REPOSITORY } from '@application/inventory/add-dress.usecase';
+import {
+  AddDressUseCase,
+  INVENTORY_REPOSITORY,
+} from '@application/inventory/add-dress.usecase';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: DressModel.name, schema: DressSchema }])
+    MongooseModule.forFeature([{ name: DressModel.name, schema: DressSchema }]),
   ],
   controllers: [InventoryController],
   providers: [
     AddDressUseCase,
     {
       provide: INVENTORY_REPOSITORY,
-      useClass: InventoryRepository
-    }
+      useClass: InventoryRepository,
+    },
   ],
-  exports: [AddDressUseCase]
+  exports: [AddDressUseCase],
 })
 export class InventoryModule {}

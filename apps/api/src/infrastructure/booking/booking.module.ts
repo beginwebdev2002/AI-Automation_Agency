@@ -3,12 +3,17 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BookingController } from './booking.controller';
 import { BookingModel, BookingSchema } from './booking.schema';
 import { BookingRepository } from './booking.repository';
-import { CreateBookingUseCase, BOOKING_REPOSITORY } from '@application/booking/create-booking.usecase';
+import {
+  CreateBookingUseCase,
+  BOOKING_REPOSITORY,
+} from '@application/booking/create-booking.usecase';
 import { GetBookingsUseCase } from '@application/booking/get-bookings.usecase';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: BookingModel.name, schema: BookingSchema }])
+    MongooseModule.forFeature([
+      { name: BookingModel.name, schema: BookingSchema },
+    ]),
   ],
   controllers: [BookingController],
   providers: [
@@ -16,9 +21,9 @@ import { GetBookingsUseCase } from '@application/booking/get-bookings.usecase';
     GetBookingsUseCase,
     {
       provide: BOOKING_REPOSITORY,
-      useClass: BookingRepository
-    }
+      useClass: BookingRepository,
+    },
   ],
-  exports: [CreateBookingUseCase]
+  exports: [CreateBookingUseCase],
 })
 export class BookingModule {}

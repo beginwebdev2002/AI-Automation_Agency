@@ -5,55 +5,78 @@ import { Treatment, TreatmentDocument } from './schemas/treatment.schema';
 import { CreateTreatmentDto } from './dto/create-treatment.dto';
 
 export interface FaqItem {
-    question: string;
-    answer: string;
+  question: string;
+  answer: string;
 }
 
 @Injectable()
 export class TreatmentsService {
-    constructor(
-        @InjectModel(Treatment.name) private treatmentModel: Model<TreatmentDocument>
-    ) { }
+  constructor(
+    @InjectModel(Treatment.name)
+    private treatmentModel: Model<TreatmentDocument>,
+  ) {}
 
-    async findAll(page = 1, limit = 10): Promise<Treatment[]> {
-        const MAX_LIMIT = 100;
-        if (limit > MAX_LIMIT) {
-            limit = MAX_LIMIT;
-        }
-        // Ensure page is at least 1
-        const validPage = page < 1 ? 1 : page;
-        const skip = (validPage - 1) * limit;
-        return this.treatmentModel.find().skip(skip).limit(limit).exec();
+  async findAll(page = 1, limit = 10): Promise<Treatment[]> {
+    const MAX_LIMIT = 100;
+    if (limit > MAX_LIMIT) {
+      limit = MAX_LIMIT;
     }
+    // Ensure page is at least 1
+    const validPage = page < 1 ? 1 : page;
+    const skip = (validPage - 1) * limit;
+    return this.treatmentModel.find().skip(skip).limit(limit).exec();
+  }
 
-    async create(createTreatmentDto: CreateTreatmentDto): Promise<Treatment> {
-        const createdTreatment = new this.treatmentModel(createTreatmentDto);
-        return createdTreatment.save();
-    }
+  async create(createTreatmentDto: CreateTreatmentDto): Promise<Treatment> {
+    const createdTreatment = new this.treatmentModel(createTreatmentDto);
+    return createdTreatment.save();
+  }
 
-    getFaq(): FaqItem[] {
-        return [
-            {
-                question: 'Does diode laser hurt?',
-                answer: 'Most patients describe the sensation as a light snap of a rubber band. It is generally well-tolerated.',
-            },
-            {
-                question: 'How should I prep for my appointment?',
-                answer: 'Shave the area 24 hours before. Avoid sun exposure for 2 weeks prior.',
-            },
-        ];
-    }
+  getFaq(): FaqItem[] {
+    return [
+      {
+        question: 'Does diode laser hurt?',
+        answer:
+          'Most patients describe the sensation as a light snap of a rubber band. It is generally well-tolerated.',
+      },
+      {
+        question: 'How should I prep for my appointment?',
+        answer:
+          'Shave the area 24 hours before. Avoid sun exposure for 2 weeks prior.',
+      },
+    ];
+  }
 
-    async seed() {
-        const count = await this.treatmentModel.countDocuments();
-        if (count === 0) {
-            const treatments = [
-                { name: 'Full Face Laser', category: 'Laser', price: 250, description: 'Complete face hair removal' },
-                { name: 'Underarms Laser', category: 'Laser', price: 100, description: 'Underarm hair removal' },
-                { name: 'Botox Forehead', category: 'Botox', price: 1200, description: 'Smooth out forehead lines' },
-                { name: 'HydraFacial', category: 'Facials', price: 400, description: 'Deep cleansing and hydration' },
-            ];
-            await this.treatmentModel.insertMany(treatments);
-        }
+  async seed() {
+    const count = await this.treatmentModel.countDocuments();
+    if (count === 0) {
+      const treatments = [
+        {
+          name: 'Full Face Laser',
+          category: 'Laser',
+          price: 250,
+          description: 'Complete face hair removal',
+        },
+        {
+          name: 'Underarms Laser',
+          category: 'Laser',
+          price: 100,
+          description: 'Underarm hair removal',
+        },
+        {
+          name: 'Botox Forehead',
+          category: 'Botox',
+          price: 1200,
+          description: 'Smooth out forehead lines',
+        },
+        {
+          name: 'HydraFacial',
+          category: 'Facials',
+          price: 400,
+          description: 'Deep cleansing and hydration',
+        },
+      ];
+      await this.treatmentModel.insertMany(treatments);
     }
+  }
 }

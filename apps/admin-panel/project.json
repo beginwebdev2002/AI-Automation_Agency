@@ -15,9 +15,7 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/admin-panel",
         "browser": "apps/admin-panel/src/main.ts",
@@ -28,9 +26,7 @@
             "input": "apps/admin-panel/public"
           }
         ],
-        "styles": [
-          "apps/admin-panel/src/styles.css"
-        ],
+        "styles": ["apps/admin-panel/src/styles.css"],
         "localize": true
       },
       "configurations": {
@@ -81,7 +77,9 @@
     },
     "test": {
       "executor": "@angular/build:unit-test",
-      "options": {}
+      "options": {
+        "setupFiles": ["apps/admin-panel/src/test-setup.ts"]
+      }
     },
     "extract-i18n": {
       "executor": "@angular/build:extract-i18n",

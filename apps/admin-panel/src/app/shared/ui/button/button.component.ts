@@ -16,19 +16,26 @@ export class ButtonComponent {
   variant = input<ButtonVariant>('primary');
   disabled = input<boolean>(false);
   fullWidth = input<boolean>(false);
-  
+
   clicked = output<void>();
 
   get classes(): string {
-    const base = 'font-sans font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-4 focus:outline-none transition-all duration-300 uppercase tracking-wider';
+    const base =
+      'font-sans font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-4 focus:outline-none transition-all duration-300 uppercase tracking-wider';
     const width = this.fullWidth() ? 'w-full' : '';
-    const disabled = this.disabled() ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5';
-    
+    const disabled = this.disabled()
+      ? 'opacity-50 cursor-not-allowed'
+      : 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5';
+
     const variants: Record<ButtonVariant, string> = {
-      primary: 'text-white bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 hover:bg-gradient-to-br focus:ring-primary-300 shadow-md shadow-primary-500/50',
-      secondary: 'text-white bg-surface-900 hover:bg-surface-800 focus:ring-surface-300 shadow-md shadow-surface-900/50',
-      outline: 'text-primary-600 bg-transparent border border-primary-600 hover:bg-primary-600 hover:text-white focus:ring-primary-300',
-      ghost: 'text-surface-700 bg-transparent hover:bg-surface-100 focus:ring-surface-200'
+      primary:
+        'text-white bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 hover:bg-gradient-to-br focus:ring-primary-300 shadow-md shadow-primary-500/50',
+      secondary:
+        'text-white bg-surface-900 hover:bg-surface-800 focus:ring-surface-300 shadow-md shadow-surface-900/50',
+      outline:
+        'text-primary-600 bg-transparent border border-primary-600 hover:bg-primary-600 hover:text-white focus:ring-primary-300',
+      ghost:
+        'text-surface-700 bg-transparent hover:bg-surface-100 focus:ring-surface-200',
     };
 
     return `${base} ${width} ${disabled} ${variants[this.variant()]}`;

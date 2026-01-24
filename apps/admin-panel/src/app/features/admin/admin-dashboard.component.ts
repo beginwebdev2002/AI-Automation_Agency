@@ -16,7 +16,7 @@ interface QueueItem {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.scss']
+  styleUrls: ['./admin-dashboard.component.scss'],
 })
 export class AdminDashboardComponent implements OnInit {
   stats = signal({ totalClients: 124, revenue: 15400 }); // Mock stats
@@ -28,11 +28,12 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit() {
     this.fetchQueue();
   }
-  
 
   fetchQueue() {
     const apiUrl = this.config.apiUrl + '/queue';
-    this.http.get<QueueItem[]>(apiUrl).subscribe(data => this.queue.set(data));
+    this.http
+      .get<QueueItem[]>(apiUrl)
+      .subscribe((data) => this.queue.set(data));
   }
 
   updateStatus(id: string, status: string) {

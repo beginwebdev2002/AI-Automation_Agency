@@ -18,17 +18,20 @@ interface AuthenticatedRequest {
 
 @Controller('chat')
 export class ChatController {
-    constructor(private readonly chatService: ChatService) { }
+  constructor(private readonly chatService: ChatService) {}
 
-    @Post('message')
-    @UseGuards(TelegramAuthGuard)
-    async sendMessage(@Req() req: AuthenticatedRequest, @Body() body: SendMessageDto) {
-        // Use authenticated user ID to prevent spoofing
-        // Telegram user ID is a number, but ChatService uses string IDs
-        const chatId = req.user?.id ? String(req.user.id) : body.chatId;
+  @Post('message')
+  @UseGuards(TelegramAuthGuard)
+  async sendMessage(
+    @Req() req: AuthenticatedRequest,
+    @Body() body: SendMessageDto,
+  ) {
+    // Use authenticated user ID to prevent spoofing
+    // Telegram user ID is a number, but ChatService uses string IDs
+    const chatId = req.user?.id ? String(req.user.id) : body.chatId;
 
-        return {
-            response: await this.chatService.handleMessage(chatId, body.message)
-        };
-    }
+    return {
+      response: await this.chatService.handleMessage(chatId, body.message),
+    };
+  }
 }
