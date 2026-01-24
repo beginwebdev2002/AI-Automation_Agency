@@ -7,13 +7,6 @@ import { LanguageSwitcherComponent } from '@shared/ui/language-switcher/language
 import { Component } from '@angular/core';
 import { vi } from 'vitest';
 
-@Component({
-  selector: 'app-language-switcher',
-  standalone: true,
-  template: ''
-})
-class MockLanguageSwitcherComponent {}
-
 describe('TakeQueueComponent', () => {
   let component: TakeQueueComponent;
   let fixture: ComponentFixture<TakeQueueComponent>;
@@ -28,10 +21,6 @@ describe('TakeQueueComponent', () => {
           useValue: { apiUrl: 'http://api' }
         }
       ]
-    })
-    .overrideComponent(TakeQueueComponent, {
-      remove: { imports: [LanguageSwitcherComponent] },
-      add: { imports: [MockLanguageSwitcherComponent] }
     })
     .compileComponents();
 
