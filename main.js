@@ -37,7 +37,7 @@ exports.AppModule = AppModule = tslib_1.__decorate([
             }),
             mongoose_1.MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/aaa'),
             booking_module_1.BookingModule,
-            inventory_module_1.InventoryModule
+            inventory_module_1.InventoryModule,
         ],
         controllers: [],
         providers: [],
@@ -84,7 +84,9 @@ exports.BookingModule = BookingModule;
 exports.BookingModule = BookingModule = tslib_1.__decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: booking_schema_1.BookingModel.name, schema: booking_schema_1.BookingSchema }])
+            mongoose_1.MongooseModule.forFeature([
+                { name: booking_schema_1.BookingModel.name, schema: booking_schema_1.BookingSchema },
+            ]),
         ],
         controllers: [booking_controller_1.BookingController],
         providers: [
@@ -92,10 +94,10 @@ exports.BookingModule = BookingModule = tslib_1.__decorate([
             get_bookings_usecase_1.GetBookingsUseCase,
             {
                 provide: create_booking_usecase_1.BOOKING_REPOSITORY,
-                useClass: booking_repository_1.BookingRepository
-            }
+                useClass: booking_repository_1.BookingRepository,
+            },
         ],
-        exports: [create_booking_usecase_1.CreateBookingUseCase]
+        exports: [create_booking_usecase_1.CreateBookingUseCase],
     })
 ], BookingModule);
 
@@ -294,7 +296,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Array)
 ], BookingModel.prototype, "items", void 0);
 tslib_1.__decorate([
-    (0, mongoose_1.Prop)({ required: true, enum: ['pending', 'confirmed', 'completed', 'cancelled'] }),
+    (0, mongoose_1.Prop)({
+        required: true,
+        enum: ['pending', 'confirmed', 'completed', 'cancelled'],
+    }),
     tslib_1.__metadata("design:type", String)
 ], BookingModel.prototype, "status", void 0);
 exports.BookingModel = BookingModel = tslib_1.__decorate([
@@ -329,7 +334,7 @@ let BookingRepository = class BookingRepository {
         else {
             await this.bookingModel.create({
                 _id: booking.id,
-                ...booking
+                ...booking,
             });
         }
     }
@@ -339,13 +344,15 @@ let BookingRepository = class BookingRepository {
     }
     async findAll() {
         const docs = await this.bookingModel.find().exec();
-        return docs.map(doc => this.toEntity(doc));
+        return docs.map((doc) => this.toEntity(doc));
     }
     async findByDateRange(start, end) {
-        const docs = await this.bookingModel.find({
-            date: { $gte: start, $lte: end }
-        }).exec();
-        return docs.map(doc => this.toEntity(doc));
+        const docs = await this.bookingModel
+            .find({
+            date: { $gte: start, $lte: end },
+        })
+            .exec();
+        return docs.map((doc) => this.toEntity(doc));
     }
     toEntity(doc) {
         return new booking_entity_1.Booking(doc._id, doc.clientId, doc.clientName, doc.date, doc.items, doc.status, doc.createdAt);
@@ -385,17 +392,17 @@ exports.InventoryModule = InventoryModule;
 exports.InventoryModule = InventoryModule = tslib_1.__decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: dress_schema_1.DressModel.name, schema: dress_schema_1.DressSchema }])
+            mongoose_1.MongooseModule.forFeature([{ name: dress_schema_1.DressModel.name, schema: dress_schema_1.DressSchema }]),
         ],
         controllers: [inventory_controller_1.InventoryController],
         providers: [
             add_dress_usecase_1.AddDressUseCase,
             {
                 provide: add_dress_usecase_1.INVENTORY_REPOSITORY,
-                useClass: inventory_repository_1.InventoryRepository
-            }
+                useClass: inventory_repository_1.InventoryRepository,
+            },
         ],
-        exports: [add_dress_usecase_1.AddDressUseCase]
+        exports: [add_dress_usecase_1.AddDressUseCase],
     })
 ], InventoryModule);
 
@@ -548,7 +555,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Number)
 ], DressModel.prototype, "price", void 0);
 tslib_1.__decorate([
-    (0, mongoose_1.Prop)({ required: true, enum: ['available', 'rented', 'cleaning', 'maintenance'] }),
+    (0, mongoose_1.Prop)({
+        required: true,
+        enum: ['available', 'rented', 'cleaning', 'maintenance'],
+    }),
     tslib_1.__metadata("design:type", String)
 ], DressModel.prototype, "status", void 0);
 tslib_1.__decorate([
@@ -587,7 +597,7 @@ let InventoryRepository = class InventoryRepository {
         else {
             await this.dressModel.create({
                 _id: dress.id,
-                ...dress
+                ...dress,
             });
         }
     }
@@ -597,15 +607,15 @@ let InventoryRepository = class InventoryRepository {
     }
     async findAll() {
         const docs = await this.dressModel.find().exec();
-        return docs.map(doc => this.toEntity(doc));
+        return docs.map((doc) => this.toEntity(doc));
     }
     async findByCategory(category) {
         const docs = await this.dressModel.find({ category }).exec();
-        return docs.map(doc => this.toEntity(doc));
+        return docs.map((doc) => this.toEntity(doc));
     }
     async findByStatus(status) {
         const docs = await this.dressModel.find({ status }).exec();
-        return docs.map(doc => this.toEntity(doc));
+        return docs.map((doc) => this.toEntity(doc));
     }
     toEntity(doc) {
         return new dress_entity_1.Dress(doc._id, doc.name, doc.category, doc.size, doc.price, doc.status, doc.imageUrl, doc.createdAt);
