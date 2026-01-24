@@ -1,4 +1,3 @@
-import '@angular/localize/init';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QueueDashboardComponent } from './queue-dashboard.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
