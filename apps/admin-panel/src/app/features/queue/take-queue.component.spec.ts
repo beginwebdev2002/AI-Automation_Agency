@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TakeQueueComponent } from './take-queue.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { APP_CONFIG } from '../../shared/tokens/app-config.token';
+import { LanguageSwitcherComponent } from '@shared/ui/language-switcher/language-switcher.component';
 import { Component } from '@angular/core';
 import { vi } from 'vitest';
 
