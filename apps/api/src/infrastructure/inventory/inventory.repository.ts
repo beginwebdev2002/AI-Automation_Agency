@@ -57,7 +57,7 @@ export class InventoryRepository implements IInventoryRepository {
       doc.price,
       doc.status as DressStatus,
       doc.imageUrl,
-      (doc as any).createdAt,
+      doc.createdAt ?? new Date(),
     );
   }
 }
