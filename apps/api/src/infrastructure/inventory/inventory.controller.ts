@@ -1,18 +1,19 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AddDressUseCase } from '@application/inventory/add-dress.usecase';
+import { AddDressDto } from './add-dress.dto';
 
 @Controller('inventory')
 export class InventoryController {
   constructor(private readonly addDressUseCase: AddDressUseCase) {}
 
   @Post()
-  async add(@Body() body: any) {
+  async add(@Body() dto: AddDressDto) {
     return this.addDressUseCase.execute(
-      body.name,
-      body.category,
-      body.size,
-      body.price,
-      body.imageUrl,
+      dto.name,
+      dto.category,
+      dto.size,
+      dto.price,
+      dto.imageUrl,
     );
   }
 
