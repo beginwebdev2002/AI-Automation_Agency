@@ -16,14 +16,16 @@ export class ButtonComponent {
   variant = input<ButtonVariant>('primary');
   disabled = input<boolean>(false);
   fullWidth = input<boolean>(false);
+  loading = input<boolean>(false);
 
   clicked = output<void>();
 
   get classes(): string {
+    const display = this.fullWidth() ? 'flex w-full' : 'inline-flex';
     const base =
-      'font-sans font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-4 focus:outline-none transition-all duration-300 uppercase tracking-wider';
-    const width = this.fullWidth() ? 'w-full' : '';
-    const disabled = this.disabled()
+      `font-sans font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-4 focus:outline-none transition-all duration-300 uppercase tracking-wider items-center justify-center gap-2 ${display}`;
+
+    const disabled = (this.disabled() || this.loading())
       ? 'opacity-50 cursor-not-allowed'
       : 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5';
 
@@ -38,6 +40,6 @@ export class ButtonComponent {
         'text-surface-700 bg-transparent hover:bg-surface-100 focus:ring-surface-200',
     };
 
-    return `${base} ${width} ${disabled} ${variants[this.variant()]}`;
+    return `${base} ${disabled} ${variants[this.variant()]}`;
   }
 }
