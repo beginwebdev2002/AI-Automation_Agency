@@ -34,3 +34,8 @@ Sentinel Journal initialized.
 **Vulnerability:** `ChatController` fell back to trusting `body.chatId` if `req.user` was missing, allowing potential impersonation.
 **Learning:** Never implement fallbacks to user input for identity fields, even if the endpoint is guarded. If the guard fails or is bypassed, the fallback becomes a vulnerability.
 **Prevention:** Strictly enforce `req.user` presence in controllers. Throw `UnauthorizedException` explicitly if identity is missing.
+
+## 2026-02-22 - Permissive CORS Configuration
+**Vulnerability:** The API was configured with `origin: true` and `allowedHeaders: '*'`, allowing any website to make authenticated requests if the user is logged in (CSRF/CORS bypass).
+**Learning:** Development convenience configurations (like `origin: true`) often leak into production. Security configurations must be explicit and restrictive by default.
+**Prevention:** Use a dedicated configuration file for CORS with strict allowlists. Prohibit `origin: true` in codebase via linting or policy.
