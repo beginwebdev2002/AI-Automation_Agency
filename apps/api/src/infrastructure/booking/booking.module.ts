@@ -8,6 +8,7 @@ import {
   BOOKING_REPOSITORY,
 } from '@application/booking/create-booking.usecase';
 import { GetBookingsUseCase } from '@application/booking/get-bookings.usecase';
+import { AdminGuard } from '../auth/guards/admin.guard';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { GetBookingsUseCase } from '@application/booking/get-bookings.usecase';
   providers: [
     CreateBookingUseCase,
     GetBookingsUseCase,
+    AdminGuard,
     {
       provide: BOOKING_REPOSITORY,
       useClass: BookingRepository,

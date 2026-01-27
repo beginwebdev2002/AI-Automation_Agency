@@ -3,11 +3,17 @@ import {
   CanActivate,
   ExecutionContext,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
+  private readonly logger = new Logger(AdminGuard.name);
+
+  constructor(private configService: ConfigService) {}
+
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
@@ -18,9 +24,17 @@ export class AdminGuard implements CanActivate {
       throw new UnauthorizedException('No authorization header found');
     }
 
-    // TODO: Implement real JWT verification here
-    // For Phase 2 MVP, we check a mock token or simple logic
-    if (authHeader === 'Bearer admin-secret-token') {
+    const adminToken = this.configService.get<string>('ADMIN_API_TOKEN');
+
+    if (!adminToken) {
+      this.logger.warn(
+        'ADMIN_API_TOKEN is not set in environment variables. Using insecure default.',
+      );
+    }
+
+    const validToken = adminToken || 'admin-secret-token';
+
+    if (authHeader === `Bearer ${validToken}`) {
       return true;
     }
 

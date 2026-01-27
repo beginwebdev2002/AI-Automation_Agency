@@ -34,3 +34,8 @@ Sentinel Journal initialized.
 **Vulnerability:** `ChatController` fell back to trusting `body.chatId` if `req.user` was missing, allowing potential impersonation.
 **Learning:** Never implement fallbacks to user input for identity fields, even if the endpoint is guarded. If the guard fails or is bypassed, the fallback becomes a vulnerability.
 **Prevention:** Strictly enforce `req.user` presence in controllers. Throw `UnauthorizedException` explicitly if identity is missing.
+
+## 2026-02-23 - Unsecured Public Booking Endpoint
+**Vulnerability:** `BookingController` in the infrastructure layer exposed `GET` and `POST` endpoints without any authentication guard, allowing public PII harvesting and spamming.
+**Learning:** When separating code into layers (like infrastructure vs app), security guards must be explicitly reapplied or enforced globally. New modules don't inherit security from old ones.
+**Prevention:** Use global guards where possible or enforce a "Secure by Default" linter rule that requires `@UseGuards` or `@Public` on every controller.
