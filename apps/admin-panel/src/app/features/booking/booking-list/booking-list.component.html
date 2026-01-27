@@ -3,7 +3,9 @@
   <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
     @for (cat of categories; track cat) {
       <button
+        type="button"
         (click)="selectedCategory.set(cat)"
+        [attr.aria-pressed]="selectedCategory() === cat"
         [class]="
           selectedCategory() === cat
             ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
@@ -24,6 +26,7 @@
         (keydown.enter)="toggleService(service)"
         tabindex="0"
         role="button"
+        [attr.aria-pressed]="isSelected(service)"
         [class]="
           isSelected(service)
             ? 'border-primary-500 ring-1 ring-primary-500 bg-primary-50/50'
