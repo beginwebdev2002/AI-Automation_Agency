@@ -1,8 +1,10 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
 import { CreateBookingUseCase } from '@application/booking/create-booking.usecase';
 import { GetBookingsUseCase } from '@application/booking/get-bookings.usecase';
+import { AdminGuard } from '../auth/guards/admin.guard';
 
 @Controller('bookings')
+@UseGuards(AdminGuard)
 export class BookingController {
   constructor(
     private readonly createBookingUseCase: CreateBookingUseCase,
