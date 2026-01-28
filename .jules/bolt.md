@@ -7,3 +7,7 @@
 
 **Learning:** Found `getQueue` endpoint being polled every 5s but doing a sort on unindexed combination (`status`, `sequenceNumber`).
 **Action:** Always check polling endpoints for optimal indexes, as they amplify inefficient queries.
+
+## 2026-01-28 - Unoptimized Polling in Queue Dashboard
+**Learning:** Found `QueueDashboardComponent` polling every 5s inside Angular Zone, triggering global change detection on every tick.
+**Action:** Always wrap `setInterval` in `NgZone.runOutsideAngular` and re-enter zone only on state change.

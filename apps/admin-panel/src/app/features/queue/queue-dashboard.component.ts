@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, OnInit, OnDestroy, signal, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, OnInit, OnDestroy, signal, inject, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { APP_CONFIG } from '../../shared/tokens/app-config.token';
 
 interface QueueItem {
@@ -29,11 +29,14 @@ export class QueueDashboardComponent implements OnInit, OnDestroy {
 
   private http = inject(HttpClient);
   private config = inject(APP_CONFIG);
+  private zone = inject(NgZone);
   private intervalId?: ReturnType<typeof setInterval>;
 
   ngOnInit() {
     this.fetchQueue();
-    this.intervalId = setInterval(() => this.fetchQueue(), 5000); // Poll every 5s
+    this.zone.runOutsideAngular(() => {
+      this.intervalId = setInterval(() => this.fetchQueue(), 5000); // Poll every 5s
+    });
   }
 
   ngOnDestroy() {
@@ -44,10 +47,12 @@ export class QueueDashboardComponent implements OnInit, OnDestroy {
 
   fetchQueue() {
     const apiUrl = this.config.apiUrl + '/queue';
-    this.http.get<QueueItem[]>(apiUrl).subscribe(data => {
+    this.http.get<QueueItem[]>(apiUrl).subscribe((data) => {
       // Optimization: Only update signal if data actually changed to prevent unnecessary re-renders
       if (JSON.stringify(data) !== JSON.stringify(this.queue())) {
-        this.queue.set(data);
+        this.zone.run(() => {
+          this.queue.set(data);
+        });
       }
     });
   }
