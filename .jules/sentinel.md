@@ -34,3 +34,8 @@ Sentinel Journal initialized.
 **Vulnerability:** `ChatController` fell back to trusting `body.chatId` if `req.user` was missing, allowing potential impersonation.
 **Learning:** Never implement fallbacks to user input for identity fields, even if the endpoint is guarded. If the guard fails or is bypassed, the fallback becomes a vulnerability.
 **Prevention:** Strictly enforce `req.user` presence in controllers. Throw `UnauthorizedException` explicitly if identity is missing.
+
+## 2026-02-22 - Missing Security Context in Clean Architecture
+**Vulnerability:** The `infrastructure/booking` module was reachable but lacked `AuthModule` integration and input validation (`any`), unlike the legacy `app` modules.
+**Learning:** When refactoring to Clean Architecture (separating Infrastructure/Application), security guards and modules (like Auth) must be explicitly re-integrated.
+**Prevention:** Mandate security review for all new modules in `infrastructure` layer. Use automated tests to verify `AuthGuard` presence on all public controllers.
