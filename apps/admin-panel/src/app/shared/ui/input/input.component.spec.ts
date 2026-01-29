@@ -1,35 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InputComponent } from './input.component';
-import { Component } from '@angular/core';
-
-@Component({
-  template: `
-    <app-input
-      [label]="label"
-      [error]="error"
-      [required]="required"
-    ></app-input>
-  `,
-  standalone: true,
-  imports: [InputComponent]
-})
-class TestHostComponent {
-  label = 'Test Label';
-  error: string | null = null;
-  required = false;
-}
 
 describe('InputComponent', () => {
-  let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let component: InputComponent;
+  let fixture: ComponentFixture<InputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent, InputComponent],
+      imports: [InputComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TestHostComponent);
+    fixture = TestBed.createComponent(InputComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('label', 'Test Label');
     fixture.detectChanges();
   });
 
@@ -38,7 +21,7 @@ describe('InputComponent', () => {
   });
 
   it('should display error message when error input is set', () => {
-    component.error = 'Test Error';
+    fixture.componentRef.setInput('error', 'Test Error');
     fixture.detectChanges();
 
     const errorElement = fixture.nativeElement.querySelector('p.text-red-600');
@@ -47,7 +30,7 @@ describe('InputComponent', () => {
   });
 
   it('should not display error message when error input is null', () => {
-    component.error = null;
+    fixture.componentRef.setInput('error', null);
     fixture.detectChanges();
 
     const errorElement = fixture.nativeElement.querySelector('p.text-red-600');
@@ -55,7 +38,7 @@ describe('InputComponent', () => {
   });
 
   it('should have required attribute when required input is true', () => {
-    component.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     const inputElement = fixture.nativeElement.querySelector('input');
@@ -63,7 +46,7 @@ describe('InputComponent', () => {
   });
 
   it('should apply error classes when error is present', () => {
-    component.error = 'Error';
+    fixture.componentRef.setInput('error', 'Error');
     fixture.detectChanges();
 
     const inputElement = fixture.nativeElement.querySelector('input');
