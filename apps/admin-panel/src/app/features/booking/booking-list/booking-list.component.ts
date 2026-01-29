@@ -6,9 +6,6 @@ import {
   MOCK_SERVICES,
 } from '@entities/appointment/model/appointment.model';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare const Telegram: any;
-
 @Component({
   selector: 'app-booking-list',
   standalone: true,
