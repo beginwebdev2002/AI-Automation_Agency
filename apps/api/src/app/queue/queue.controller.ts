@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common';
 import { QueueService } from './queue.service';
 import { TelegramAuthGuard } from '@app/auth/telegram-auth.guard';
+import { JoinQueueDto } from './dto/join-queue.dto';
+import { UpdateQueueStatusDto } from './dto/update-queue-status.dto';
 
 interface TelegramUser {
   id: number;
@@ -31,7 +33,7 @@ export class QueueController {
   @UseGuards(TelegramAuthGuard)
   async joinQueue(
     @Req() req: RequestWithUser,
-    @Body() body: { serviceCategory: string },
+    @Body() body: JoinQueueDto,
   ) {
     const user = req.user;
     return this.queueService.addToQueue(
@@ -52,7 +54,7 @@ export class QueueController {
   async updateStatus(
     @Req() req: RequestWithUser,
     @Param('id') id: string,
-    @Body() body: { status: 'in-progress' | 'completed' | 'cancelled' },
+    @Body() body: UpdateQueueStatusDto,
   ) {
     if (req.user.role !== 'admin') {
       throw new UnauthorizedException('Only admins can update status');
