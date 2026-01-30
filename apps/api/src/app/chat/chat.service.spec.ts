@@ -92,6 +92,7 @@ describe('ChatService', () => {
         $push: expect.objectContaining({
           history: expect.objectContaining({
             $each: expect.any(Array),
+            $slice: -50,
           }),
         }),
       }),
