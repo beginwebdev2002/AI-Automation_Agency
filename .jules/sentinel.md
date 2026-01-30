@@ -34,3 +34,8 @@ Sentinel Journal initialized.
 **Vulnerability:** `ChatController` fell back to trusting `body.chatId` if `req.user` was missing, allowing potential impersonation.
 **Learning:** Never implement fallbacks to user input for identity fields, even if the endpoint is guarded. If the guard fails or is bypassed, the fallback becomes a vulnerability.
 **Prevention:** Strictly enforce `req.user` presence in controllers. Throw `UnauthorizedException` explicitly if identity is missing.
+
+## 2026-02-23 - Missing DTO Validation in Booking Controller
+**Vulnerability:** `BookingController` accepted `any` type for creating bookings, bypassing all validation.
+**Learning:** `class-validator` decorators must be carefully used with `plainToInstance` in tests. `ValidateNested` requires `Type` from `class-transformer` to work on array of objects. DTO properties require definite assignment (`!`) to satisfy strict TS checks.
+**Prevention:** Enforce DTO usage in all controllers via linting or code review. Explicitly import `reflect-metadata` in DTO unit tests.
