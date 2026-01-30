@@ -16,16 +16,18 @@ export class ButtonComponent {
   variant = input<ButtonVariant>('primary');
   disabled = input<boolean>(false);
   fullWidth = input<boolean>(false);
+  loading = input<boolean>(false);
 
   clicked = output<void>();
 
   get classes(): string {
     const base =
-      'font-sans font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-4 focus:outline-none transition-all duration-300 uppercase tracking-wider';
-    const width = this.fullWidth() ? 'w-full' : '';
-    const disabled = this.disabled()
-      ? 'opacity-50 cursor-not-allowed'
-      : 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5';
+      'font-sans font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-4 focus:outline-none transition-all duration-300 uppercase tracking-wider inline-flex items-center justify-center';
+    const width = this.fullWidth() ? 'flex w-full' : '';
+    const disabled =
+      this.disabled() || this.loading()
+        ? 'opacity-50 cursor-not-allowed'
+        : 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5';
 
     const variants: Record<ButtonVariant, string> = {
       primary:

@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,12 +22,6 @@ export class LoginFormComponent {
   });
 
   isLoading = signal(false);
-
-  buttonLabel = computed(() => {
-    return this.isLoading()
-      ? $localize`:@@loginButtonLoading:Вход...`
-      : $localize`:@@loginButton:Войти`;
-  });
 
   get emailError(): string | null {
     const control = this.form.get('email');

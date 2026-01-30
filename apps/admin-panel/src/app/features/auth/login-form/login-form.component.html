@@ -47,8 +47,10 @@
 
   <app-button
     type="submit"
-    [disabled]="form.invalid || isLoading()"
+    [disabled]="form.invalid"
+    [loading]="isLoading()"
     [fullWidth]="true"
-    [label]="buttonLabel()"
+    label="Войти"
+    i18n-label="@@loginButton"
   ></app-button>
 </form>
