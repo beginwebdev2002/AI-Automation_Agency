@@ -7,6 +7,10 @@ import { GeminiService } from '@app/gemini/gemini.service';
 @Injectable()
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
+  // Limit history context for AI to last 50 messages
+  private static readonly MAX_HISTORY = 50;
+  // Limit database array size to prevent unbounded growth (buffer for context)
+  private static readonly MAX_HISTORY_DB = 100;
 
   constructor(
     @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
@@ -14,12 +18,12 @@ export class ChatService {
   ) {}
 
   async handleMessage(chatId: string, message: string): Promise<string> {
-    // Limit history to last 50 messages to save context and tokens
-    const MAX_HISTORY = 50;
-
-    // Optimized: Only fetch the last 50 messages using projection and lean()
+    // Optimized: Only fetch the last MAX_HISTORY messages using projection and lean()
     const chat = await this.chatModel
-      .findOne({ chatId }, { history: { $slice: -MAX_HISTORY } })
+      .findOne(
+        { chatId },
+        { history: { $slice: -ChatService.MAX_HISTORY } },
+      )
       .lean();
 
     // If chat exists, use its history, otherwise empty array
@@ -32,7 +36,7 @@ export class ChatService {
     const historyContext = [...history, userMessage];
 
     // Ensure we only send the last MAX_HISTORY messages to AI
-    const recentHistory = historyContext.slice(-MAX_HISTORY);
+    const recentHistory = historyContext.slice(-ChatService.MAX_HISTORY);
 
     const historyForAi = recentHistory.map((msg) => ({
       role: msg.role === 'user' ? 'user' : 'model',
@@ -47,7 +51,8 @@ export class ChatService {
       timestamp: new Date(),
     };
 
-    // Update database: Push both messages. Create document if it doesn't exist.
+    // Update database: Push both messages and slice to keep size limited.
+    // This prevents the document from growing indefinitely (16MB limit).
     await this.chatModel.updateOne(
       { chatId },
       {
@@ -55,6 +60,7 @@ export class ChatService {
         $push: {
           history: {
             $each: [userMessage, modelMessage],
+            $slice: -ChatService.MAX_HISTORY_DB,
           },
         },
       },

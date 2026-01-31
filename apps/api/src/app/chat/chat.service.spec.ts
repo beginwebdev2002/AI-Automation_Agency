@@ -85,13 +85,14 @@ describe('ChatService', () => {
     // Verify we are limiting the context
     expect(calledHistory.length).toBeLessThanOrEqual(50);
 
-    // Verify updateOne was called
+    // Verify updateOne was called with $slice to limit array growth
     expect(mockChatModel.updateOne).toHaveBeenCalledWith(
       { chatId },
       expect.objectContaining({
         $push: expect.objectContaining({
           history: expect.objectContaining({
             $each: expect.any(Array),
+            $slice: -100,
           }),
         }),
       }),

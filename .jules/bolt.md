@@ -7,3 +7,8 @@
 
 **Learning:** Found `getQueue` endpoint being polled every 5s but doing a sort on unindexed combination (`status`, `sequenceNumber`).
 **Action:** Always check polling endpoints for optimal indexes, as they amplify inefficient queries.
+
+## 2024-10-24 - Unbounded Chat History Growth
+
+**Learning:** `ChatService` was appending messages to `history` array without limit. This would lead to document size exceeding 16MB and performance degradation.
+**Action:** Used `$slice` in `$push` to cap array size at database level, ensuring predictable performance and preventing failures.
