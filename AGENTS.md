@@ -6,7 +6,7 @@
 - Strict typing is mandatory. Avoid 'any' at all costs.
 - Use Interfaces for data structures and Classes for logic.
 
-## 2. Frontend: Angular (apps/admin-dashboard)
+## 2. Frontend: Angular (apps/admin-panel)
 
 - Follow the official Angular Style Guide (https://angular.dev/style-guide).
 - Use Standalone Components (Angular 17+ architecture).

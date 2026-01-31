@@ -51,7 +51,7 @@ export class BookingRepository implements IBookingRepository {
       doc.date,
       doc.items,
       doc.status as BookingStatus,
-      (doc as any).createdAt,
+      doc.createdAt || new Date(),
     );
   }
 }
