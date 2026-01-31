@@ -1,9 +1,13 @@
-import '@angular/localize/init';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QueueDashboardComponent } from './queue-dashboard.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { APP_CONFIG } from '../../shared/tokens/app-config.token';
 import { vi } from 'vitest';
+
+interface QueueItem {
+  _id: string;
+  status: string;
+}
 
 describe('QueueDashboardComponent', () => {
   let component: QueueDashboardComponent;
@@ -57,7 +61,7 @@ describe('QueueDashboardComponent', () => {
   it('should NOT update signal if data is same (optimization)', () => {
     fixture.detectChanges();
     const req = httpMock.expectOne('http://api/queue');
-    const initialData: any[] = [{ _id: '1', status: 'waiting' }];
+    const initialData: QueueItem[] = [{ _id: '1', status: 'waiting' }];
     req.flush(initialData);
 
     const setSpy = vi.spyOn(component.queue, 'set');
@@ -75,7 +79,7 @@ describe('QueueDashboardComponent', () => {
   it('should update signal if data changed', () => {
     fixture.detectChanges();
     const req = httpMock.expectOne('http://api/queue');
-    const initialData: any[] = [{ _id: '1', status: 'waiting' }];
+    const initialData: QueueItem[] = [{ _id: '1', status: 'waiting' }];
     req.flush(initialData);
 
     const setSpy = vi.spyOn(component.queue, 'set');

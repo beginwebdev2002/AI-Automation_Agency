@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { QueueService } from './queue.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { Queue } from './schemas/queue.schema';
+import { Queue, QueueDocument } from './schemas/queue.schema';
+import { Model } from 'mongoose';
 
 describe('QueueService', () => {
   let service: QueueService;
-  let model: any;
+  let model: Model<QueueDocument>;
 
   const mockQueueModel = {
     find: jest.fn(),
@@ -50,7 +51,7 @@ describe('QueueService', () => {
       // Mock findOne -> sort -> exec to return last entry
       const mockExec = jest.fn();
       const mockSort = jest.fn().mockReturnValue({ exec: mockExec });
-      model.findOne.mockReturnValue({ sort: mockSort });
+      (model.findOne as jest.Mock).mockReturnValue({ sort: mockSort });
 
       mockExec.mockResolvedValue({ sequenceNumber: 5 }); // Last entry was 5
 
@@ -65,7 +66,7 @@ describe('QueueService', () => {
     it('should start sequence at 1 if no entry found for today', async () => {
       const mockExec = jest.fn().mockResolvedValue(null);
       const mockSort = jest.fn().mockReturnValue({ exec: mockExec });
-      model.findOne.mockReturnValue({ sort: mockSort });
+      (model.findOne as jest.Mock).mockReturnValue({ sort: mockSort });
 
       const result = await service.addToQueue(1, 'John', 'john', 'Laser');
 
@@ -82,7 +83,7 @@ describe('QueueService', () => {
 
       const mockExec = jest.fn().mockResolvedValue(mockItems);
       const mockSort = jest.fn().mockReturnValue({ exec: mockExec });
-      model.find.mockReturnValue({ sort: mockSort });
+      (model.find as jest.Mock).mockReturnValue({ sort: mockSort });
 
       const result = await service.getQueue();
 
