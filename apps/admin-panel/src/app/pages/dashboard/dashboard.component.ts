@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StatsComponent } from '@widgets/stats/stats.component';
 
@@ -8,5 +8,6 @@ import { StatsComponent } from '@widgets/stats/stats.component';
   imports: [CommonModule, StatsComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {}
