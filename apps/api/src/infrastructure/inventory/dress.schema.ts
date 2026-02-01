@@ -31,3 +31,7 @@ export class DressModel {
 }
 
 export const DressSchema = SchemaFactory.createForClass(DressModel);
+
+// Optimize inventory filtering by category and status
+DressSchema.index({ category: 1 });
+DressSchema.index({ status: 1 });
