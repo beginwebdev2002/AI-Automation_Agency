@@ -1,6 +1,7 @@
 import { Controller, Post, Get, Body } from '@nestjs/common';
 import { CreateBookingUseCase } from '@application/booking/create-booking.usecase';
 import { GetBookingsUseCase } from '@application/booking/get-bookings.usecase';
+import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Controller('bookings')
 export class BookingController {
@@ -10,12 +11,11 @@ export class BookingController {
   ) {}
 
   @Post()
-  async create(@Body() body: any) {
-    // In real app, use DTO validation here
+  async create(@Body() body: CreateBookingDto) {
     return this.createBookingUseCase.execute(
       body.clientId,
       body.clientName,
-      new Date(body.date),
+      body.date,
       body.items,
     );
   }

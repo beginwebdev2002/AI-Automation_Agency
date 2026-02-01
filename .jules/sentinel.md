@@ -34,3 +34,8 @@ Sentinel Journal initialized.
 **Vulnerability:** `ChatController` fell back to trusting `body.chatId` if `req.user` was missing, allowing potential impersonation.
 **Learning:** Never implement fallbacks to user input for identity fields, even if the endpoint is guarded. If the guard fails or is bypassed, the fallback becomes a vulnerability.
 **Prevention:** Strictly enforce `req.user` presence in controllers. Throw `UnauthorizedException` explicitly if identity is missing.
+
+## 2026-02-23 - Infrastructure Layer Input Validation
+**Vulnerability:** BookingController in Infrastructure layer exposed `any` body.
+**Learning:** Controllers in Infrastructure layer are just as public as App layer controllers. Clean architecture folder structure doesn't imply security boundaries for HTTP endpoints.
+**Prevention:** Apply same strict DTO rules to all `@Controller` classes regardless of directory.
