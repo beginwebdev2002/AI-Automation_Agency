@@ -33,3 +33,6 @@ export class BookingModel {
 }
 
 export const BookingSchema = SchemaFactory.createForClass(BookingModel);
+
+// Optimize findByDateRange queries which are critical for calendar views
+BookingSchema.index({ date: 1 });
