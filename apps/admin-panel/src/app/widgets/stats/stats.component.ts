@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '@shared/ui/card/card.component';
 import { LucideAngularModule } from 'lucide-angular';
@@ -9,6 +9,7 @@ import { LucideAngularModule } from 'lucide-angular';
   imports: [CommonModule, CardComponent, LucideAngularModule],
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatsComponent {
   stats = signal([
