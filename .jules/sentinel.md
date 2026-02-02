@@ -34,3 +34,8 @@ Sentinel Journal initialized.
 **Vulnerability:** `ChatController` fell back to trusting `body.chatId` if `req.user` was missing, allowing potential impersonation.
 **Learning:** Never implement fallbacks to user input for identity fields, even if the endpoint is guarded. If the guard fails or is bypassed, the fallback becomes a vulnerability.
 **Prevention:** Strictly enforce `req.user` presence in controllers. Throw `UnauthorizedException` explicitly if identity is missing.
+
+## 2026-02-02 - Insecure Default in Admin Guard
+**Vulnerability:** `AdminGuard` contained a hardcoded 'Bearer admin-secret-token' check.
+**Learning:** Insecure defaults (like "admin-secret-token") intended for development often persist in code. Fallback logic that suppresses missing configuration errors reduces security visibility.
+**Prevention:** Fail securely. If a critical security configuration (like `ADMIN_API_TOKEN`) is missing, the application should deny access or fail startup, rather than silently falling back to a weak default.
