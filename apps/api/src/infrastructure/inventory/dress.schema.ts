@@ -28,6 +28,12 @@ export class DressModel {
 
   @Prop({ required: true })
   imageUrl!: string;
+
+  @Prop()
+  createdAt?: Date;
+
+  @Prop()
+  updatedAt?: Date;
 }
 
 export const DressSchema = SchemaFactory.createForClass(DressModel);

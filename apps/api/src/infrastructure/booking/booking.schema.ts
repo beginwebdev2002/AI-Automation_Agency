@@ -30,6 +30,12 @@ export class BookingModel {
     enum: ['pending', 'confirmed', 'completed', 'cancelled'],
   })
   status!: string;
+
+  @Prop()
+  createdAt?: Date;
+
+  @Prop()
+  updatedAt?: Date;
 }
 
 export const BookingSchema = SchemaFactory.createForClass(BookingModel);
