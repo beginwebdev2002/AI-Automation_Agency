@@ -1,9 +1,13 @@
 <button
   [type]="type()"
   [class]="classes"
-  [disabled]="disabled()"
+  [disabled]="disabled() || loading()"
+  [attr.aria-busy]="loading()"
   (click)="clicked.emit()"
 >
+  @if (loading()) {
+    <lucide-icon [img]="Loader2" class="animate-spin w-4 h-4 mr-2"></lucide-icon>
+  }
   @if (label()) {
     {{ label() }}
   } @else {
