@@ -33,3 +33,4 @@ export class BookingModel {
 }
 
 export const BookingSchema = SchemaFactory.createForClass(BookingModel);
+BookingSchema.index({ date: 1 });

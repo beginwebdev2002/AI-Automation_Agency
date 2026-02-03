@@ -31,3 +31,5 @@ export class DressModel {
 }
 
 export const DressSchema = SchemaFactory.createForClass(DressModel);
+DressSchema.index({ category: 1 });
+DressSchema.index({ status: 1 });
