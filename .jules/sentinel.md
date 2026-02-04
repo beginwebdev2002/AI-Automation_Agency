@@ -34,3 +34,8 @@ Sentinel Journal initialized.
 **Vulnerability:** `ChatController` fell back to trusting `body.chatId` if `req.user` was missing, allowing potential impersonation.
 **Learning:** Never implement fallbacks to user input for identity fields, even if the endpoint is guarded. If the guard fails or is bypassed, the fallback becomes a vulnerability.
 **Prevention:** Strictly enforce `req.user` presence in controllers. Throw `UnauthorizedException` explicitly if identity is missing.
+
+## 2026-02-04 - Hardcoded Secret in AdminGuard
+**Vulnerability:** `AdminGuard` contained a hardcoded 'admin-secret-token' and fell back to weak security.
+**Learning:** Unused or "work in progress" security guards can still be dangerous if they contain hardcoded secrets, as they might be enabled or copied without review.
+**Prevention:** Search for hardcoded strings resembling secrets/tokens during CI or pre-commit hooks. Ensure all guards depend on `ConfigService`.
