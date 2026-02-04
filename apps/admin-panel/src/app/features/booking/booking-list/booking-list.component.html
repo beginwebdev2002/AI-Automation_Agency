@@ -1,8 +1,15 @@
 <div class="space-y-6">
   <!-- Category Filter -->
-  <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+  <div
+    class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+    role="radiogroup"
+    aria-label="Service Categories"
+  >
     @for (cat of categories; track cat) {
       <button
+        type="button"
+        role="radio"
+        [attr.aria-checked]="selectedCategory() === cat"
         (click)="selectedCategory.set(cat)"
         [class]="
           selectedCategory() === cat
@@ -24,6 +31,7 @@
         (keydown.enter)="toggleService(service)"
         tabindex="0"
         role="button"
+        [attr.aria-pressed]="isSelected(service)"
         [class]="
           isSelected(service)
             ? 'border-primary-500 ring-1 ring-primary-500 bg-primary-50/50'
