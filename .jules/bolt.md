@@ -7,3 +7,8 @@
 
 **Learning:** Found `getQueue` endpoint being polled every 5s but doing a sort on unindexed combination (`status`, `sequenceNumber`).
 **Action:** Always check polling endpoints for optimal indexes, as they amplify inefficient queries.
+
+## 2024-07-15 - Missing Index on Booking Date
+
+**Learning:** The `BookingSchema` lacked an index on `date`, causing full collection scans for `findByDateRange`.
+**Action:** Always verify indexes for fields used in range queries or filters, especially in core schemas like Booking.
