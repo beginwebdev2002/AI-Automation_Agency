@@ -31,6 +31,7 @@ Sentinel Journal initialized.
 **Prevention:** Use environment-based bypasses for development instead of modifying code. Scan for commented-out decorators in sensitive files.
 
 ## 2026-02-22 - IDOR in Chat Controller
+
 **Vulnerability:** `ChatController` fell back to trusting `body.chatId` if `req.user` was missing, allowing potential impersonation.
 **Learning:** Never implement fallbacks to user input for identity fields, even if the endpoint is guarded. If the guard fails or is bypassed, the fallback becomes a vulnerability.
 **Prevention:** Strictly enforce `req.user` presence in controllers. Throw `UnauthorizedException` explicitly if identity is missing.

@@ -11,7 +11,7 @@ import { Component } from '@angular/core';
     ></app-input>
   `,
   standalone: true,
-  imports: [InputComponent]
+  imports: [InputComponent],
 })
 class TestHostComponent {
   label = 'Test Label';

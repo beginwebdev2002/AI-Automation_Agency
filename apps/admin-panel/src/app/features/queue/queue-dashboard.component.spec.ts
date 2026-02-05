@@ -1,7 +1,10 @@
 import '@angular/localize/init';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QueueDashboardComponent } from './queue-dashboard.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { APP_CONFIG } from '../../shared/tokens/app-config.token';
 import { vi } from 'vitest';
 
@@ -16,9 +19,9 @@ describe('QueueDashboardComponent', () => {
       providers: [
         {
           provide: APP_CONFIG,
-          useValue: { apiUrl: 'http://api' }
-        }
-      ]
+          useValue: { apiUrl: 'http://api' },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(QueueDashboardComponent);
