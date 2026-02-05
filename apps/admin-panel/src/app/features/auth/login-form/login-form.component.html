@@ -47,7 +47,8 @@
 
   <app-button
     type="submit"
-    [disabled]="form.invalid || isLoading()"
+    [loading]="isLoading()"
+    [disabled]="form.invalid"
     [fullWidth]="true"
     [label]="buttonLabel()"
   ></app-button>

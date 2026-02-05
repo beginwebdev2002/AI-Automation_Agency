@@ -12,10 +12,30 @@ import { LucideAngularModule } from 'lucide-angular';
 })
 export class SidebarComponent {
   menuItems = signal([
-    { label: $localize`:@@menuDashboard:Дашборд`, icon: 'layout-grid', route: '/dashboard' },
-    { label: $localize`:@@menuBooking:Запись`, icon: 'calendar-check', route: '/booking' },
-    { label: $localize`:@@menuInventory:Инвентарь`, icon: 'shirt', route: '/inventory' },
-    { label: $localize`:@@menuServices:Услуги`, icon: 'sparkles', route: '/services' },
-    { label: $localize`:@@menuSettings:Настройки`, icon: 'settings', route: '/settings' },
+    {
+      label: $localize`:@@menuDashboard:Дашборд`,
+      icon: 'layout-grid',
+      route: '/dashboard',
+    },
+    {
+      label: $localize`:@@menuBooking:Запись`,
+      icon: 'calendar-check',
+      route: '/booking',
+    },
+    {
+      label: $localize`:@@menuInventory:Инвентарь`,
+      icon: 'shirt',
+      route: '/inventory',
+    },
+    {
+      label: $localize`:@@menuServices:Услуги`,
+      icon: 'sparkles',
+      route: '/services',
+    },
+    {
+      label: $localize`:@@menuSettings:Настройки`,
+      icon: 'settings',
+      route: '/settings',
+    },
   ]);
 }
