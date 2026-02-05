@@ -31,3 +31,9 @@ export class DressModel {
 }
 
 export const DressSchema = SchemaFactory.createForClass(DressModel);
+
+// ⚡ Bolt Optimization: Add indexes for frequent filter fields
+// Impact: Changes lookup from O(n) collection scan to O(log n)
+// Verified by: apps/api/src/infrastructure/inventory/dress.schema.spec.ts
+DressSchema.index({ category: 1 });
+DressSchema.index({ status: 1 });
