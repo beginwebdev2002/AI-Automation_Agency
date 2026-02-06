@@ -1,6 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, OnInit, OnDestroy, signal, inject, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  computed,
+  OnInit,
+  OnDestroy,
+  signal,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { APP_CONFIG } from '../../shared/tokens/app-config.token';
 
 interface QueueItem {
@@ -44,7 +52,7 @@ export class QueueDashboardComponent implements OnInit, OnDestroy {
 
   fetchQueue() {
     const apiUrl = this.config.apiUrl + '/queue';
-    this.http.get<QueueItem[]>(apiUrl).subscribe(data => {
+    this.http.get<QueueItem[]>(apiUrl).subscribe((data) => {
       // Optimization: Only update signal if data actually changed to prevent unnecessary re-renders
       if (JSON.stringify(data) !== JSON.stringify(this.queue())) {
         this.queue.set(data);

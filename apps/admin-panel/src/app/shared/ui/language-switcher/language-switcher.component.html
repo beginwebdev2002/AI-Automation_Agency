@@ -15,7 +15,11 @@
   <ul class="py-2 text-sm text-surface-700" aria-labelledby="dropdown-button">
     @for (lang of languages(); track lang.code) {
       <li>
-        <a href="#" (click)="selectLanguage(lang); $event.preventDefault()" class="block px-4 py-2 hover:bg-surface-100">
+        <a
+          href="#"
+          (click)="selectLanguage(lang); $event.preventDefault()"
+          class="block px-4 py-2 hover:bg-surface-100"
+        >
           {{ lang.name }}
         </a>
       </li>

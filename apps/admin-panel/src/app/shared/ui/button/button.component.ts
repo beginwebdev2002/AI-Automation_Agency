@@ -1,12 +1,13 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LucideAngularModule, Loader2 } from 'lucide-angular';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
 
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
 })
@@ -15,17 +16,21 @@ export class ButtonComponent {
   type = input<'button' | 'submit' | 'reset'>('button');
   variant = input<ButtonVariant>('primary');
   disabled = input<boolean>(false);
+  loading = input<boolean>(false);
   fullWidth = input<boolean>(false);
 
   clicked = output<void>();
 
+  readonly Loader2 = Loader2;
+
   get classes(): string {
     const base =
-      'font-sans font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-4 focus:outline-none transition-all duration-300 uppercase tracking-wider';
+      'font-sans font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-4 focus:outline-none transition-all duration-300 uppercase tracking-wider flex items-center justify-center';
     const width = this.fullWidth() ? 'w-full' : '';
-    const disabled = this.disabled()
-      ? 'opacity-50 cursor-not-allowed'
-      : 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5';
+    const disabled =
+      this.disabled() || this.loading()
+        ? 'opacity-50 cursor-not-allowed'
+        : 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5';
 
     const variants: Record<ButtonVariant, string> = {
       primary:

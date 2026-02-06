@@ -12,9 +12,29 @@ import { LucideAngularModule } from 'lucide-angular';
 })
 export class StatsComponent {
   stats = signal([
-    { label: $localize`:@@statsBookingsToday:Записей сегодня`, value: '12', icon: 'calendar-check', color: 'text-primary-500' },
-    { label: $localize`:@@statsRevenue:Выручка (TJS)`, value: '4,500', icon: 'wallet', color: 'text-success' },
-    { label: $localize`:@@statsNewClients:Новых клиентов`, value: '5', icon: 'user-plus', color: 'text-primary-400' },
-    { label: $localize`:@@statsRentedDresses:Платьев в аренде`, value: '8', icon: 'shirt', color: 'text-rose-500' },
+    {
+      label: $localize`:@@statsBookingsToday:Записей сегодня`,
+      value: '12',
+      icon: 'calendar-check',
+      color: 'text-primary-500',
+    },
+    {
+      label: $localize`:@@statsRevenue:Выручка (TJS)`,
+      value: '4,500',
+      icon: 'wallet',
+      color: 'text-success',
+    },
+    {
+      label: $localize`:@@statsNewClients:Новых клиентов`,
+      value: '5',
+      icon: 'user-plus',
+      color: 'text-primary-400',
+    },
+    {
+      label: $localize`:@@statsRentedDresses:Платьев в аренде`,
+      value: '8',
+      icon: 'shirt',
+      color: 'text-rose-500',
+    },
   ]);
 }
