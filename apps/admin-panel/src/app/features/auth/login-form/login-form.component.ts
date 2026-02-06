@@ -32,8 +32,10 @@ export class LoginFormComponent {
   get emailError(): string | null {
     const control = this.form.get('email');
     if (control?.touched && control?.errors) {
-      if (control.errors['required']) return $localize`:@@emailRequired:Email обязателен`;
-      if (control.errors['email']) return $localize`:@@emailInvalid:Некорректный email`;
+      if (control.errors['required'])
+        return $localize`:@@emailRequired:Email обязателен`;
+      if (control.errors['email'])
+        return $localize`:@@emailInvalid:Некорректный email`;
     }
     return null;
   }
@@ -41,8 +43,10 @@ export class LoginFormComponent {
   get passwordError(): string | null {
     const control = this.form.get('password');
     if (control?.touched && control?.errors) {
-      if (control.errors['required']) return $localize`:@@passwordRequired:Пароль обязателен`;
-      if (control.errors['minlength']) return $localize`:@@passwordMinLength:Минимум 6 символов`;
+      if (control.errors['required'])
+        return $localize`:@@passwordRequired:Пароль обязателен`;
+      if (control.errors['minlength'])
+        return $localize`:@@passwordMinLength:Минимум 6 символов`;
     }
     return null;
   }
