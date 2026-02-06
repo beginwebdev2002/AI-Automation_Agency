@@ -7,6 +7,7 @@ import {
   AddDressUseCase,
   INVENTORY_REPOSITORY,
 } from '@application/inventory/add-dress.usecase';
+import { AdminGuard } from '../auth/guards/admin.guard';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import {
   controllers: [InventoryController],
   providers: [
     AddDressUseCase,
+    AdminGuard,
     {
       provide: INVENTORY_REPOSITORY,
       useClass: InventoryRepository,
